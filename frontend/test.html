@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Maintenance Mode</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        h1 {
+            color: white;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+        .test-section {
+            background: white;
+            padding: 25px;
+            margin: 20px 0;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        }
+        .test-section h2 {
+            color: #667eea;
+            margin-top: 0;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+        button {
+            padding: 12px 24px;
+            margin: 10px 5px;
+            cursor: pointer;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
+        button:active {
+            transform: translateY(0);
+        }
+        .result {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            min-height: 50px;
+            border-left: 4px solid #667eea;
+        }
+        .success {
+            color: #28a745;
+            background: #d4edda;
+            border-left-color: #28a745;
+        }
+        .error {
+            color: #dc3545;
+            background: #f8d7da;
+            border-left-color: #dc3545;
+        }
+        .warning {
+            color: #856404;
+            background: #fff3cd;
+            border-left-color: #ffc107;
+        }
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 13px;
+            max-height: 300px;
+        }
+        code {
+            background: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            color: #d63384;
+        }
+        ol {
+            line-height: 1.8;
+        }
+        .info-box {
+            background: #e7f3ff;
+            border: 1px solid #b3d9ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Test Maintenance Mode</h1>
+    
+    <div class="test-section">
+        <h2>✅ Test 1: Service đang chạy (Normal)</h2>
+        <p>Click để test API khi service hoạt động bình thường</p>
+        <button onclick="testNormal()">🚀 Test API Normal</button>
+        <button onclick="testUsers()">👥 Test /users Route</button>
+        <div id="result1" class="result">Chưa test...</div>
+    </div>
+
+    <div class="test-section">
+        <h2>⚠️ Test 2: Service bị tắt (Maintenance)</h2>
+        <div class="info-box">
+            <strong>⚙️ Cách dừng service:</strong>
+            <ol>
+                <li>Mở Terminal/CMD</li>
+                <li>Chạy: <code>php stop_service.php customer</code></li>
+                <li>Đợi 2-3 giây</li>
+                <li>Click nút test bên dưới</li>
+            </ol>
+        </div>
+        <button onclick="testMaintenance()">🛠️ Test Maintenance Mode</button>
+        <div id="result2" class="result">Chưa test...</div>
+    </div>
+
+    <div class="test-section">
+        <h2>🔄 Test 3: Khởi động lại service</h2>
+        <div class="info-box">
+            <strong>🚀 Cách khôi phục service:</strong>
+            <ol>
+                <li>Mở Terminal/CMD</li>
+                <li>Chạy: <code>php start_service.php customer</code></li>
+                <li>Đợi service khởi động (3-5 giây)</li>
+                <li>Test lại ở Test 1</li>
+            </ol>
+        </div>
+        <button onclick="testNormal()">🔍 Kiểm tra lại</button>
+    </div>
+
+    <script>
+        // API Base URL - đảm bảo đúng với cấu hình của bạn
+        const API_BASE_URL = 'http://localhost/TransportationRenting/gateway/api';
+
+        // Helper function để gọi API
+        async function callAPI(endpoint, method = 'GET', body = null) {
+            try {
+                const options = {
+                    method: method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    }
+                };
+
+                if (body) {
+                    options.body = JSON.stringify(body);
+                }
+
+                const response = await fetch(API_BASE_URL + endpoint, options);
+                
+                // Nếu 503 (Service Unavailable)
+                if (response.status === 503) {
+                    return {
+                        status: 503,
+                        data: null,
+                        maintenance: true
+                    };
+                }
+
+                const data = await response.json();
+                return {
+                    status: response.status,
+                    data: data,
+                    maintenance: false
+                };
+
+            } catch (error) {
+                console.error('API Error:', error);
+                throw error;
+            }
+        }
+
+        // Test 1: Service hoạt động bình thường (test route /auth/login)
+        async function testNormal() {
+            const resultDiv = document.getElementById('result1');
+            resultDiv.innerHTML = '⏳ Đang gọi API...';
+            resultDiv.className = 'result';
+            
+            try {
+                const result = await callAPI('/auth/login', 'POST', {
+                    username: 'test',
+                    password: 'test'
+                });
+                
+                if (result.maintenance) {
+                    resultDiv.innerHTML = `
+                        <div class="warning">
+                            ⚠️ <strong>Service đang maintenance!</strong><br>
+                            Status Code: 503<br>
+                            Nếu service đang chạy, vui lòng kiểm tra lại.
+                        </div>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `
+                        <div class="success">
+                            ✅ <strong>SUCCESS!</strong> Service đang hoạt động<br>
+                            Status Code: ${result.status}<br>
+                            Response: <pre>${JSON.stringify(result.data, null, 2)}</pre>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="error">
+                        ❌ <strong>ERROR:</strong> ${error.message}
+                    </div>
+                `;
+            }
+        }
+
+        // Test route /users
+        async function testUsers() {
+            const resultDiv = document.getElementById('result1');
+            resultDiv.innerHTML = '⏳ Đang gọi /users...';
+            resultDiv.className = 'result';
+            
+            try {
+                const result = await callAPI('/users', 'GET');
+                
+                if (result.maintenance) {
+                    resultDiv.innerHTML = `
+                        <div class="warning">
+                            ⚠️ <strong>Service đang maintenance!</strong><br>
+                            Status Code: 503
+                        </div>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `
+                        <div class="success">
+                            ✅ <strong>SUCCESS!</strong> Route /users hoạt động<br>
+                            Status Code: ${result.status}<br>
+                            Response: <pre>${JSON.stringify(result.data, null, 2)}</pre>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="error">
+                        ❌ <strong>ERROR:</strong> ${error.message}
+                    </div>
+                `;
+            }
+        }
+
+        // Test 2: Service bị tắt
+        async function testMaintenance() {
+            const resultDiv = document.getElementById('result2');
+            resultDiv.innerHTML = '⏳ Đang test maintenance mode...';
+            resultDiv.className = 'result';
+            
+            try {
+                const result = await callAPI('/users', 'GET');
+                
+                if (result.maintenance) {
+                    resultDiv.innerHTML = `
+                        <div class="success">
+                            ✅ <strong>PASS!</strong> Maintenance mode hoạt động đúng!<br>
+                            Service trả về 503 như mong đợi<br>
+                            Response: <pre>${JSON.stringify(result.data, null, 2)}</pre>
+                            <br>
+                            <strong>Note:</strong> Nếu là browser request sẽ redirect tới maintenance.php
+                        </div>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `
+                        <div class="error">
+                            ❌ <strong>FAIL:</strong> Service vẫn đang chạy!<br>
+                            Status Code: ${result.status}<br>
+                            Bạn cần stop service trước: <code>php stop_service.php customer</code><br>
+                            Response: <pre>${JSON.stringify(result.data, null, 2)}</pre>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="error">
+                        ❌ <strong>ERROR:</strong> ${error.message}<br>
+                        <small>Có thể do CORS hoặc network error</small>
+                    </div>
+                `;
+            }
+        }
+
+        // Log để debug
+        console.log('✅ Test page loaded');
+        console.log('📍 API Base URL:', API_BASE_URL);
+        console.log('🔧 Các route có thể test:');
+        console.log('  - /auth/login (POST)');
+        console.log('  - /users (GET)');
+        console.log('  - /vehicles (GET)');
+    </script>
+</body>
+</html>

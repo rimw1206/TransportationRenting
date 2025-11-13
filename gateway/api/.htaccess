@@ -1,0 +1,9 @@
+RewriteEngine On
+
+# Nếu request không phải file thật, chuyển vào index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php [QSA,L]
+
+# Đặt index.php làm mặc định
+DirectoryIndex index.php

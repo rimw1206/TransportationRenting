@@ -1,0 +1,78 @@
+[13-Nov-2025 04:16:14 Europe/Berlin] === GATEWAY REQUEST ===
+[13-Nov-2025 04:16:14 Europe/Berlin] Full URI: /TransportationRenting/gateway/api/auth/login
+[13-Nov-2025 04:16:14 Europe/Berlin] Path: /TransportationRenting/gateway/api/auth/login
+[13-Nov-2025 04:16:14 Europe/Berlin] Method: POST
+[13-Nov-2025 04:16:14 Europe/Berlin] Normalized path: /auth/login
+[13-Nov-2025 04:16:14 Europe/Berlin] Checking routes for path: /auth/login
+[13-Nov-2025 04:16:14 Europe/Berlin]   Testing route: /payment-methods => customer
+[13-Nov-2025 04:16:14 Europe/Berlin]   Testing route: /rental-history => customer
+[13-Nov-2025 04:16:14 Europe/Berlin]   Testing route: /vehicle-usage => vehicle
+[13-Nov-2025 04:16:14 Europe/Berlin]   Testing route: /cancellations => order
+[13-Nov-2025 04:16:14 Europe/Berlin]   Testing route: /notifications => notification
+[13-Nov-2025 04:16:14 Europe/Berlin]   Testing route: /transactions => payment
+[13-Nov-2025 04:16:14 Europe/Berlin]   Testing route: /maintenance => vehicle
+[13-Nov-2025 04:16:14 Europe/Berlin]   Testing route: /promotions => rental
+[13-Nov-2025 04:16:14 Europe/Berlin]   Testing route: /contracts => rental
+[13-Nov-2025 04:16:14 Europe/Berlin]   Testing route: /vehicles => vehicle
+[13-Nov-2025 04:16:14 Europe/Berlin]   Testing route: /bookings => rental
+[13-Nov-2025 04:16:14 Europe/Berlin]   Testing route: /tracking => order
+[13-Nov-2025 04:16:14 Europe/Berlin]   Testing route: /payments => payment
+[13-Nov-2025 04:16:14 Europe/Berlin]   Testing route: /invoices => payment
+[13-Nov-2025 04:16:14 Europe/Berlin]   Testing route: /profile => customer
+[13-Nov-2025 04:16:14 Europe/Berlin]   Testing route: /rentals => rental
+[13-Nov-2025 04:16:14 Europe/Berlin]   Testing route: /refunds => payment
+[13-Nov-2025 04:16:14 Europe/Berlin]   Testing route: /orders => order
+[13-Nov-2025 04:16:14 Europe/Berlin]   Testing route: /users => customer
+[13-Nov-2025 04:16:14 Europe/Berlin]   Testing route: /auth => customer
+[13-Nov-2025 04:16:14 Europe/Berlin]   ✅ PREFIX MATCH! Target path: /login
+[13-Nov-2025 04:16:14 Europe/Berlin] Target service: customer
+[13-Nov-2025 04:16:14 Europe/Berlin] Target path: /login
+[13-Nov-2025 04:16:14 Europe/Berlin] Matched route: /auth
+[13-Nov-2025 04:16:14 Europe/Berlin] Is public route: YES
+[13-Nov-2025 04:16:14 Europe/Berlin] Checking service availability on port: 8001
+[13-Nov-2025 04:16:15 Europe/Berlin] ✅ Service available!
+[13-Nov-2025 04:16:15 Europe/Berlin] Service URL: http://localhost:8001
+[13-Nov-2025 04:16:15 Europe/Berlin] Full target URL: http://localhost:8001/login
+[13-Nov-2025 04:16:15 Europe/Berlin] Raw request body: {"username":"admin","password":"admin123"}
+[13-Nov-2025 04:16:15 Europe/Berlin] Parsed request body: {"username":"admin","password":"admin123"}
+[13-Nov-2025 04:16:15 Europe/Berlin] Forwarding POST request to service...
+[13-Nov-2025 04:16:15 Europe/Berlin] Response status: 200
+[13-Nov-2025 04:16:15 Europe/Berlin] Response body: {"success":false,"message":"T\u00e0i kho\u1ea3n kh\u00f4ng t\u1ed3n t\u1ea1i"}
+[13-Nov-2025 04:17:04 Europe/Berlin] === GATEWAY REQUEST ===
+[13-Nov-2025 04:17:04 Europe/Berlin] Full URI: /TransportationRenting/gateway/api/auth/login
+[13-Nov-2025 04:17:04 Europe/Berlin] Path: /TransportationRenting/gateway/api/auth/login
+[13-Nov-2025 04:17:04 Europe/Berlin] Method: GET
+[13-Nov-2025 04:17:04 Europe/Berlin] Normalized path: /auth/login
+[13-Nov-2025 04:17:04 Europe/Berlin] Checking routes for path: /auth/login
+[13-Nov-2025 04:17:04 Europe/Berlin]   Testing route: /payment-methods => customer
+[13-Nov-2025 04:17:04 Europe/Berlin]   Testing route: /rental-history => customer
+[13-Nov-2025 04:17:04 Europe/Berlin]   Testing route: /vehicle-usage => vehicle
+[13-Nov-2025 04:17:04 Europe/Berlin]   Testing route: /cancellations => order
+[13-Nov-2025 04:17:04 Europe/Berlin]   Testing route: /notifications => notification
+[13-Nov-2025 04:17:04 Europe/Berlin]   Testing route: /transactions => payment
+[13-Nov-2025 04:17:04 Europe/Berlin]   Testing route: /maintenance => vehicle
+[13-Nov-2025 04:17:04 Europe/Berlin]   Testing route: /promotions => rental
+[13-Nov-2025 04:17:04 Europe/Berlin]   Testing route: /contracts => rental
+[13-Nov-2025 04:17:04 Europe/Berlin]   Testing route: /vehicles => vehicle
+[13-Nov-2025 04:17:04 Europe/Berlin]   Testing route: /bookings => rental
+[13-Nov-2025 04:17:04 Europe/Berlin]   Testing route: /tracking => order
+[13-Nov-2025 04:17:04 Europe/Berlin]   Testing route: /payments => payment
+[13-Nov-2025 04:17:04 Europe/Berlin]   Testing route: /invoices => payment
+[13-Nov-2025 04:17:04 Europe/Berlin]   Testing route: /profile => customer
+[13-Nov-2025 04:17:04 Europe/Berlin]   Testing route: /rentals => rental
+[13-Nov-2025 04:17:04 Europe/Berlin]   Testing route: /refunds => payment
+[13-Nov-2025 04:17:04 Europe/Berlin]   Testing route: /orders => order
+[13-Nov-2025 04:17:04 Europe/Berlin]   Testing route: /users => customer
+[13-Nov-2025 04:17:04 Europe/Berlin]   Testing route: /auth => customer
+[13-Nov-2025 04:17:04 Europe/Berlin]   ✅ PREFIX MATCH! Target path: /login
+[13-Nov-2025 04:17:04 Europe/Berlin] Target service: customer
+[13-Nov-2025 04:17:04 Europe/Berlin] Target path: /login
+[13-Nov-2025 04:17:04 Europe/Berlin] Matched route: /auth
+[13-Nov-2025 04:17:04 Europe/Berlin] Is public route: YES
+[13-Nov-2025 04:17:04 Europe/Berlin] Checking service availability on port: 8001
+[13-Nov-2025 04:17:04 Europe/Berlin] ✅ Service available!
+[13-Nov-2025 04:17:04 Europe/Berlin] Service URL: http://localhost:8001
+[13-Nov-2025 04:17:04 Europe/Berlin] Full target URL: http://localhost:8001/login
+[13-Nov-2025 04:17:04 Europe/Berlin] Forwarding GET request to service...
+[13-Nov-2025 04:17:04 Europe/Berlin] Response status: 404
+[13-Nov-2025 04:17:04 Europe/Berlin] Response body: {"error":"Not found"}

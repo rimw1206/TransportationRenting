@@ -2,7 +2,7 @@
 /**
  * ============================================
  * services/customer/api/auth/login.php
- * API endpoint for user login
+ * API endpoint for user login - FIXED VERSION
  * ============================================
  */
 
@@ -16,7 +16,7 @@ ini_set('error_log', __DIR__ . '/../../../logs/customer_api_errors.log');
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type, Authorization');
-header('Content-Type: application/json');
+header('Content-Type: application/json; charset=utf-8');
 
 // Handle OPTIONS request
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
@@ -60,17 +60,29 @@ try {
     
     // Log raw request for debugging
     error_log("=== LOGIN API REQUEST ===");
-    error_log("Raw body: " . $requestBody);
+    error_log("Method: " . $_SERVER['REQUEST_METHOD']);
+    error_log("Content-Type: " . ($_SERVER['CONTENT_TYPE'] ?? 'not set'));
+    error_log("Raw body length: " . strlen($requestBody));
     
     if (empty($requestBody)) {
-        ApiResponse::error('Request body is empty', 400);
+        http_response_code(400);
+        echo json_encode([
+            'success' => false,
+            'message' => 'Request body is empty'
+        ]);
+        exit;
     }
     
     $data = json_decode($requestBody, true);
     
     if (json_last_error() !== JSON_ERROR_NONE) {
         error_log("JSON decode error: " . json_last_error_msg());
-        ApiResponse::error('Invalid JSON format: ' . json_last_error_msg(), 400);
+        http_response_code(400);
+        echo json_encode([
+            'success' => false,
+            'message' => 'Invalid JSON format: ' . json_last_error_msg()
+        ]);
+        exit;
     }
     
     // Log parsed data
@@ -79,11 +91,15 @@ try {
     $username = trim($data['username'] ?? '');
     $password = $data['password'] ?? '';
     
-    error_log("Username: " . $username);
-    error_log("Password length: " . strlen($password));
+    error_log("Login attempt - Username: " . $username);
     
     if (empty($username) || empty($password)) {
-        ApiResponse::error('Username và password không được để trống', 400);
+        http_response_code(400);
+        echo json_encode([
+            'success' => false,
+            'message' => 'Username và password không được để trống'
+        ]);
+        exit;
     }
     
     // Call AuthService
@@ -91,20 +107,52 @@ try {
     $result = $authService->login($username, $password);
     
     // Log result
-    error_log("AuthService result: " . json_encode($result));
+    error_log("AuthService result success: " . ($result['success'] ? 'true' : 'false'));
     
     if ($result['success']) {
-        ApiResponse::success([
+        // Make sure all required fields are present
+        if (!isset($result['user']) || !isset($result['token'])) {
+            error_log("ERROR: Missing user or token in successful login response");
+            error_log("Result keys: " . implode(', ', array_keys($result)));
+            http_response_code(500);
+            echo json_encode([
+                'success' => false,
+                'message' => 'Internal server error: incomplete response data'
+            ]);
+            exit;
+        }
+        
+        // Log successful login
+        error_log("Login successful for user: " . $result['user']['username']);
+        error_log("Token length: " . strlen($result['token']));
+        
+        http_response_code(200);
+        echo json_encode([
+            'success' => true,
+            'message' => $result['message'],
             'user' => $result['user'],
             'token' => $result['token'],
-            'refresh_token' => $result['refresh_token'] ?? null
-        ], 'Đăng nhập thành công', 200);
+            'refresh_token' => $result['refresh_token'] ?? null,
+            'expires_in' => $result['expires_in'] ?? 86400
+        ], JSON_UNESCAPED_UNICODE);
     } else {
-        ApiResponse::error($result['message'], 401);
+        // Login failed
+        error_log("Login failed: " . $result['message']);
+        http_response_code(401);
+        echo json_encode([
+            'success' => false,
+            'message' => $result['message']
+        ], JSON_UNESCAPED_UNICODE);
     }
     
 } catch (Exception $e) {
-    error_log('Login API Error: ' . $e->getMessage());
+    error_log('Login API Exception: ' . $e->getMessage());
     error_log('Stack trace: ' . $e->getTraceAsString());
-    ApiResponse::error('Có lỗi xảy ra: ' . $e->getMessage(), 500);
+    
+    http_response_code(500);
+    echo json_encode([
+        'success' => false,
+        'message' => 'Có lỗi xảy ra trong quá trình đăng nhập',
+        'error' => $e->getMessage()
+    ], JSON_UNESCAPED_UNICODE);
 }

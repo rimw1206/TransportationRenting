@@ -91,6 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
         
         <div class="login-right">
+            <!-- FIXED: form action="" thay vì action="dashboard.php" -->
             <form class="login-form" method="POST" action="">
                 <h2>Đăng nhập</h2>
                 <p>Nhập thông tin tài khoản để tiếp tục</p>

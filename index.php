@@ -134,7 +134,7 @@ if ($isFirstRun) {
         
         <div id="redirectSection" style="display: none;">
             <p class="success">✅ Setup hoàn tất!</p>
-            <a href="frontend/index.php" class="redirect-btn">Đi đến trang đăng nhập</a>
+            <a href="frontend/login.php" class="redirect-btn">Đi đến trang đăng nhập</a>
         </div>
     </div>
 
@@ -203,7 +203,7 @@ if ($isFirstRun) {
         header('Location: frontend/dashboard.php');
     } else {
         // Chưa login -> Login page
-        header('Location: frontend/index.php');
+        header('Location: frontend/login.php');
     }
     exit;
 }

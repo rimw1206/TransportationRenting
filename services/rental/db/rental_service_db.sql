@@ -48,3 +48,17 @@ CREATE TABLE IF NOT EXISTS Promotion (
     INDEX idx_code (code),
     INDEX idx_active (active)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+INSERT INTO Rentals (user_id, vehicle_id, start_time, end_time, pickup_location, dropoff_location, total_cost, status) VALUES
+-- Active rentals
+(2, 1, '2024-11-14 10:00:00', '2024-11-17 10:00:00', 'Quận 1, TP.HCM', 'Quận 1, TP.HCM', 1500000, 'Ongoing'),
+(3, 15, '2024-11-15 14:00:00', '2024-11-18 14:00:00', 'Quận 3, TP.HCM', 'Quận 3, TP.HCM', 360000, 'Ongoing'),
+
+-- Confirmed
+(2, 5, '2024-11-20 09:00:00', '2024-11-25 09:00:00', 'Quận 1, TP.HCM', 'Quận 1, TP.HCM', 2025000, 'Pending'),
+(4, 22, '2024-11-18 15:00:00', '2024-11-20 15:00:00', 'Quận 7, TP.HCM', 'Quận 7, TP.HCM', 180000, 'Pending'),
+
+-- Completed
+(2, 12, '2024-11-01 10:00:00', '2024-11-05 10:00:00', 'Quận 1, TP.HCM', 'Quận 1, TP.HCM', 400000, 'Completed');
+

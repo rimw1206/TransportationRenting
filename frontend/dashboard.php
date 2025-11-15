@@ -10,53 +10,72 @@ if (!isset($_SESSION['user'])) {
 $user = $_SESSION['user'];
 $token = $_SESSION['token'] ?? '';
 
-// Fetch dashboard data từ các services
-$dashboardData = [
-    'total_rentals' => 0,
-    'active_rentals' => 0,
-    'total_spent' => 0,
-    'available_vehicles' => 0
-];
+require_once __DIR__ . '/../shared/classes/ApiClient.php';
 
-// Mock data xe nổi bật (sẽ lấy từ API sau)
-$featuredVehicles = [
-    [
-        'id' => 1,
-        'name' => 'Toyota Vios 2023',
-        'type' => 'Sedan',
-        'price' => 500000,
-        'image' => 'https://images.unsplash.com/photo-1590362891991-f776e747a588?w=400',
-        'rating' => 4.8,
-        'status' => 'Available'
-    ],
-    [
-        'id' => 2,
-        'name' => 'Honda City 2023',
-        'type' => 'Sedan',
-        'price' => 450000,
-        'image' => 'https://images.unsplash.com/photo-1583267746897-ec2e9eb70922?w=400',
-        'rating' => 4.6,
-        'status' => 'Available'
-    ],
-    [
-        'id' => 3,
-        'name' => 'Yamaha Exciter 155',
-        'type' => 'Motorbike',
-        'price' => 150000,
-        'image' => 'https://images.unsplash.com/photo-1558981852-426c6c22a060?w=400',
-        'rating' => 4.9,
-        'status' => 'Available'
-    ],
-    [
-        'id' => 4,
-        'name' => 'Honda Wave RSX',
-        'type' => 'Motorbike',
-        'price' => 100000,
-        'image' => 'https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?w=400',
-        'rating' => 4.5,
-        'status' => 'Available'
-    ]
-];
+$apiClient = new ApiClient();
+
+// Configure service URLs
+$apiClient->setServiceUrl('vehicle', 'http://localhost:8002');
+
+// Fetch statistics từ Vehicle Service
+$vehicleStats = ['total_vehicles' => 0, 'available' => 0];
+try {
+    $statsResponse = $apiClient->get('vehicle', '/stats');
+    
+    if ($statsResponse['status_code'] === 200) {
+        $statsData = json_decode($statsResponse['raw_response'], true);
+        if ($statsData && isset($statsData['success']) && $statsData['success']) {
+            $vehicleStats = $statsData['data'];
+        }
+    }
+} catch (Exception $e) {
+    error_log('Error fetching vehicle stats: ' . $e->getMessage());
+}
+
+// Fetch featured vehicles (available vehicles, limit 8)
+$featuredVehicles = [];
+try {
+    $vehiclesResponse = $apiClient->get('vehicle', '/available?limit=8');
+    
+    if ($vehiclesResponse['status_code'] === 200) {
+        $vehiclesData = json_decode($vehiclesResponse['raw_response'], true);
+        if ($vehiclesData && isset($vehiclesData['success']) && $vehiclesData['success']) {
+            $featuredVehicles = $vehiclesData['data'];
+        }
+    }
+} catch (Exception $e) {
+    error_log('Error fetching vehicles: ' . $e->getMessage());
+}
+
+// Map vehicle type từ DB sang display name
+function getVehicleTypeName($type) {
+    $types = [
+        'Car' => 'Ô tô',
+        'Motorbike' => 'Xe máy',
+        'Bicycle' => 'Xe đạp',
+        'Electric_Scooter' => 'Xe điện'
+    ];
+    return $types[$type] ?? $type;
+}
+
+// Generate vehicle image based on type
+function getVehicleImage($vehicle) {
+    $type = strtolower($vehicle['type']);
+    
+    $defaultImages = [
+        'car' => 'https://images.unsplash.com/photo-1590362891991-f776e747a588?w=400',
+        'motorbike' => 'https://images.unsplash.com/photo-1558981852-426c6c22a060?w=400',
+        'bicycle' => 'https://images.unsplash.com/photo-1571068316344-75bc76f77890?w=400',
+        'electric_scooter' => 'https://images.unsplash.com/photo-1559311394-2e5e5e98aa6e?w=400'
+    ];
+    
+    return $defaultImages[$type] ?? $defaultImages['car'];
+}
+
+// Calculate rating (mock for now)
+function getVehicleRating($vehicle) {
+    return number_format(4.5 + (rand(0, 5) / 10), 1);
+}
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -68,6 +87,7 @@ $featuredVehicles = [
     <link rel="stylesheet" href="assets/dashboard_style.css">
 </head>
 <body>
+
     <!-- Top Navigation Bar -->
     <nav class="top-nav">
         <div class="nav-container">
@@ -142,21 +162,23 @@ $featuredVehicles = [
                     </div>
                     
                     <div class="search-filters">
-                        <select class="filter-select">
+                        <select class="filter-select" id="typeFilter">
                             <option value="">Loại xe</option>
-                            <option value="car">Ô tô</option>
-                            <option value="motorbike">Xe máy</option>
-                            <option value="bicycle">Xe đạp</option>
+                            <option value="Car">Ô tô</option>
+                            <option value="Motorbike">Xe máy</option>
+                            <option value="Bicycle">Xe đạp</option>
+                            <option value="Electric_Scooter">Xe điện</option>
                         </select>
                         
-                        <select class="filter-select">
+                        <select class="filter-select" id="priceFilter">
                             <option value="">Giá</option>
                             <option value="0-200000">Dưới 200k</option>
                             <option value="200000-500000">200k - 500k</option>
-                            <option value="500000+">Trên 500k</option>
+                            <option value="500000-1000000">500k - 1tr</option>
+                            <option value="1000000+">Trên 1tr</option>
                         </select>
                         
-                        <button class="btn-search">
+                        <button class="btn-search" onclick="searchVehicles()">
                             <i class="fas fa-search"></i> Tìm kiếm
                         </button>
                     </div>
@@ -171,28 +193,28 @@ $featuredVehicles = [
                     <i class="fas fa-car"></i>
                 </div>
                 <div class="stat-info">
-                    <h3>150+</h3>
+                    <h3><?= number_format($vehicleStats['available'] ?? 0) ?></h3>
                     <p>Xe có sẵn</p>
                 </div>
             </div>
             
             <div class="stat-card">
                 <div class="stat-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
-                    <i class="fas fa-users"></i>
+                    <i class="fas fa-calendar-check"></i>
                 </div>
                 <div class="stat-info">
-                    <h3>5,000+</h3>
-                    <p>Khách hàng</p>
+                    <h3><?= number_format($vehicleStats['total_vehicles'] ?? 0) ?></h3>
+                    <p>Tổng xe</p>
                 </div>
             </div>
             
             <div class="stat-card">
                 <div class="stat-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
-                    <i class="fas fa-star"></i>
+                    <i class="fas fa-car-side"></i>
                 </div>
                 <div class="stat-info">
-                    <h3>4.8/5</h3>
-                    <p>Đánh giá</p>
+                    <h3><?= number_format($vehicleStats['rented'] ?? 0) ?></h3>
+                    <p>Đang thuê</p>
                 </div>
             </div>
             
@@ -212,36 +234,36 @@ $featuredVehicles = [
             <h2><i class="fas fa-th-large"></i> Danh mục xe</h2>
             
             <div class="categories-grid">
-                <a href="vehicles.php?type=car" class="category-card">
+                <a href="vehicles.php?type=Car" class="category-card">
                     <div class="category-icon">
                         <i class="fas fa-car"></i>
                     </div>
                     <h3>Ô tô</h3>
-                    <p>50+ xe có sẵn</p>
+                    <p><?= number_format($vehicleStats['cars'] ?? 0) ?> xe có sẵn</p>
                 </a>
                 
-                <a href="vehicles.php?type=motorbike" class="category-card">
+                <a href="vehicles.php?type=Motorbike" class="category-card">
                     <div class="category-icon">
                         <i class="fas fa-motorcycle"></i>
                     </div>
                     <h3>Xe máy</h3>
-                    <p>80+ xe có sẵn</p>
+                    <p><?= number_format($vehicleStats['motorbikes'] ?? 0) ?> xe có sẵn</p>
                 </a>
                 
-                <a href="vehicles.php?type=bicycle" class="category-card">
+                <a href="vehicles.php?type=Bicycle" class="category-card">
                     <div class="category-icon">
                         <i class="fas fa-bicycle"></i>
                     </div>
                     <h3>Xe đạp</h3>
-                    <p>20+ xe có sẵn</p>
+                    <p><?= number_format($vehicleStats['bicycles'] ?? 0) ?> xe có sẵn</p>
                 </a>
                 
-                <a href="vehicles.php?type=scooter" class="category-card">
+                <a href="vehicles.php?type=Electric_Scooter" class="category-card">
                     <div class="category-icon">
                         <i class="fas fa-moped"></i>
                     </div>
                     <h3>Xe điện</h3>
-                    <p>15+ xe có sẵn</p>
+                    <p><?= number_format($vehicleStats['scooters'] ?? 0) ?> xe có sẵn</p>
                 </a>
             </div>
         </section>
@@ -249,51 +271,68 @@ $featuredVehicles = [
         <!-- Featured Vehicles -->
         <section class="vehicles-section">
             <div class="section-header">
-                <h2><i class="fas fa-fire"></i> Xe nổi bật</h2>
+                <h2><i class="fas fa-fire"></i> Xe nổi bật (<?= count($featuredVehicles) ?>)</h2>
                 <a href="vehicles.php" class="view-all-link">
                     Xem tất cả <i class="fas fa-arrow-right"></i>
                 </a>
             </div>
             
-            <div class="vehicles-grid">
-                <?php foreach ($featuredVehicles as $vehicle): ?>
-                <div class="vehicle-card">
-                    <div class="vehicle-image">
-                        <img src="<?= $vehicle['image'] ?>" alt="<?= htmlspecialchars($vehicle['name']) ?>">
-                        <span class="vehicle-badge"><?= $vehicle['type'] ?></span>
-                        <button class="favorite-btn">
-                            <i class="far fa-heart"></i>
-                        </button>
-                    </div>
-                    
-                    <div class="vehicle-info">
-                        <h3><?= htmlspecialchars($vehicle['name']) ?></h3>
-                        
-                        <div class="vehicle-rating">
-                            <i class="fas fa-star"></i>
-                            <span><?= $vehicle['rating'] ?></span>
-                            <span class="rating-count">(120 đánh giá)</span>
-                        </div>
-                        
-                        <div class="vehicle-features">
-                            <span><i class="fas fa-gas-pump"></i> Xăng</span>
-                            <span><i class="fas fa-cog"></i> Số tự động</span>
-                            <span><i class="fas fa-users"></i> 4 chỗ</span>
-                        </div>
-                        
-                        <div class="vehicle-footer">
-                            <div class="vehicle-price">
-                                <span class="price-label">Giá thuê/ngày</span>
-                                <span class="price-amount"><?= number_format($vehicle['price']) ?>đ</span>
-                            </div>
-                            <button class="btn-rent" onclick="rentVehicle(<?= $vehicle['id'] ?>)">
-                                <i class="fas fa-calendar-check"></i> Thuê ngay
+            <?php if (empty($featuredVehicles)): ?>
+                <div class="no-data">
+                    <i class="fas fa-car-side"></i>
+                    <p>Chưa có xe nào khả dụng. Vui lòng kiểm tra:</p>
+                    <ul style="text-align: left; max-width: 400px; margin: 20px auto;">
+                        <li>Vehicle Service đang chạy? (localhost:8002)</li>
+                        <li>Database đã có dữ liệu?</li>
+                        <li>Xem debug info bên dưới</li>
+                    </ul>
+                    <a href="?debug=1" style="display: inline-block; margin-top: 20px; padding: 10px 20px; background: #4F46E5; color: white; text-decoration: none; border-radius: 5px;">
+                        <i class="fas fa-bug"></i> Enable Debug Mode
+                    </a>
+                </div>
+            <?php else: ?>
+                <div class="vehicles-grid">
+                    <?php foreach ($featuredVehicles as $vehicle): ?>
+                    <div class="vehicle-card">
+                        <div class="vehicle-image">
+                            <img src="<?= getVehicleImage($vehicle) ?>" alt="<?= htmlspecialchars($vehicle['brand'] . ' ' . $vehicle['model']) ?>">
+                            <span class="vehicle-badge"><?= getVehicleTypeName($vehicle['type']) ?></span>
+                            <button class="favorite-btn">
+                                <i class="far fa-heart"></i>
                             </button>
                         </div>
+                        
+                        <div class="vehicle-info">
+                            <h3><?= htmlspecialchars($vehicle['brand'] . ' ' . $vehicle['model']) ?></h3>
+                            
+                            <div class="vehicle-rating">
+                                <i class="fas fa-star"></i>
+                                <span><?= getVehicleRating($vehicle) ?></span>
+                                <span class="rating-count">(<?= rand(50, 200) ?> đánh giá)</span>
+                            </div>
+                            
+                            <div class="vehicle-features">
+                                <span><i class="fas fa-map-marker-alt"></i> <?= htmlspecialchars($vehicle['location'] ?? 'TP.HCM') ?></span>
+                                <?php if ($vehicle['type'] === 'Car'): ?>
+                                    <span><i class="fas fa-gas-pump"></i> <?= number_format($vehicle['fuel_level'] ?? 100) ?>%</span>
+                                <?php endif; ?>
+                                <span><i class="fas fa-tachometer-alt"></i> <?= number_format($vehicle['odo_km'] ?? 0) ?> km</span>
+                            </div>
+                            
+                            <div class="vehicle-footer">
+                                <div class="vehicle-price">
+                                    <span class="price-label">Giá thuê/ngày</span>
+                                    <span class="price-amount"><?= number_format($vehicle['daily_rate']) ?>đ</span>
+                                </div>
+                                <button class="btn-rent" onclick="rentVehicle(<?= $vehicle['vehicle_id'] ?>)">
+                                    <i class="fas fa-calendar-check"></i> Thuê ngay
+                                </button>
+                            </div>
+                        </div>
                     </div>
+                    <?php endforeach; ?>
                 </div>
-                <?php endforeach; ?>
-            </div>
+            <?php endif; ?>
         </section>
 
         <!-- Promotions -->
@@ -386,18 +425,39 @@ $featuredVehicles = [
             window.location.href = `vehicle-details.php?id=${vehicleId}`;
         }
         
-        // Search function
-        document.querySelector('.btn-search')?.addEventListener('click', () => {
+        // Search vehicles
+        function searchVehicles() {
             const searchValue = document.getElementById('searchInput').value;
-            window.location.href = `vehicles.php?search=${encodeURIComponent(searchValue)}`;
-        });
+            const typeFilter = document.getElementById('typeFilter').value;
+            const priceFilter = document.getElementById('priceFilter').value;
+            
+            let url = 'vehicles.php?';
+            const params = [];
+            
+            if (searchValue) params.push(`search=${encodeURIComponent(searchValue)}`);
+            if (typeFilter) params.push(`type=${typeFilter}`);
+            if (priceFilter) params.push(`price=${priceFilter}`);
+            
+            window.location.href = url + params.join('&');
+        }
         
         // Enter to search
         document.getElementById('searchInput')?.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
-                document.querySelector('.btn-search').click();
+                searchVehicles();
             }
         });
+        
+        // Toggle debug panel
+        function toggleDebug() {
+            const currentUrl = new URL(window.location.href);
+            if (currentUrl.searchParams.get('debug') === '1') {
+                currentUrl.searchParams.delete('debug');
+            } else {
+                currentUrl.searchParams.set('debug', '1');
+            }
+            window.location.href = currentUrl.toString();
+        }
     </script>
 </body>
 </html>

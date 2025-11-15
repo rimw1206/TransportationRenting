@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../../../env-bootstrap.php';
 // payment-service/public/index.php
 header('Content-Type: application/json');
 

@@ -1,0 +1,23 @@
+[15-Nov-2025 13:21:02 Europe/Berlin] PHP Warning:  require_once(C:\xampp\htdocs\TransportationRenting/shared/classes/auto-jwt-setup.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\TransportationRenting\run.php on line 10
+[15-Nov-2025 13:21:02 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\TransportationRenting/shared/classes/auto-jwt-setup.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\TransportationRenting\run.php:10
+Stack trace:
+#0 C:\xampp\htdocs\TransportationRenting\index.php(197): require_once()
+#1 {main}
+  thrown in C:\xampp\htdocs\TransportationRenting\run.php on line 10
+[15-Nov-2025 13:21:07 Europe/Berlin] PHP Warning:  require_once(C:\xampp\htdocs\TransportationRenting/shared/classes/auto-jwt-setup.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\TransportationRenting\run.php on line 10
+[15-Nov-2025 13:21:07 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\TransportationRenting/shared/classes/auto-jwt-setup.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\TransportationRenting\run.php:10
+Stack trace:
+#0 C:\xampp\htdocs\TransportationRenting\index.php(197): require_once()
+#1 {main}
+  thrown in C:\xampp\htdocs\TransportationRenting\run.php on line 10
+[15-Nov-2025 13:21:22 Europe/Berlin] PHP Warning:  require_once(C:\xampp\htdocs\TransportationRenting/shared/classes/auto-jwt-setup.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\TransportationRenting\run.php on line 10
+[15-Nov-2025 13:21:22 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\TransportationRenting/shared/classes/auto-jwt-setup.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\TransportationRenting\run.php:10
+Stack trace:
+#0 C:\xampp\htdocs\TransportationRenting\index.php(197): require_once()
+#1 {main}
+  thrown in C:\xampp\htdocs\TransportationRenting\run.php on line 10
+[15-Nov-2025 13:31:10 Europe/Berlin] PHP Fatal error:  Uncaught Error: Class "AutoJWTSetup" not found in C:\xampp\htdocs\TransportationRenting\run.php:405
+Stack trace:
+#0 C:\xampp\htdocs\TransportationRenting\index.php(197): require_once()
+#1 {main}
+  thrown in C:\xampp\htdocs\TransportationRenting\run.php on line 405

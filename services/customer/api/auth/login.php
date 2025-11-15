@@ -1,4 +1,6 @@
 <?php
+
+require_once __DIR__ . '/../../../..//env-bootstrap.php';
 /**
  * ============================================
  * services/customer/api/auth/login.php

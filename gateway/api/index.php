@@ -80,12 +80,11 @@ try {
         ApiResponse::error("Service not found for path: $path", 404);
     }
 
-    // Adjust path if service doesn't support prefix
-    $targetPath = $path;
-    if ($routePrefixMatched && $targetService === $servicePorts[$targetService]) {
-        $targetPath = substr($path, strlen($routePrefixMatched));
-        if ($targetPath === '') $targetPath = '/';
-    }
+    // CRITICAL FIX: Forward the FULL path with prefix to service
+    // Customer service's index.php will strip the prefix internally
+    // Gateway sends: /auth/login → Customer receives: /auth/login
+    // Gateway sends: /profile → Customer receives: /profile
+    $targetPath = $path;  // Keep the full path including prefix
 
     // Check authentication (skip if public route)
     if (!isPublicRoute($path, $publicRoutes)) {
@@ -95,7 +94,7 @@ try {
         }
 
         if (empty($authHeader)) {
-            ApiResponse::error('Unauthorized', 401);
+            ApiResponse::error('Unauthorized - No token provided', 401);
         }
     }
 
@@ -115,7 +114,7 @@ try {
         header('Content-Type: application/json');
         echo json_encode([
             'success' => false,
-            'message' => 'Service temporarily unavailable'
+            'message' => "Service '$targetService' temporarily unavailable (port $servicePort)"
         ]);
         exit;
     }
@@ -127,9 +126,11 @@ try {
 
     // Get request body
     $requestBody = null;
-    if (in_array($requestMethod, ['POST', 'PUT', 'PATCH'])) {
+    if (in_array($requestMethod, ['POST', 'PUT', 'PATCH', 'DELETE'])) {
         $body = file_get_contents('php://input');
-        $requestBody = json_decode($body, true);
+        if (!empty($body)) {
+            $requestBody = json_decode($body, true);
+        }
     }
 
     // Forward Authorization header
@@ -139,6 +140,10 @@ try {
     } elseif (!empty($_SERVER['REDIRECT_HTTP_AUTHORIZATION'])) {
         $headers[] = 'Authorization: ' . $_SERVER['REDIRECT_HTTP_AUTHORIZATION'];
     }
+
+    // Add debug header
+    $headers[] = 'X-Gateway-Original-Path: ' . $path;
+    $headers[] = 'X-Gateway-Target-Service: ' . $targetService;
 
     // Forward request
     $response = null;
@@ -165,5 +170,6 @@ try {
     echo $response['raw_response'];
 
 } catch (Exception $e) {
+    error_log('Gateway error: ' . $e->getMessage());
     ApiResponse::error($e->getMessage(), 500);
 }

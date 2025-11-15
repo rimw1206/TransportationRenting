@@ -1,7 +1,10 @@
 <?php
 // services/customer/public/index.php
 header('Content-Type: application/json');
-
+require_once __DIR__ . '/../services/CustomerService.php';
+require_once __DIR__ . '/../../../shared/classes/ApiResponse.php';
+require_once __DIR__ . '/../../../shared/classes/JWTHandler.php';
+require_once __DIR__ . '/../../../env-bootstrap.php';
 $requestUri = $_SERVER['REQUEST_URI'];
 $requestMethod = $_SERVER['REQUEST_METHOD'];
 

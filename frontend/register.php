@@ -248,7 +248,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
 
                 <div class="login-link">
-                    <p>Đã có tài khoản? <a href="index.php"><i class="fas fa-sign-in-alt"></i> Đăng nhập ngay</a></p>
+                    <p>Đã có tài khoản? <a href="login.php"><i class="fas fa-sign-in-alt"></i> Đăng nhập ngay</a></p>
                 </div>
             </form>
         </div>

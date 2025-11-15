@@ -2,7 +2,7 @@
 /**
  * ============================================
  * shared/classes/JWTHandler.php
- * JWT Token Handler using HS256
+ * JWT Token Handler using HS256 (Hardened + Auto-loading)
  * ============================================
  */
 
@@ -13,11 +13,23 @@ class JWTHandler
     
     public function __construct()
     {
-        // Get secret from environment or use default (change in production!)
-        $this->secret = getenv('JWT_SECRET') ?: 'your-secret-key-change-in-production-2024';
+        // Ensure env-bootstrap is loaded
+        if (!defined('ENV_BOOTSTRAP_LOADED')) {
+            $bootstrap = __DIR__ . '/../../env-bootstrap.php';
+            if (file_exists($bootstrap)) {
+                require_once $bootstrap;
+            }
+        }
+        
+        // Get secret from environment (NO FALLBACK!)
+        $this->secret = getenv('JWT_SECRET');
+        
+        if (!$this->secret) {
+            throw new Exception('CRITICAL: JWT_SECRET not found in environment. Ensure env-bootstrap.php is loaded.');
+        }
         
         if (strlen($this->secret) < 32) {
-            error_log('WARNING: JWT_SECRET is too short. Should be at least 32 characters.');
+            throw new Exception('CRITICAL: JWT_SECRET too short (minimum 32 characters required).');
         }
     }
     
@@ -75,7 +87,27 @@ class JWTHandler
             
             list($headerEncoded, $payloadEncoded, $signatureEncoded) = $parts;
             
-            // Verify signature
+            // Decode header FIRST to check algorithm before verifying signature
+            $header = json_decode($this->base64UrlDecode($headerEncoded), true);
+            
+            if (!$header || !is_array($header)) {
+                error_log('JWTHandler: Failed to decode header');
+                return false;
+            }
+            
+            // Verify algorithm BEFORE signature verification (security best practice)
+            if (($header['alg'] ?? '') !== $this->algorithm) {
+                error_log('JWTHandler: Algorithm mismatch');
+                return false;
+            }
+            
+            // Explicitly reject "none" algorithm
+            if (strtolower($header['alg'] ?? '') === 'none') {
+                error_log('JWTHandler: Algorithm "none" is not allowed');
+                return false;
+            }
+            
+            // Verify signature using constant-time comparison
             $signature = $this->base64UrlDecode($signatureEncoded);
             $expectedSignature = $this->sign($headerEncoded . '.' . $payloadEncoded);
             
@@ -84,24 +116,17 @@ class JWTHandler
                 return false;
             }
             
-            // Decode header and payload
-            $header = json_decode($this->base64UrlDecode($headerEncoded), true);
+            // Decode payload
             $payload = json_decode($this->base64UrlDecode($payloadEncoded), true);
             
-            if (!$header || !$payload) {
-                error_log('JWTHandler: Failed to decode header or payload');
-                return false;
-            }
-            
-            // Verify algorithm
-            if (($header['alg'] ?? '') !== $this->algorithm) {
-                error_log('JWTHandler: Algorithm mismatch');
+            if (!$payload || !is_array($payload)) {
+                error_log('JWTHandler: Failed to decode payload');
                 return false;
             }
             
             // Check expiration
             if (isset($payload['exp'])) {
-                if ($payload['exp'] < time()) {
+                if (!is_numeric($payload['exp']) || $payload['exp'] < time()) {
                     error_log('JWTHandler: Token expired');
                     return false;
                 }
@@ -109,7 +134,7 @@ class JWTHandler
             
             // Check not before
             if (isset($payload['nbf'])) {
-                if ($payload['nbf'] > time()) {
+                if (!is_numeric($payload['nbf']) || $payload['nbf'] > time()) {
                     error_log('JWTHandler: Token not yet valid');
                     return false;
                 }
@@ -229,4 +254,3 @@ class JWTHandler
         return bin2hex(random_bytes($length / 2));
     }
 }
-?>

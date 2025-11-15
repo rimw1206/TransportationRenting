@@ -1,4 +1,11 @@
 <?php
+/**
+ * ============================================
+ * shared/classes/ApiClient.php
+ * FIXED VERSION - With proper token parameter support
+ * ============================================
+ */
+
 class ApiClient {
     private $serviceUrls = [];
 
@@ -6,9 +13,9 @@ class ApiClient {
         $this->serviceUrls[$serviceName] = rtrim($url, '/');
     }
 
-    private function request($method, $service, $path, $body = null, $headers = []) {
+    private function request($method, $service, $path, $body = null, $headers = [], $token = null) {
         if (!isset($this->serviceUrls[$service])) {
-            throw new Exception("Service [$service] chưa được cấu hình!");
+            throw new Exception("Service [$service] not configured!");
         }
 
         $url = rtrim($this->serviceUrls[$service], '/') . '/' . ltrim($path, '/');
@@ -21,10 +28,28 @@ class ApiClient {
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
 
+        // Add body if present
         if ($body !== null) {
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($body));
             if (!array_filter($headers, fn($h) => stripos($h, 'Content-Type:') !== false)) {
                 $headers[] = 'Content-Type: application/json';
+            }
+        }
+
+        // CRITICAL FIX: Add Authorization header if token is provided
+        if ($token !== null && !empty($token)) {
+            // Check if Authorization header already exists
+            $hasAuth = false;
+            foreach ($headers as $header) {
+                if (stripos($header, 'Authorization:') !== false) {
+                    $hasAuth = true;
+                    break;
+                }
+            }
+            
+            // Add Authorization header if not present
+            if (!$hasAuth) {
+                $headers[] = 'Authorization: Bearer ' . $token;
             }
         }
 
@@ -50,19 +75,53 @@ class ApiClient {
         ];
     }
     
-    public function get($service, $path, $headers = []) {
-        return $this->request('GET', $service, $path, null, $headers);
+    /**
+     * GET request
+     * @param string $service Service name
+     * @param string $path Endpoint path
+     * @param array $headers Additional headers
+     * @param string|null $token JWT token (optional)
+     * @return array Response with status_code, raw_response, decoded_response
+     */
+    public function get($service, $path, $headers = [], $token = null) {
+        return $this->request('GET', $service, $path, null, $headers, $token);
     }
 
-    public function post($service, $path, $body, $headers = []) {
-        return $this->request('POST', $service, $path, $body, $headers);
+    /**
+     * POST request
+     * @param string $service Service name
+     * @param string $path Endpoint path
+     * @param mixed $body Request body
+     * @param array $headers Additional headers
+     * @param string|null $token JWT token (optional)
+     * @return array Response with status_code, raw_response, decoded_response
+     */
+    public function post($service, $path, $body, $headers = [], $token = null) {
+        return $this->request('POST', $service, $path, $body, $headers, $token);
     }
 
-    public function put($service, $path, $body, $headers = []) {
-        return $this->request('PUT', $service, $path, $body, $headers);
+    /**
+     * PUT request
+     * @param string $service Service name
+     * @param string $path Endpoint path
+     * @param mixed $body Request body
+     * @param array $headers Additional headers
+     * @param string|null $token JWT token (optional)
+     * @return array Response with status_code, raw_response, decoded_response
+     */
+    public function put($service, $path, $body, $headers = [], $token = null) {
+        return $this->request('PUT', $service, $path, $body, $headers, $token);
     }
 
-    public function delete($service, $path, $headers = []) {
-        return $this->request('DELETE', $service, $path, null, $headers);
+    /**
+     * DELETE request
+     * @param string $service Service name
+     * @param string $path Endpoint path
+     * @param array $headers Additional headers
+     * @param string|null $token JWT token (optional)
+     * @return array Response with status_code, raw_response, decoded_response
+     */
+    public function delete($service, $path, $headers = [], $token = null) {
+        return $this->request('DELETE', $service, $path, null, $headers, $token);
     }
 }

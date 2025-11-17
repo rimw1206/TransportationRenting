@@ -1,17 +1,17 @@
 <?php
-
-require_once __DIR__ . '/../../../../env-bootstrap.php';
 /**
  * ============================================
  * services/customer/api/profile/get.php
- * Get user profile endpoint - CORRECT VERSION
- * File: Customer.php, Class: User
+ * Get user profile endpoint - COMPLETE FIX
  * ============================================
  */
 
-// Enable error reporting for debugging
+require_once __DIR__ . '/../../../../env-bootstrap.php';
+
+// Suppress errors in production
 error_reporting(E_ALL);
-ini_set('display_errors', 1);
+ini_set('display_errors', 0);
+ini_set('log_errors', 1);
 
 // CORS headers
 header('Access-Control-Allow-Origin: *');
@@ -19,13 +19,13 @@ header('Access-Control-Allow-Methods: GET, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type, Authorization');
 header('Content-Type: application/json; charset=UTF-8');
 
-// Handle preflight OPTIONS request
+// Handle preflight
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     exit();
 }
 
-// Only allow GET requests
+// Only GET allowed
 if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
     http_response_code(405);
     echo json_encode([
@@ -35,34 +35,36 @@ if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
     exit();
 }
 
-// CORRECT PATHS:
-// Current file is at: services/customer/api/profile/get.php
-// __DIR__ = services/customer/api/profile/
-// Customer.php is at: services/customer/classes/Customer.php
-// JWTHandler.php is at: shared/classes/JWTHandler.php
-
-require_once __DIR__ . '/../../classes/Customer.php';  // Contains: class User
+require_once __DIR__ . '/../../classes/Customer.php';
 require_once __DIR__ . '/../../../../shared/classes/JWTHandler.php';
 
 try {
-    // Get token from Authorization header (case-insensitive)
+    // ========== EXTRACT TOKEN ==========
     $token = null;
-    $headers = getallheaders();
     
-    foreach ($headers as $key => $value) {
-        if (strtolower($key) === 'authorization') {
-            // Support both "Bearer TOKEN" and just "TOKEN"
-            if (preg_match('/Bearer\s+(.*)$/i', $value, $matches)) {
-                $token = trim($matches[1]);
-            } else {
-                $token = trim($value);
-            }
-            break;
+    // Try multiple header formats
+    if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
+        $authHeader = $_SERVER['HTTP_AUTHORIZATION'];
+    } elseif (isset($_SERVER['REDIRECT_HTTP_AUTHORIZATION'])) {
+        $authHeader = $_SERVER['REDIRECT_HTTP_AUTHORIZATION'];
+    } elseif (function_exists('getallheaders')) {
+        $headers = getallheaders();
+        $authHeader = $headers['Authorization'] ?? $headers['authorization'] ?? null;
+    } else {
+        $authHeader = null;
+    }
+    
+    if ($authHeader) {
+        // Extract token from "Bearer TOKEN" or just "TOKEN"
+        if (preg_match('/Bearer\s+(.*)$/i', $authHeader, $matches)) {
+            $token = trim($matches[1]);
+        } else {
+            $token = trim($authHeader);
         }
     }
     
     // Log for debugging
-    error_log('GET /profile - Authorization header found: ' . ($token ? 'YES' : 'NO'));
+    error_log('GET /profile - Token extracted: ' . ($token ? 'YES (' . strlen($token) . ' chars)' : 'NO'));
     
     if (!$token) {
         http_response_code(401);
@@ -74,13 +76,12 @@ try {
         exit();
     }
     
-    // Decode and verify token using JWTHandler
+    // ========== VERIFY TOKEN ==========
     $jwtHandler = new JWTHandler();
     $decoded = $jwtHandler->decode($token);
     
-    // Check if token is valid
     if ($decoded === false || !is_array($decoded)) {
-        error_log('GET /profile - Token decode failed or invalid format');
+        error_log('GET /profile - Token decode failed');
         http_response_code(401);
         echo json_encode([
             'success' => false,
@@ -89,9 +90,9 @@ try {
         exit();
     }
     
-    // Verify user_id exists in token payload
+    // Verify user_id in payload
     if (!isset($decoded['user_id']) || empty($decoded['user_id'])) {
-        error_log('GET /profile - Missing user_id in token payload: ' . json_encode($decoded));
+        error_log('GET /profile - Missing user_id in token: ' . json_encode($decoded));
         http_response_code(401);
         echo json_encode([
             'success' => false,
@@ -103,7 +104,7 @@ try {
     $userId = (int)$decoded['user_id'];
     error_log('GET /profile - Fetching profile for user_id: ' . $userId);
     
-    // IMPORTANT: File is Customer.php but class name is User
+    // ========== GET USER DATA ==========
     $userModel = new User();
     $user = $userModel->getById($userId);
     
@@ -120,16 +121,28 @@ try {
     // Remove sensitive data
     unset($user['password']);
     
-    // Log success
-    error_log('GET /profile - Successfully retrieved profile for user: ' . $userId);
+    // Format dates for frontend
+    if (isset($user['created_at'])) {
+        $user['created_at_formatted'] = date('d/m/Y H:i', strtotime($user['created_at']));
+    }
     
-    // Return success response
+    if (isset($user['birthdate']) && $user['birthdate']) {
+        $user['birthdate_formatted'] = date('d/m/Y', strtotime($user['birthdate']));
+    }
+    
+    // Add role
+    $user['role'] = ($userId === 1) ? 'admin' : 'user';
+    
+    error_log('GET /profile - Success for user: ' . $userId);
+    
+    // ========== SUCCESS RESPONSE ==========
     http_response_code(200);
     echo json_encode([
         'success' => true,
         'message' => 'Profile retrieved successfully',
         'data' => $user
     ]);
+    exit();
     
 } catch (PDOException $e) {
     error_log('GET /profile - Database error: ' . $e->getMessage());
@@ -138,6 +151,8 @@ try {
         'success' => false,
         'message' => 'Database error occurred'
     ]);
+    exit();
+    
 } catch (Exception $e) {
     error_log('GET /profile - Exception: ' . $e->getMessage());
     error_log('GET /profile - Stack trace: ' . $e->getTraceAsString());
@@ -146,4 +161,5 @@ try {
         'success' => false,
         'message' => 'Internal server error'
     ]);
+    exit();
 }

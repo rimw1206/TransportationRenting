@@ -1,168 +1,251 @@
 <?php
-// services/customer/public/index.php
+/**
+ * services/customer/public/index.php
+ * Customer Service Main Router
+ */
+
+// Enable error reporting but don't display
+error_reporting(E_ALL);
+ini_set('display_errors', 0);
+ini_set('log_errors', 1);
+
+// Set JSON header
 header('Content-Type: application/json');
-require_once __DIR__ . '/../services/CustomerService.php';
-require_once __DIR__ . '/../../../shared/classes/ApiResponse.php';
-require_once __DIR__ . '/../../../shared/classes/JWTHandler.php';
-require_once __DIR__ . '/../../../env-bootstrap.php';
-$requestUri = $_SERVER['REQUEST_URI'];
-$requestMethod = $_SERVER['REQUEST_METHOD'];
 
-// Parse the URI and remove query string
-$uri = parse_url($requestUri, PHP_URL_PATH);
+// Handle CORS
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With');
 
-// CRITICAL FIX: Strip /auth prefix if present (gateway forwards with prefix)
-// Gateway sends: /auth/login → Customer service handles: /login
-if (strpos($uri, '/auth') === 0) {
-    $uri = substr($uri, strlen('/auth'));
+// Handle OPTIONS preflight
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit;
+}
+
+try {
+    // Load dependencies
+    require_once __DIR__ . '/../../../shared/classes/ApiResponse.php';
+    require_once __DIR__ . '/../../../shared/classes/JWTHandler.php';
+    require_once __DIR__ . '/../../../env-bootstrap.php';
+    
+    $requestUri = $_SERVER['REQUEST_URI'];
+    $requestMethod = $_SERVER['REQUEST_METHOD'];
+    
+    // Parse the URI and remove query string
+    $uri = parse_url($requestUri, PHP_URL_PATH);
+    // Remove any gateway prefix
+    $uri = preg_replace('#^/TransportationRenting/gateway/api#', '', $uri);
+
+    // Remove /auth prefix
+    $uri = preg_replace('#^/auth#', '', $uri);
+
+    // Remove /users prefix
+    $uri = preg_replace('#^/users#', '', $uri);
+
     if ($uri === '') $uri = '/';
-}
-
-// Also strip /users prefix for user management routes
-if (strpos($uri, '/users') === 0) {
-    $uri = substr($uri, strlen('/users'));
-    if ($uri === '') $uri = '/';
-}
-
-// Route: GET /health -> service health check
-if ($uri === '/health' && $requestMethod === 'GET') {
-    require_once __DIR__ . '/health.php';
-    exit;
-}
-
-// ==================== AUTH ROUTES ====================
-// Route: POST /login
-if ($uri === '/login' && $requestMethod === 'POST') {
-    require_once __DIR__ . '/../api/auth/login.php';
-    exit;
-}
-
-// Route: POST /register
-if ($uri === '/register' && $requestMethod === 'POST') {
-    require_once __DIR__ . '/../api/auth/register.php';
-    exit;
-}
-
-// Route: POST /refresh-token
-if ($uri === '/refresh-token' && $requestMethod === 'POST') {
-    require_once __DIR__ . '/../api/auth/refresh-token.php';
-    exit;
-}
-
-// Route: POST /logout
-if ($uri === '/logout' && $requestMethod === 'POST') {
-    require_once __DIR__ . '/../api/auth/logout.php';
-    exit;
-}
-
-// ==================== PROFILE ROUTES ====================
-// Route: GET /profile (get current user profile)
-if ($uri === '/profile' && $requestMethod === 'GET') {
-    require_once __DIR__ . '/../api/profile/get.php';
-    exit;
-}
-
-// Route: PUT /profile (update current user profile)
-if ($uri === '/profile' && $requestMethod === 'PUT') {
-    require_once __DIR__ . '/../api/profile/update.php';
-    exit;
-}
-// Route: DELETE /profile (delete current user account)
-if ($uri === '/profile' && $requestMethod === 'DELETE') {
-    require_once __DIR__ . '/../api/profile/delete.php';
-    exit;
-}
-// ✅ THÊM ROUTE NÀY
-// Route: PUT /auth/change-password
-if ($uri === '/change-password' && $requestMethod === 'PUT') {
-    require_once __DIR__ . '/../api/auth/change-password.php';
-    exit;
-}
-// ==================== USER MANAGEMENT ROUTES ====================
-// Route: GET / (list all users - after /users prefix is stripped)
-if ($uri === '/' && $requestMethod === 'GET') {
-    require_once __DIR__ . '/../api/users/list.php';
-    exit;
-}
-
-// Route: GET /{id} (get specific user)
-if (preg_match('#^/(\d+)$#', $uri, $matches) && $requestMethod === 'GET') {
-    $_GET['user_id'] = $matches[1];
-    require_once __DIR__ . '/../api/users/get.php';
-    exit;
-}
-
-// Route: PUT /{id} (update user)
-if (preg_match('#^/(\d+)$#', $uri, $matches) && $requestMethod === 'PUT') {
-    $_GET['user_id'] = $matches[1];
-    require_once __DIR__ . '/../api/users/update.php';
-    exit;
-}
-
-// Route: DELETE /{id} (delete user)
-if (preg_match('#^/(\d+)$#', $uri, $matches) && $requestMethod === 'DELETE') {
-    $_GET['user_id'] = $matches[1];
-    require_once __DIR__ . '/../api/users/delete.php';
-    exit;
-}
-
-// ==================== KYC ROUTES ====================
-// Route: POST /kyc (submit KYC)
-if ($uri === '/kyc' && $requestMethod === 'POST') {
-    require_once __DIR__ . '/../api/kyc/submit.php';
-    exit;
-}
-
-// Route: GET /kyc (get KYC status)
-if ($uri === '/kyc' && $requestMethod === 'GET') {
-    require_once __DIR__ . '/../api/kyc/get.php';
-    exit;
-}
-
-// Route: PUT /kyc/verify (admin verifies KYC)
-if ($uri === '/kyc/verify' && $requestMethod === 'PUT') {
-    require_once __DIR__ . '/../api/kyc/verify.php';
-    exit;
-}
-
-// ==================== PAYMENT METHOD ROUTES ====================
-// Route: GET /payment-methods (list payment methods)
-if ($uri === '/payment-methods' && $requestMethod === 'GET') {
-    require_once __DIR__ . '/../api/payment-methods/list.php';
-    exit;
-}
-
-// Route: POST /payment-methods (add payment method)
-if ($uri === '/payment-methods' && $requestMethod === 'POST') {
-    require_once __DIR__ . '/../api/payment-methods/create.php';
-    exit;
-}
-
-// Route: DELETE /payment-methods/{id} (delete payment method)
-if (preg_match('#^/payment-methods/(\d+)$#', $uri, $matches) && $requestMethod === 'DELETE') {
-    $_GET['method_id'] = $matches[1];
-    require_once __DIR__ . '/../api/payment-methods/delete.php';
-    exit;
-}
-
-// ==================== RENTAL HISTORY ROUTES ====================
-// Route: GET /rental-history (user's rental history)
-if ($uri === '/rental-history' && $requestMethod === 'GET') {
-    require_once __DIR__ . '/../api/rental-history/list.php';
-    exit;
-}
-
-// ==================== DEFAULT: NOT FOUND ====================
-http_response_code(404);
-echo json_encode([
-    'success' => false,
-    'error' => 'Route not found',
-    'requested_uri' => $requestUri,
-    'parsed_uri' => $uri,
-    'method' => $requestMethod,
-    'debug' => [
-        'original_uri' => $requestUri,
+    // Log incoming request
+    error_log("Customer Service: {$requestMethod} {$uri}");
+    
+    
+    error_log("Customer Service: After strip -> {$uri}");
+    
+    // ==================== HEALTH CHECK ====================
+    if ($uri === '/health' && $requestMethod === 'GET') {
+        echo json_encode([
+            'service' => 'customer-service',
+            'status' => 'ok',
+            'timestamp' => date('c'),
+            'port' => 8001
+        ]);
+        exit;
+    }
+    
+    // ==================== AUTH ROUTES ====================
+    if ($uri === '/login' && $requestMethod === 'POST') {
+        $handlerPath = __DIR__ . '/../api/auth/login.php';
+        if (!file_exists($handlerPath)) {
+            throw new Exception("Handler not found: auth/login.php");
+        }
+        require_once $handlerPath;
+        exit;
+    }
+    
+    if ($uri === '/register' && $requestMethod === 'POST') {
+        $handlerPath = __DIR__ . '/../api/auth/register.php';
+        if (!file_exists($handlerPath)) {
+            throw new Exception("Handler not found: auth/register.php");
+        }
+        require_once $handlerPath;
+        exit;
+    }
+    
+    if ($uri === '/refresh-token' && $requestMethod === 'POST') {
+        $handlerPath = __DIR__ . '/../api/auth/refresh-token.php';
+        if (!file_exists($handlerPath)) {
+            throw new Exception("Handler not found: auth/refresh-token.php");
+        }
+        require_once $handlerPath;
+        exit;
+    }
+    
+    if ($uri === '/logout' && $requestMethod === 'POST') {
+        $handlerPath = __DIR__ . '/../api/auth/logout.php';
+        if (!file_exists($handlerPath)) {
+            throw new Exception("Handler not found: auth/logout.php");
+        }
+        require_once $handlerPath;
+        exit;
+    }
+    
+    if ($uri === '/verify-email' && $requestMethod === 'POST') {
+        $handlerPath = __DIR__ . '/../api/auth/verify-email.php';
+        if (!file_exists($handlerPath)) {
+            throw new Exception("Handler not found: auth/verify-email.php");
+        }
+        require_once $handlerPath;
+        exit;
+    }
+    
+    if ($uri === '/resend-verification' && $requestMethod === 'POST') {
+        $handlerPath = __DIR__ . '/../api/auth/resend-verification.php';
+        if (!file_exists($handlerPath)) {
+            throw new Exception("Handler not found: auth/resend-verification.php");
+        }
+        require_once $handlerPath;
+        exit;
+    }
+    
+    if ($uri === '/change-password' && $requestMethod === 'PUT') {
+        $handlerPath = __DIR__ . '/../api/auth/change-password.php';
+        if (!file_exists($handlerPath)) {
+            throw new Exception("Handler not found: auth/change-password.php");
+        }
+        require_once $handlerPath;
+        exit;
+    }
+    
+    // ==================== PROFILE ROUTES ====================
+    if ($uri === '/profile' && $requestMethod === 'GET') {
+        require_once __DIR__ . '/../api/profile/get.php';
+        exit;
+    }
+    
+    if ($uri === '/profile' && $requestMethod === 'PUT') {
+        require_once __DIR__ . '/../api/profile/update.php';
+        exit;
+    }
+    
+    if ($uri === '/profile' && $requestMethod === 'DELETE') {
+        require_once __DIR__ . '/../api/profile/delete.php';
+        exit;
+    }
+    
+    // ==================== USER MANAGEMENT ROUTES ====================
+    if ($uri === '/' && $requestMethod === 'GET') {
+        require_once __DIR__ . '/../api/users/list.php';
+        exit;
+    }
+    
+    if (preg_match('#^/(\d+)$#', $uri, $matches) && $requestMethod === 'GET') {
+        $_GET['user_id'] = $matches[1];
+        require_once __DIR__ . '/../api/users/get.php';
+        exit;
+    }
+    
+    if (preg_match('#^/(\d+)$#', $uri, $matches) && $requestMethod === 'PUT') {
+        $_GET['user_id'] = $matches[1];
+        require_once __DIR__ . '/../api/users/update.php';
+        exit;
+    }
+    
+    if (preg_match('#^/(\d+)$#', $uri, $matches) && $requestMethod === 'DELETE') {
+        $_GET['user_id'] = $matches[1];
+        require_once __DIR__ . '/../api/users/delete.php';
+        exit;
+    }
+    
+    // ==================== KYC ROUTES ====================
+    if ($uri === '/kyc' && $requestMethod === 'POST') {
+        require_once __DIR__ . '/../api/kyc/submit.php';
+        exit;
+    }
+    
+    if ($uri === '/kyc' && $requestMethod === 'GET') {
+        require_once __DIR__ . '/../api/kyc/get.php';
+        exit;
+    }
+    
+    if ($uri === '/kyc/verify' && $requestMethod === 'PUT') {
+        require_once __DIR__ . '/../api/kyc/verify.php';
+        exit;
+    }
+    
+    // ==================== PAYMENT METHOD ROUTES ====================
+    if ($uri === '/payment-methods' && $requestMethod === 'GET') {
+        require_once __DIR__ . '/../api/payment-methods/list.php';
+        exit;
+    }
+    
+    if ($uri === '/payment-methods' && $requestMethod === 'POST') {
+        require_once __DIR__ . '/../api/payment-methods/create.php';
+        exit;
+    }
+    
+    if (preg_match('#^/payment-methods/(\d+)$#', $uri, $matches) && $requestMethod === 'DELETE') {
+        $_GET['method_id'] = $matches[1];
+        require_once __DIR__ . '/../api/payment-methods/delete.php';
+        exit;
+    }
+    
+    // ==================== RENTAL HISTORY ROUTES ====================
+    if ($uri === '/rental-history' && $requestMethod === 'GET') {
+        require_once __DIR__ . '/../api/rental-history/list.php';
+        exit;
+    }
+    
+    // ==================== NOT FOUND ====================
+    http_response_code(404);
+    echo json_encode([
+        'success' => false,
+        'message' => 'Route not found',
+        'requested_uri' => $requestUri,
         'parsed_uri' => $uri,
-        'after_prefix_strip' => $uri
-    ]
-]);
+        'method' => $requestMethod,
+        'available_routes' => [
+            'auth' => [
+                'POST /auth/register',
+                'POST /auth/login',
+                'POST /auth/logout',
+                'POST /auth/refresh-token',
+                'POST /auth/verify-email',
+                'POST /auth/resend-verification',
+            ],
+            'profile' => [
+                'GET /profile',
+                'PUT /profile',
+                'DELETE /profile',
+            ],
+            'users' => [
+                'GET /users',
+                'GET /users/{id}',
+                'PUT /users/{id}',
+                'DELETE /users/{id}',
+            ]
+        ]
+    ]);
+    
+} catch (Exception $e) {
+    error_log("Customer Service Error: " . $e->getMessage());
+    error_log("Stack trace: " . $e->getTraceAsString());
+    
+    http_response_code(500);
+    echo json_encode([
+        'success' => false,
+        'message' => 'Internal server error',
+        'error' => $e->getMessage(),
+        'file' => basename($e->getFile()),
+        'line' => $e->getLine(),
+        'trace' => array_slice(explode("\n", $e->getTraceAsString()), 0, 5)
+    ]);
+}

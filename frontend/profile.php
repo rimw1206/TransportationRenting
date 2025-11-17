@@ -23,42 +23,67 @@ $rentalHistory = [];
 
 try {
     // Get profile
-    $response = $apiClient->get('customer', '/profile', [], $token);
+    $response = $apiClient->get('customer', '/profile', ["Authorization: Bearer {$token}"]);
     if ($response['status_code'] === 200) {
         $data = json_decode($response['raw_response'], true);
-        if ($data && $data['success']) {
+        if ($data && isset($data['success']) && $data['success'] && isset($data['data'])) {
             $profile = $data['data'];
+        } else {
+            error_log("Profile fetch failed: " . ($data['message'] ?? 'Unknown error'));
         }
+    } else {
+        error_log("Profile API returned status: " . $response['status_code']);
     }
     
-    // Get KYC status
-    $response = $apiClient->get('customer', '/kyc', [], $token);
+    // Get KYC status - LINE 39 FIX
+    $response = $apiClient->get('customer', '/kyc', ["Authorization: Bearer {$token}"]);
     if ($response['status_code'] === 200) {
         $data = json_decode($response['raw_response'], true);
-        if ($data && $data['success']) {
+        // ✅ ADD ISSET CHECK HERE
+        if ($data && isset($data['success']) && $data['success'] && isset($data['data'])) {
             $kycStatus = $data['data'];
+        } else {
+            // KYC might not exist for user - this is OK
+            $kycStatus = null;
+            error_log("KYC not found or empty for user: " . $user['user_id']);
         }
+    } else {
+        error_log("KYC API returned status: " . $response['status_code']);
     }
     
     // Get payment methods
-    $response = $apiClient->get('customer', '/payment-methods', [], $token);
+    $response = $apiClient->get('customer', '/payment-methods', ["Authorization: Bearer {$token}"]);
     if ($response['status_code'] === 200) {
         $data = json_decode($response['raw_response'], true);
-        if ($data && $data['success']) {
+        // ✅ ADD ISSET CHECK
+        if ($data && isset($data['success']) && $data['success'] && isset($data['data'])) {
             $paymentMethods = $data['data'];
+        } else {
+            $paymentMethods = [];
+            error_log("Payment methods empty for user: " . $user['user_id']);
         }
+    } else {
+        error_log("Payment API returned status: " . $response['status_code']);
     }
     
     // Get rental history
-    $response = $apiClient->get('customer', '/rental-history', [], $token);
+    $response = $apiClient->get('customer', '/rental-history', ["Authorization: Bearer {$token}"]);
     if ($response['status_code'] === 200) {
         $data = json_decode($response['raw_response'], true);
-        if ($data && $data['success']) {
+        // ✅ ADD ISSET CHECK
+        if ($data && isset($data['success']) && $data['success'] && isset($data['data'])) {
             $rentalHistory = $data['data'];
+        } else {
+            $rentalHistory = [];
+            error_log("Rental history empty for user: " . $user['user_id']);
         }
+    } else {
+        error_log("Rental history API returned status: " . $response['status_code']);
     }
+    
 } catch (Exception $e) {
     error_log('Error fetching profile data: ' . $e->getMessage());
+    error_log('Stack trace: ' . $e->getTraceAsString());
 }
 
 // Helper functions

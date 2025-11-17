@@ -1,17 +1,35 @@
 {
+    "name": "transportation-renting/system",
+    "description": "Transportation Renting Microservices System",
+    "type": "project",
     "require": {
+        "php": ">=7.4",
         "phpmailer/phpmailer": "^6.9"
     },
     "autoload": {
-        "files": [
-            "shared/classes/Cache.php",
-            "shared/classes/JWTHandler.php",
-            "shared/classes/DatabaseManager.php"
+        "psr-4": {
+            "TransportationRenting\\": "shared/classes/"
+        },
+        "classmap": [
+            "shared/classes/"
         ]
     },
-    "autoload-dev": {
-        "files": [
-            "stubs/Redis.php"
+    "scripts": {
+        "post-install-cmd": [
+            "@php -r \"echo '✅ PHPMailer installed successfully!\\n';\""
+        ],
+        "post-update-cmd": [
+            "@php -r \"echo '✅ Dependencies updated!\\n';\""
+        ],
+        "test-email": [
+            "@php tools/test-email.php"
         ]
-    }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true,
+        "preferred-install": "dist"
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
 }

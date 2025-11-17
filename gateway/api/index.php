@@ -1,4 +1,10 @@
 <?php
+/**
+ * API Gateway - Main Router
+ * Fixed version with correct paths
+ */
+
+// Fix paths - go up two levels from gateway/api/ to root
 require_once __DIR__ . '/../../shared/classes/ApiResponse.php';
 require_once __DIR__ . '/../../shared/classes/ApiClient.php';
 
@@ -49,12 +55,19 @@ function isBrowserRequest()
 function isPublicRoute($path, $publicRoutes)
 {
     foreach ($publicRoutes as $publicRoute) {
-        if ($path === $publicRoute || strpos($path, $publicRoute . '/') === 0) {
+
+        // Public route must be matched on the ORIGINAL path, not stripped one
+        if ($path === $publicRoute) {
+            return true;
+        }
+
+        if (strpos($path, $publicRoute . '/') === 0) {
             return true;
         }
     }
     return false;
 }
+
 
 try {
     $targetService = null;
@@ -80,11 +93,8 @@ try {
         ApiResponse::error("Service not found for path: $path", 404);
     }
 
-    // CRITICAL FIX: Forward the FULL path with prefix to service
-    // Customer service's index.php will strip the prefix internally
-    // Gateway sends: /auth/login → Customer receives: /auth/login
-    // Gateway sends: /profile → Customer receives: /profile
-    $targetPath = $path;  // Keep the full path including prefix
+    // Keep the full path including prefix
+    $targetPath = $path;
 
     // Check authentication (skip if public route)
     if (!isPublicRoute($path, $publicRoutes)) {
@@ -119,7 +129,7 @@ try {
         exit;
     }
 
-    // Setup API client
+    // Setup API client - direct to port
     $apiClient = new ApiClient();
     $serviceUrl = "http://localhost:" . $servicePort;
     $apiClient->setServiceUrl($targetService, $serviceUrl);
@@ -171,5 +181,17 @@ try {
 
 } catch (Exception $e) {
     error_log('Gateway error: ' . $e->getMessage());
-    ApiResponse::error($e->getMessage(), 500);
+    error_log('Gateway trace: ' . $e->getTraceAsString());
+    
+    // Debug output
+    http_response_code(500);
+    header('Content-Type: application/json');
+    echo json_encode([
+        'success' => false,
+        'message' => $e->getMessage(),
+        'trace' => $e->getTraceAsString(),
+        'file' => $e->getFile(),
+        'line' => $e->getLine()
+    ]);
+    exit;
 }

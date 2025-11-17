@@ -1,127 +1,208 @@
 <?php
 /**
- * ============================================
- * shared/classes/ApiClient.php
- * FIXED VERSION - With proper token parameter support
- * ============================================
+ * API Client for inter-service communication
  */
-
-class ApiClient {
+class ApiClient
+{
     private $serviceUrls = [];
-
-    public function setServiceUrl($serviceName, $url) {
+    private $timeout = 5;
+    private $maxRetries = 3;
+    
+    /**
+     * Set service URL
+     */
+    public function setServiceUrl($serviceName, $url)
+    {
         $this->serviceUrls[$serviceName] = rtrim($url, '/');
     }
-
-    private function request($method, $service, $path, $body = null, $headers = [], $token = null) {
-        if (!isset($this->serviceUrls[$service])) {
-            throw new Exception("Service [$service] not configured!");
-        }
-
-        $url = rtrim($this->serviceUrls[$service], '/') . '/' . ltrim($path, '/');
-
-        if ($method === 'GET' && !empty($_SERVER['QUERY_STRING'])) {
-            $url .= '?' . $_SERVER['QUERY_STRING'];
-        }
-
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
-
-        // Add body if present
-        if ($body !== null) {
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($body));
-            if (!array_filter($headers, fn($h) => stripos($h, 'Content-Type:') !== false)) {
-                $headers[] = 'Content-Type: application/json';
-            }
-        }
-
-        // CRITICAL FIX: Add Authorization header if token is provided
-        if ($token !== null && !empty($token)) {
-            // Check if Authorization header already exists
-            $hasAuth = false;
-            foreach ($headers as $header) {
-                if (stripos($header, 'Authorization:') !== false) {
-                    $hasAuth = true;
-                    break;
-                }
-            }
-            
-            // Add Authorization header if not present
-            if (!$hasAuth) {
-                $headers[] = 'Authorization: Bearer ' . $token;
-            }
-        }
-
-        if (!empty($headers)) {
-            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        }
-
-        $response = curl_exec($ch);
-        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-        if ($response === false) {
-            $error = curl_error($ch);
-            curl_close($ch);
-            throw new Exception("Request error: $error");
-        }
-
-        curl_close($ch);
-
-        return [
-            'status_code' => $httpCode,
-            'raw_response' => $response,
-            'decoded_response' => json_decode($response, true)
-        ];
+    
+    /**
+     * Set timeout
+     */
+    public function setTimeout($timeout)
+    {
+        $this->timeout = $timeout;
     }
     
     /**
      * GET request
-     * @param string $service Service name
-     * @param string $path Endpoint path
-     * @param array $headers Additional headers
-     * @param string|null $token JWT token (optional)
-     * @return array Response with status_code, raw_response, decoded_response
      */
-    public function get($service, $path, $headers = [], $token = null) {
-        return $this->request('GET', $service, $path, null, $headers, $token);
+    public function get($service, $path, $headers = [])
+    {
+        return $this->request($service, $path, 'GET', null, $headers);
     }
-
+    
     /**
      * POST request
-     * @param string $service Service name
-     * @param string $path Endpoint path
-     * @param mixed $body Request body
-     * @param array $headers Additional headers
-     * @param string|null $token JWT token (optional)
-     * @return array Response with status_code, raw_response, decoded_response
      */
-    public function post($service, $path, $body, $headers = [], $token = null) {
-        return $this->request('POST', $service, $path, $body, $headers, $token);
+    public function post($service, $path, $data = null, $headers = [])
+    {
+        return $this->request($service, $path, 'POST', $data, $headers);
     }
-
+    
     /**
      * PUT request
-     * @param string $service Service name
-     * @param string $path Endpoint path
-     * @param mixed $body Request body
-     * @param array $headers Additional headers
-     * @param string|null $token JWT token (optional)
-     * @return array Response with status_code, raw_response, decoded_response
      */
-    public function put($service, $path, $body, $headers = [], $token = null) {
-        return $this->request('PUT', $service, $path, $body, $headers, $token);
+    public function put($service, $path, $data = null, $headers = [])
+    {
+        return $this->request($service, $path, 'PUT', $data, $headers);
     }
-
+    
+    /**
+     * PATCH request
+     */
+    public function patch($service, $path, $data = null, $headers = [])
+    {
+        return $this->request($service, $path, 'PATCH', $data, $headers);
+    }
+    
     /**
      * DELETE request
-     * @param string $service Service name
-     * @param string $path Endpoint path
-     * @param array $headers Additional headers
-     * @param string|null $token JWT token (optional)
-     * @return array Response with status_code, raw_response, decoded_response
      */
-    public function delete($service, $path, $headers = [], $token = null) {
-        return $this->request('DELETE', $service, $path, null, $headers, $token);
+    public function delete($service, $path, $headers = [])
+    {
+        return $this->request($service, $path, 'DELETE', null, $headers);
+    }
+    
+    /**
+     * Make HTTP request with retry logic
+     */
+    private function request($service, $path, $method, $data = null, $headers = [])
+    {
+        $serviceUrl = $this->serviceUrls[$service] ?? null;
+        
+        if (!$serviceUrl) {
+            return [
+                'success' => false,
+                'message' => "Service URL not configured for: $service",
+                'status_code' => 500,
+                'raw_response' => json_encode([
+                    'success' => false,
+                    'message' => "Service URL not configured for: $service"
+                ])
+            ];
+        }
+        
+        $url = $serviceUrl . $path;
+        $attempts = 0;
+        
+        while ($attempts < $this->maxRetries) {
+            $attempts++;
+            
+            try {
+                $result = $this->makeRequest($url, $method, $data, $headers);
+                
+                // Success or non-retryable error
+                if ($result['status_code'] < 500) {
+                    return $result;
+                }
+                
+                // Retry on 5xx errors
+                if ($attempts < $this->maxRetries) {
+                    usleep(100000 * $attempts); // Exponential backoff: 100ms, 200ms, 300ms
+                    continue;
+                }
+                
+                return $result;
+                
+            } catch (Exception $e) {
+                error_log("API Client error (attempt $attempts): " . $e->getMessage());
+                
+                if ($attempts >= $this->maxRetries) {
+                    return [
+                        'success' => false,
+                        'message' => 'Service temporarily unavailable',
+                        'status_code' => 503,
+                        'raw_response' => json_encode([
+                            'success' => false,
+                            'message' => 'Service temporarily unavailable'
+                        ])
+                    ];
+                }
+                
+                usleep(100000 * $attempts);
+            }
+        }
+        
+        return [
+            'success' => false,
+            'message' => 'Max retries exceeded',
+            'status_code' => 503,
+            'raw_response' => json_encode([
+                'success' => false,
+                'message' => 'Service temporarily unavailable after retries'
+            ])
+        ];
+    }
+    
+    /**
+     * Make actual HTTP request using cURL
+     */
+    private function makeRequest($url, $method, $data, $headers)
+    {
+        $ch = curl_init($url);
+        
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, $this->timeout);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
+        
+        // Set headers
+        $curlHeaders = ['Content-Type: application/json'];
+        foreach ($headers as $header) {
+            $curlHeaders[] = $header;
+        }
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $curlHeaders);
+        
+        // Set body for POST/PUT/PATCH
+        if (in_array($method, ['POST', 'PUT', 'PATCH']) && $data !== null) {
+            $jsonData = is_string($data) ? $data : json_encode($data);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+        }
+        
+        $response = curl_exec($ch);
+        $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $curlError = curl_error($ch);
+        curl_close($ch);
+        
+        if ($curlError) {
+            throw new Exception("cURL error: $curlError");
+        }
+        
+        if ($response === false) {
+            throw new Exception("Empty response from service");
+        }
+        
+        // Try to decode JSON response
+        $decoded = json_decode($response, true);
+        
+        return [
+            'success' => ($statusCode >= 200 && $statusCode < 300),
+            'status_code' => $statusCode,
+            'data' => $decoded,
+            'raw_response' => $response
+        ];
+    }
+    
+    /**
+     * Health check for a service
+     */
+    public function healthCheck($service)
+    {
+        $serviceUrl = $this->serviceUrls[$service] ?? null;
+        
+        if (!$serviceUrl) {
+            return false;
+        }
+        
+        $ch = curl_init($serviceUrl . '/health');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 2);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 2);
+        
+        $response = curl_exec($ch);
+        $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        
+        return ($statusCode === 200);
     }
 }

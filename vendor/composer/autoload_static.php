@@ -6,14 +6,11 @@ namespace Composer\Autoload;
 
 class ComposerStaticInitbaf0b1b659e688a64051c5ee9742a77e
 {
-    public static $files = array (
-        'eb7998dbd2041e39dec9f5357b6314f4' => __DIR__ . '/../..' . '/shared/classes/Cache.php',
-        '4bcba963566a97da2c8dfe93be808653' => __DIR__ . '/../..' . '/shared/classes/JWTHandler.php',
-        '0f4d7686ac2c7e98d5e4e5e3ec01b605' => __DIR__ . '/../..' . '/shared/classes/DatabaseManager.php',
-        '903cbf655a5e265a8b9624780ddf2c66' => __DIR__ . '/../..' . '/stubs/Redis.php',
-    );
-
     public static $prefixLengthsPsr4 = array (
+        'T' => 
+        array (
+            'TransportationRenting\\' => 22,
+        ),
         'P' => 
         array (
             'PHPMailer\\PHPMailer\\' => 20,
@@ -21,6 +18,10 @@ class ComposerStaticInitbaf0b1b659e688a64051c5ee9742a77e
     );
 
     public static $prefixDirsPsr4 = array (
+        'TransportationRenting\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/shared/classes',
+        ),
         'PHPMailer\\PHPMailer\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
@@ -28,7 +29,20 @@ class ComposerStaticInitbaf0b1b659e688a64051c5ee9742a77e
     );
 
     public static $classMap = array (
+        'ApiClient' => __DIR__ . '/../..' . '/shared/classes/ApiClient.php',
+        'ApiResponse' => __DIR__ . '/../..' . '/shared/classes/ApiResponse.php',
+        'Cache' => __DIR__ . '/../..' . '/shared/classes/Cache.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'DatabaseManager' => __DIR__ . '/../..' . '/shared/classes/DatabaseManager.php',
+        'EmailService' => __DIR__ . '/../..' . '/shared/classes/EmailService.php',
+        'JWTHandler' => __DIR__ . '/../..' . '/shared/classes/JWTHandler.php',
+        'PHPMailer\\PHPMailer\\DSNConfigurator' => __DIR__ . '/..' . '/phpmailer/phpmailer/src/DSNConfigurator.php',
+        'PHPMailer\\PHPMailer\\Exception' => __DIR__ . '/..' . '/phpmailer/phpmailer/src/Exception.php',
+        'PHPMailer\\PHPMailer\\OAuth' => __DIR__ . '/..' . '/phpmailer/phpmailer/src/OAuth.php',
+        'PHPMailer\\PHPMailer\\OAuthTokenProvider' => __DIR__ . '/..' . '/phpmailer/phpmailer/src/OAuthTokenProvider.php',
+        'PHPMailer\\PHPMailer\\PHPMailer' => __DIR__ . '/..' . '/phpmailer/phpmailer/src/PHPMailer.php',
+        'PHPMailer\\PHPMailer\\POP3' => __DIR__ . '/..' . '/phpmailer/phpmailer/src/POP3.php',
+        'PHPMailer\\PHPMailer\\SMTP' => __DIR__ . '/..' . '/phpmailer/phpmailer/src/SMTP.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

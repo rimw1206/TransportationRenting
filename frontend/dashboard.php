@@ -458,6 +458,7 @@ function getVehicleRating($vehicle) {
             }
             window.location.href = currentUrl.toString();
         }
+        
     </script>
 </body>
 </html>

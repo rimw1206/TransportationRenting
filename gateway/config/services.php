@@ -45,6 +45,10 @@ return [
 
     'public_routes' => [
         '/auth/register',
+        '/register',
+        '/auth',
+        '/auth/verify-email',
+        '/auth/resend-verification',
         '/auth/login',
         '/auth/refresh-token',
         '/auth/forgot-password',

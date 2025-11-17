@@ -67,7 +67,17 @@ if ($uri === '/profile' && $requestMethod === 'PUT') {
     require_once __DIR__ . '/../api/profile/update.php';
     exit;
 }
-
+// Route: DELETE /profile (delete current user account)
+if ($uri === '/profile' && $requestMethod === 'DELETE') {
+    require_once __DIR__ . '/../api/profile/delete.php';
+    exit;
+}
+// ✅ THÊM ROUTE NÀY
+// Route: PUT /auth/change-password
+if ($uri === '/change-password' && $requestMethod === 'PUT') {
+    require_once __DIR__ . '/../api/auth/change-password.php';
+    exit;
+}
 // ==================== USER MANAGEMENT ROUTES ====================
 // Route: GET / (list all users - after /users prefix is stripped)
 if ($uri === '/' && $requestMethod === 'GET') {

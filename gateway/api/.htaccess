@@ -1,4 +1,17 @@
+# ============================================
+# gateway/api/.htaccess
+# FIXED VERSION - Forward Authorization header
+# ============================================
+
 RewriteEngine On
+
+# ✅ CRITICAL FIX: Forward Authorization header to PHP
+# Apache không tự động forward header Authorization, phải làm thủ công
+RewriteCond %{HTTP:Authorization} .
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+# Alternative method (backup)
+SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
 
 # Nếu request không phải file thật, chuyển vào index.php
 RewriteCond %{REQUEST_FILENAME} !-f
@@ -7,3 +20,10 @@ RewriteRule ^(.*)$ index.php [QSA,L]
 
 # Đặt index.php làm mặc định
 DirectoryIndex index.php
+
+# Enable CORS for API
+<IfModule mod_headers.c>
+    Header set Access-Control-Allow-Origin "*"
+    Header set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+    Header set Access-Control-Allow-Headers "Content-Type, Authorization, X-Requested-With"
+</IfModule>

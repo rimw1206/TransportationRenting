@@ -86,13 +86,20 @@ class AuthService
             }
             
             // Check user status
-            if ($user['status'] !== 'Active') {
+            // Check user status - Allow Active and Pending, block Inactive
+            if ($user['status'] === 'Inactive') {
                 return [
                     'success' => false,
-                    'message' => 'Tài khoản chưa được kích hoạt hoặc đã bị khóa'
+                    'message' => 'Tài khoản đã bị khóa. Vui lòng liên hệ admin.'
                 ];
             }
-            
+
+            // Optional: Add warning message for pending users in response
+            $statusWarning = null;
+            if ($user['status'] === 'Pending') {
+                $statusWarning = 'Tài khoản đang chờ xác thực. Một số tính năng có thể bị giới hạn.';
+            }
+                        
             // Generate JWT token
             $payload = [
                 'user_id' => (int)$user['user_id'],

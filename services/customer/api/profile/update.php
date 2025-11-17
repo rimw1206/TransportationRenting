@@ -1,5 +1,3 @@
-FILE: services/customer/api/profile/update.php
-============================================
 <?php
 require_once __DIR__ . '/../../../../env-bootstrap.php';
 

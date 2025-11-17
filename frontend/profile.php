@@ -878,8 +878,20 @@ function getPaymentIcon($type) {
         // Base API URL
         const API_BASE = '/TransportationRenting/gateway/api';
         const AUTH_TOKEN = '<?= $token ?>';
+        
+        // ✅ DEBUG: Kiểm tra token khi trang load
+        console.log('=== Profile Page Loaded ===');
+        console.log('Token exists:', AUTH_TOKEN ? 'YES' : 'NO');
+        console.log('Token length:', AUTH_TOKEN ? AUTH_TOKEN.length : 0);
+        console.log('Token preview:', AUTH_TOKEN ? AUTH_TOKEN.substring(0, 20) + '...' : 'EMPTY');
+        
+        // Test if token is valid JWT format
+        if (AUTH_TOKEN) {
+            const parts = AUTH_TOKEN.split('.');
+            console.log('Token parts:', parts.length === 3 ? 'VALID JWT FORMAT' : 'INVALID FORMAT');
+        }
 
-        // User dropdown
+        // User dropdown (không đổi)
         const userBtn = document.getElementById('userBtn');
         const userDropdown = document.getElementById('userDropdown');
 
@@ -892,7 +904,7 @@ function getPaymentIcon($type) {
             userDropdown?.classList.remove('show');
         });
 
-        // Tab switching
+        // Tab switching (không đổi)
         function switchTab(tabName) {
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 btn.classList.remove('active');
@@ -905,43 +917,70 @@ function getPaymentIcon($type) {
             document.getElementById(`tab-${tabName}`).classList.add('active');
         }
 
-        // Update profile
+        // ✅ UPDATE PROFILE - Sửa lại hoàn toàn
         async function updateProfile(event) {
             event.preventDefault();
             
             const formData = new FormData(event.target);
             const data = Object.fromEntries(formData);
             
-            console.log('Updating profile:', data); // Debug
+            console.log('=== UPDATE PROFILE REQUEST ===');
+            console.log('Data to send:', data);
+            console.log('Token being sent:', AUTH_TOKEN ? AUTH_TOKEN.substring(0, 20) + '...' : 'EMPTY');
+            
+            // Validate token before sending
+            if (!AUTH_TOKEN || AUTH_TOKEN.trim() === '') {
+                showAlert('error', 'Không tìm thấy token xác thực. Vui lòng đăng nhập lại.');
+                console.error('AUTH_TOKEN is empty!');
+                return;
+            }
             
             try {
-                const response = await fetch(`${API_BASE}/profile`, {
+                const url = `${API_BASE}/profile`;
+                console.log('Sending PUT request to:', url);
+                
+                const response = await fetch(url, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${AUTH_TOKEN}`
+                        'Authorization': `Bearer ${AUTH_TOKEN}` // ✅ Đảm bảo có Bearer
                     },
                     body: JSON.stringify(data)
                 });
                 
-                console.log('Response status:', response.status); // Debug
+                console.log('Response status:', response.status);
+                console.log('Response headers:', [...response.headers.entries()]);
                 
-                const result = await response.json();
-                console.log('Response data:', result); // Debug
+                // Đọc response text trước để debug
+                const responseText = await response.text();
+                console.log('Response body (raw):', responseText);
                 
-                if (result.success) {
+                // Parse JSON
+                let result;
+                try {
+                    result = JSON.parse(responseText);
+                } catch (e) {
+                    console.error('Failed to parse JSON:', e);
+                    console.error('Response was:', responseText);
+                    showAlert('error', 'Server trả về dữ liệu không hợp lệ');
+                    return;
+                }
+                
+                console.log('Response data (parsed):', result);
+                
+                if (response.ok && result.success) {
                     showAlert('success', 'Cập nhật thông tin thành công!');
                     setTimeout(() => location.reload(), 1500);
                 } else {
                     showAlert('error', result.message || 'Có lỗi xảy ra');
                 }
             } catch (error) {
-                console.error('Error:', error);
-                showAlert('error', 'Không thể kết nối đến server');
+                console.error('Fetch error:', error);
+                showAlert('error', 'Không thể kết nối đến server: ' + error.message);
             }
         }
 
-        // Show alert
+        // Show alert (không đổi)
         function showAlert(type, message) {
             const alertContainer = document.getElementById('alert-container');
             const alertClass = type === 'success' ? 'alert-success' : 'alert-error';
@@ -1110,14 +1149,24 @@ function getPaymentIcon($type) {
         }
 
         // Change password
+        // ✅ FIXED Change password function
         async function changePassword(event) {
             event.preventDefault();
             
             const formData = new FormData(event.target);
             const data = Object.fromEntries(formData);
             
+            console.log('=== CHANGE PASSWORD REQUEST ===');
+            
+            // Validate password match
             if (data.new_password !== data.confirm_password) {
-                alert('Mật khẩu mới không khớp!');
+                showAlert('error', 'Mật khẩu mới không khớp!');
+                return;
+            }
+            
+            // Validate password length
+            if (data.new_password.length < 6) {
+                showAlert('error', 'Mật khẩu mới phải có ít nhất 6 ký tự!');
                 return;
             }
             
@@ -1134,17 +1183,27 @@ function getPaymentIcon($type) {
                     })
                 });
                 
+                console.log('Response status:', response.status);
+                
                 const result = await response.json();
+                console.log('Response:', result);
                 
                 if (result.success) {
-                    alert('Đổi mật khẩu thành công!');
+                    showAlert('success', 'Đổi mật khẩu thành công!');
                     event.target.reset();
+                    
+                    // Optional: Logout sau khi đổi mật khẩu
+                    setTimeout(() => {
+                        if (confirm('Mật khẩu đã được thay đổi. Bạn có muốn đăng nhập lại không?')) {
+                            window.location.href = 'logout.php';
+                        }
+                    }, 1500);
                 } else {
-                    alert(result.message || 'Có lỗi xảy ra');
+                    showAlert('error', result.message || 'Có lỗi xảy ra');
                 }
             } catch (error) {
                 console.error('Error:', error);
-                alert('Không thể kết nối đến server');
+                showAlert('error', 'Không thể kết nối đến server: ' + error.message);
             }
         }
 

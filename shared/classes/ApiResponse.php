@@ -1,13 +1,36 @@
 <?php
-// shared/classes/ApiResponse.php
+// ========================================
+// shared/classes/ApiResponse.php - FIXED
+// ========================================
 
 class ApiResponse {
     
     /**
      * Success response (200)
+     * Fixed to accept meta parameter
      */
-    public static function success($data = [], $message = 'Success', $status = 200) {
-        self::send(true, $message, $data, $status);
+    public static function success($data = [], $message = 'Success', $meta = []) {
+        $response = [
+            'success' => true,
+            'message' => $message,
+            'status_code' => 200,
+            'data' => $data
+        ];
+        
+        // Merge metadata if provided
+        if (!empty($meta) && is_array($meta)) {
+            foreach ($meta as $key => $value) {
+                $response[$key] = $value;
+            }
+        }
+        
+        // Add timestamp
+        $response['timestamp'] = date('c');
+        
+        http_response_code(200);
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode($response, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        exit;
     }
 
     /**
@@ -36,16 +59,6 @@ class ApiResponse {
      * Generic error response
      */
     public static function error($message = 'An error occurred', $status = 400, $errors = null) {
-        $response = [
-            'success' => false,
-            'message' => $message,
-            'status_code' => $status
-        ];
-        
-        if ($errors !== null) {
-            $response['errors'] = $errors;
-        }
-        
         self::send(false, $message, null, $status, $errors);
     }
 
@@ -158,6 +171,12 @@ class ApiResponse {
      * Send response helper
      */
     private static function send($success, $message, $data = null, $status = 200, $errors = null) {
+        // CRITICAL FIX: Ensure $status is always an integer
+        if (!is_int($status)) {
+            error_log("ApiResponse::send() received non-integer status: " . print_r($status, true));
+            $status = 200; // Default to 200 if invalid
+        }
+        
         http_response_code($status);
         header('Content-Type: application/json; charset=utf-8');
         

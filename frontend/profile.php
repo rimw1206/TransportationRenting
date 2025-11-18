@@ -583,6 +583,14 @@ function getPaymentIcon($type) {
             </div>
             
             <div class="nav-actions">
+                <!-- Cart Button -->
+                <a href="cart.php" class="nav-icon-btn" title="Giỏ hàng" style="position: relative; text-decoration: none; color: inherit;">
+                    <i class="fas fa-shopping-cart"></i>
+                    <?php if (isset($_SESSION['cart']) && count($_SESSION['cart']) > 0): ?>
+                        <span class="badge"><?= count($_SESSION['cart']) ?></span>
+                    <?php endif; ?>
+                </a>
+                
                 <button class="nav-icon-btn" title="Thông báo">
                     <i class="fas fa-bell"></i>
                     <span class="badge">3</span>

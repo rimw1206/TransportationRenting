@@ -13,8 +13,6 @@ $token = $_SESSION['token'] ?? '';
 require_once __DIR__ . '/../shared/classes/ApiClient.php';
 
 $apiClient = new ApiClient();
-
-// Configure service URLs
 $apiClient->setServiceUrl('vehicle', 'http://localhost:8002');
 
 // Fetch statistics từ Vehicle Service
@@ -32,7 +30,7 @@ try {
     error_log('Error fetching vehicle stats: ' . $e->getMessage());
 }
 
-// Fetch featured vehicles (available vehicles, limit 8)
+// Fetch featured vehicles
 $featuredVehicles = [];
 try {
     $vehiclesResponse = $apiClient->get('vehicle', '/available?limit=8');
@@ -47,7 +45,6 @@ try {
     error_log('Error fetching vehicles: ' . $e->getMessage());
 }
 
-// Map vehicle type từ DB sang display name
 function getVehicleTypeName($type) {
     $types = [
         'Car' => 'Ô tô',
@@ -58,21 +55,17 @@ function getVehicleTypeName($type) {
     return $types[$type] ?? $type;
 }
 
-// Generate vehicle image based on type
 function getVehicleImage($vehicle) {
     $type = strtolower($vehicle['type']);
-    
     $defaultImages = [
         'car' => 'https://images.unsplash.com/photo-1590362891991-f776e747a588?w=400',
         'motorbike' => 'https://images.unsplash.com/photo-1558981852-426c6c22a060?w=400',
         'bicycle' => 'https://images.unsplash.com/photo-1571068316344-75bc76f77890?w=400',
         'electric_scooter' => 'https://images.unsplash.com/photo-1559311394-2e5e5e98aa6e?w=400'
     ];
-    
     return $defaultImages[$type] ?? $defaultImages['car'];
 }
 
-// Calculate rating (mock for now)
 function getVehicleRating($vehicle) {
     return number_format(4.5 + (rand(0, 5) / 10), 1);
 }
@@ -112,11 +105,21 @@ function getVehicleRating($vehicle) {
             </div>
             
             <div class="nav-actions">
+                <!-- Cart Button -->
+                <a href="cart.php" class="nav-icon-btn" title="Giỏ hàng" style="position: relative; text-decoration: none; color: inherit;">
+                    <i class="fas fa-shopping-cart"></i>
+                    <?php if (isset($_SESSION['cart']) && count($_SESSION['cart']) > 0): ?>
+                        <span class="badge"><?= count($_SESSION['cart']) ?></span>
+                    <?php endif; ?>
+                </a>
+                
+                <!-- Notification Button -->
                 <button class="nav-icon-btn" title="Thông báo">
                     <i class="fas fa-bell"></i>
                     <span class="badge">3</span>
                 </button>
                 
+                <!-- User Menu -->
                 <div class="user-menu">
                     <button class="user-btn" id="userBtn">
                         <img src="https://ui-avatars.com/api/?name=<?= urlencode($user['name']) ?>&background=4F46E5&color=fff" alt="Avatar">
@@ -280,15 +283,7 @@ function getVehicleRating($vehicle) {
             <?php if (empty($featuredVehicles)): ?>
                 <div class="no-data">
                     <i class="fas fa-car-side"></i>
-                    <p>Chưa có xe nào khả dụng. Vui lòng kiểm tra:</p>
-                    <ul style="text-align: left; max-width: 400px; margin: 20px auto;">
-                        <li>Vehicle Service đang chạy? (localhost:8002)</li>
-                        <li>Database đã có dữ liệu?</li>
-                        <li>Xem debug info bên dưới</li>
-                    </ul>
-                    <a href="?debug=1" style="display: inline-block; margin-top: 20px; padding: 10px 20px; background: #4F46E5; color: white; text-decoration: none; border-radius: 5px;">
-                        <i class="fas fa-bug"></i> Enable Debug Mode
-                    </a>
+                    <p>Chưa có xe nào khả dụng.</p>
                 </div>
             <?php else: ?>
                 <div class="vehicles-grid">
@@ -297,9 +292,6 @@ function getVehicleRating($vehicle) {
                         <div class="vehicle-image">
                             <img src="<?= getVehicleImage($vehicle) ?>" alt="<?= htmlspecialchars($vehicle['brand'] . ' ' . $vehicle['model']) ?>">
                             <span class="vehicle-badge"><?= getVehicleTypeName($vehicle['type']) ?></span>
-                            <button class="favorite-btn">
-                                <i class="far fa-heart"></i>
-                            </button>
                         </div>
                         
                         <div class="vehicle-info">
@@ -312,11 +304,8 @@ function getVehicleRating($vehicle) {
                             </div>
                             
                             <div class="vehicle-features">
-                                <span><i class="fas fa-map-marker-alt"></i> <?= htmlspecialchars($vehicle['location'] ?? 'TP.HCM') ?></span>
-                                <?php if ($vehicle['type'] === 'Car'): ?>
-                                    <span><i class="fas fa-gas-pump"></i> <?= number_format($vehicle['fuel_level'] ?? 100) ?>%</span>
-                                <?php endif; ?>
-                                <span><i class="fas fa-tachometer-alt"></i> <?= number_format($vehicle['odo_km'] ?? 0) ?> km</span>
+                                <span><i class="fas fa-calendar"></i> <?= $vehicle['year'] ?></span>
+                                <span><i class="fas fa-car"></i> <?= $vehicle['available_count'] ?> xe</span>
                             </div>
                             
                             <div class="vehicle-footer">
@@ -324,7 +313,7 @@ function getVehicleRating($vehicle) {
                                     <span class="price-label">Giá thuê/ngày</span>
                                     <span class="price-amount"><?= number_format($vehicle['daily_rate']) ?>đ</span>
                                 </div>
-                                <button class="btn-rent" onclick="rentVehicle(<?= $vehicle['vehicle_id'] ?>)">
+                                <button class="btn-rent" onclick="rentVehicle(<?= $vehicle['catalog_id'] ?>)">
                                     <i class="fas fa-calendar-check"></i> Thuê ngay
                                 </button>
                             </div>
@@ -344,7 +333,7 @@ function getVehicleRating($vehicle) {
                     <div class="promo-badge">-20%</div>
                     <i class="fas fa-gift promo-icon"></i>
                     <h3>Giảm 20% đơn đầu tiên</h3>
-                    <p>Áp dụng cho tất cả loại xe, không giới hạn thời gian thuê</p>
+                    <p>Áp dụng cho tất cả loại xe</p>
                     <button class="btn-promo">Sử dụng ngay</button>
                 </div>
                 
@@ -352,7 +341,7 @@ function getVehicleRating($vehicle) {
                     <div class="promo-badge">-15%</div>
                     <i class="fas fa-calendar-week promo-icon"></i>
                     <h3>Thuê tuần giảm 15%</h3>
-                    <p>Thuê từ 7 ngày trở lên nhận ngay ưu đãi</p>
+                    <p>Thuê từ 7 ngày trở lên</p>
                     <button class="btn-promo">Chi tiết</button>
                 </div>
                 
@@ -366,7 +355,7 @@ function getVehicleRating($vehicle) {
             </div>
         </section>
 
-        <!-- Why Choose Us -->
+        <!-- Features -->
         <section class="features-section">
             <h2><i class="fas fa-star"></i> Tại sao chọn chúng tôi?</h2>
             
@@ -376,7 +365,7 @@ function getVehicleRating($vehicle) {
                         <i class="fas fa-shield-check"></i>
                     </div>
                     <h3>Bảo hiểm toàn diện</h3>
-                    <p>Tất cả xe đều có bảo hiểm, an tâm khi thuê</p>
+                    <p>Tất cả xe đều có bảo hiểm</p>
                 </div>
                 
                 <div class="feature-item">
@@ -384,7 +373,7 @@ function getVehicleRating($vehicle) {
                         <i class="fas fa-clock"></i>
                     </div>
                     <h3>Giao xe nhanh 30 phút</h3>
-                    <p>Đặt xe online, nhận xe tại chỗ trong 30 phút</p>
+                    <p>Đặt xe online, nhận xe nhanh</p>
                 </div>
                 
                 <div class="feature-item">
@@ -392,7 +381,7 @@ function getVehicleRating($vehicle) {
                         <i class="fas fa-credit-card"></i>
                     </div>
                     <h3>Thanh toán linh hoạt</h3>
-                    <p>Hỗ trợ nhiều hình thức: tiền mặt, thẻ, ví điện tử</p>
+                    <p>Nhiều hình thức thanh toán</p>
                 </div>
                 
                 <div class="feature-item">
@@ -400,7 +389,7 @@ function getVehicleRating($vehicle) {
                         <i class="fas fa-headset"></i>
                     </div>
                     <h3>Hỗ trợ 24/7</h3>
-                    <p>Đội ngũ hỗ trợ luôn sẵn sàng phục vụ bạn</p>
+                    <p>Luôn sẵn sàng phục vụ</p>
                 </div>
             </div>
         </section>
@@ -420,9 +409,9 @@ function getVehicleRating($vehicle) {
             userDropdown?.classList.remove('show');
         });
         
-        // Rent vehicle function
-        function rentVehicle(vehicleId) {
-            window.location.href = `vehicle-details.php?id=${vehicleId}`;
+        // Rent vehicle
+        function rentVehicle(catalogId) {
+            window.location.href = `vehicle-details.php?id=${catalogId}`;
         }
         
         // Search vehicles
@@ -448,17 +437,45 @@ function getVehicleRating($vehicle) {
             }
         });
         
-        // Toggle debug panel
-        function toggleDebug() {
-            const currentUrl = new URL(window.location.href);
-            if (currentUrl.searchParams.get('debug') === '1') {
-                currentUrl.searchParams.delete('debug');
-            } else {
-                currentUrl.searchParams.set('debug', '1');
+        // Load cart count
+        async function loadCartCount() {
+            try {
+                const response = await fetch('api/cart-count.php');
+                const result = await response.json();
+                if (result.success) {
+                    updateCartBadge(result.count);
+                }
+            } catch (error) {
+                console.error('Failed to load cart count:', error);
             }
-            window.location.href = currentUrl.toString();
         }
         
+        function updateCartBadge(count) {
+            const cartLink = document.querySelector('a[href="cart.php"]');
+            if (cartLink) {
+                let badge = cartLink.querySelector('.badge');
+                if (count > 0) {
+                    if (badge) {
+                        badge.textContent = count;
+                        badge.style.display = 'inline-block';
+                    } else {
+                        const newBadge = document.createElement('span');
+                        newBadge.className = 'badge';
+                        newBadge.textContent = count;
+                        cartLink.appendChild(newBadge);
+                    }
+                } else if (badge) {
+                    badge.style.display = 'none';
+                }
+            }
+        }
+        
+        // Load on page ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', loadCartCount);
+        } else {
+            loadCartCount();
+        }
     </script>
 </body>
 </html>

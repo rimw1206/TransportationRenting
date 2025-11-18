@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-// Kiểm tra đăng nhập
 if (!isset($_SESSION['user'])) {
     header('Location: login.php');
     exit;
@@ -19,7 +18,7 @@ $searchQuery = $_GET['search'] ?? '';
 $typeFilter = $_GET['type'] ?? '';
 $priceFilter = $_GET['price'] ?? '';
 $page = isset($_GET['page']) ? max(1, (int)$_GET['page']) : 1;
-$limit = 12; // Số xe mỗi trang
+$limit = 12;
 $offset = ($page - 1) * $limit;
 
 // Build query parameters
@@ -60,10 +59,8 @@ try {
     error_log('Error fetching vehicles: ' . $e->getMessage());
 }
 
-// Tính tổng số trang
 $totalPages = ceil($totalVehicles / $limit);
 
-// Helper functions
 function getVehicleTypeName($type) {
     $types = [
         'Car' => 'Ô tô',
@@ -89,7 +86,6 @@ function getVehicleRating($vehicle) {
     return number_format(4.5 + (rand(0, 5) / 10), 1);
 }
 
-// Build current URL for pagination
 function buildUrl($params) {
     return 'vehicles.php?' . http_build_query($params);
 }
@@ -129,11 +125,21 @@ function buildUrl($params) {
             </div>
             
             <div class="nav-actions">
+                <!-- Cart Button -->
+                <a href="cart.php" class="nav-icon-btn" title="Giỏ hàng" style="position: relative; text-decoration: none; color: inherit;">
+                    <i class="fas fa-shopping-cart"></i>
+                    <?php if (isset($_SESSION['cart']) && count($_SESSION['cart']) > 0): ?>
+                        <span class="badge"><?= count($_SESSION['cart']) ?></span>
+                    <?php endif; ?>
+                </a>
+                
+                <!-- Notification Button -->
                 <button class="nav-icon-btn" title="Thông báo">
                     <i class="fas fa-bell"></i>
                     <span class="badge">3</span>
                 </button>
                 
+                <!-- User Menu -->
                 <div class="user-menu">
                     <button class="user-btn" id="userBtn">
                         <img src="https://ui-avatars.com/api/?name=<?= urlencode($user['name']) ?>&background=4F46E5&color=fff" alt="Avatar">
@@ -217,12 +223,10 @@ function buildUrl($params) {
                 <h3><i class="fas fa-filter"></i> Bộ lọc</h3>
                 
                 <form method="GET" action="vehicles.php" id="filterForm">
-                    <!-- Keep search query -->
                     <?php if ($searchQuery): ?>
                     <input type="hidden" name="search" value="<?= htmlspecialchars($searchQuery) ?>">
                     <?php endif; ?>
                     
-                    <!-- Vehicle Type -->
                     <div class="filter-group">
                         <label>Loại xe</label>
                         <div class="filter-options">
@@ -249,7 +253,6 @@ function buildUrl($params) {
                         </div>
                     </div>
                     
-                    <!-- Price Range -->
                     <div class="filter-group">
                         <label>Khoảng giá (mỗi ngày)</label>
                         <div class="filter-options">
@@ -280,7 +283,6 @@ function buildUrl($params) {
 
             <!-- Results Main -->
             <div class="results-main">
-                <!-- Sort Bar -->
                 <div class="sort-bar">
                     <span style="color: #666; font-size: 14px;">
                         Hiển thị <?= count($vehicles) ?> / <?= $totalVehicles ?> xe
@@ -293,7 +295,6 @@ function buildUrl($params) {
                     </select>
                 </div>
 
-                <!-- Vehicles Grid -->
                 <?php if (empty($vehicles)): ?>
                     <div class="no-results">
                         <i class="fas fa-search"></i>
@@ -310,9 +311,6 @@ function buildUrl($params) {
                             <div class="vehicle-image">
                                 <img src="<?= getVehicleImage($vehicle) ?>" alt="<?= htmlspecialchars($vehicle['brand'] . ' ' . $vehicle['model']) ?>">
                                 <span class="vehicle-badge"><?= getVehicleTypeName($vehicle['type']) ?></span>
-                                <button class="favorite-btn">
-                                    <i class="far fa-heart"></i>
-                                </button>
                             </div>
                             
                             <div class="vehicle-info">
@@ -325,11 +323,8 @@ function buildUrl($params) {
                                 </div>
                                 
                                 <div class="vehicle-features">
-                                    <span><i class="fas fa-map-marker-alt"></i> <?= htmlspecialchars($vehicle['location'] ?? 'TP.HCM') ?></span>
-                                    <?php if ($vehicle['type'] === 'Car'): ?>
-                                        <span><i class="fas fa-gas-pump"></i> <?= number_format($vehicle['fuel_level'] ?? 100) ?>%</span>
-                                    <?php endif; ?>
-                                    <span><i class="fas fa-tachometer-alt"></i> <?= number_format($vehicle['odo_km'] ?? 0) ?> km</span>
+                                    <span><i class="fas fa-calendar"></i> <?= $vehicle['year'] ?></span>
+                                    <span><i class="fas fa-car"></i> <?= $vehicle['available_count'] ?> xe</span>
                                 </div>
                                 
                                 <div class="vehicle-footer">
@@ -337,7 +332,7 @@ function buildUrl($params) {
                                         <span class="price-label">Giá thuê/ngày</span>
                                         <span class="price-amount"><?= number_format($vehicle['daily_rate']) ?>đ</span>
                                     </div>
-                                    <button class="btn-rent" onclick="rentVehicle(<?= $vehicle['vehicle_id'] ?>)">
+                                    <button class="btn-rent" onclick="rentVehicle(<?= $vehicle['catalog_id'] ?>)">
                                         <i class="fas fa-calendar-check"></i> Thuê ngay
                                     </button>
                                 </div>
@@ -346,13 +341,11 @@ function buildUrl($params) {
                         <?php endforeach; ?>
                     </div>
 
-                    <!-- Pagination -->
                     <?php if ($totalPages > 1): ?>
                     <div class="pagination">
                         <?php
                         $params = $_GET;
                         
-                        // Previous button
                         if ($page > 1):
                             $params['page'] = $page - 1;
                         ?>
@@ -366,7 +359,6 @@ function buildUrl($params) {
                         <?php endif; ?>
                         
                         <?php
-                        // Page numbers
                         $startPage = max(1, $page - 2);
                         $endPage = min($totalPages, $page + 2);
                         
@@ -401,7 +393,6 @@ function buildUrl($params) {
                         <?php endif; ?>
                         
                         <?php
-                        // Next button
                         if ($page < $totalPages):
                             $params['page'] = $page + 1;
                         ?>
@@ -421,7 +412,6 @@ function buildUrl($params) {
     </main>
 
     <script>
-        // User dropdown
         const userBtn = document.getElementById('userBtn');
         const userDropdown = document.getElementById('userDropdown');
         
@@ -434,29 +424,26 @@ function buildUrl($params) {
             userDropdown?.classList.remove('show');
         });
         
-        // Rent vehicle
-        function rentVehicle(vehicleId) {
-            window.location.href = `vehicle-details.php?id=${vehicleId}`;
+        // FIX: Use catalog_id instead of vehicle_id
+        function rentVehicle(catalogId) {
+            window.location.href = `vehicle-details.php?id=${catalogId}`;
         }
         
-        // Remove single filter
         function removeFilter(filterName) {
             const url = new URL(window.location.href);
             url.searchParams.delete(filterName);
-            url.searchParams.delete('page'); // Reset to page 1
+            url.searchParams.delete('page');
             window.location.href = url.toString();
         }
         
-        // Clear all filters
         function clearAllFilters() {
             window.location.href = 'vehicles.php';
         }
         
-        // Sort results
         function sortResults(sortBy) {
             const url = new URL(window.location.href);
             url.searchParams.set('sort', sortBy);
-            url.searchParams.delete('page'); // Reset to page 1
+            url.searchParams.delete('page');
             window.location.href = url.toString();
         }
     </script>

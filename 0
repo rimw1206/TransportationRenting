@@ -1,1 +1,0 @@
-"Exists: " . ($emailCount  ? 'YES' : 'NO') . "\n\n";

@@ -1,11 +1,13 @@
 <?php
-class DatabaseManager 
-{
-    private static $connections = [];
+// shared/classes/DatabaseManager.php - FIXED VERSION with getConnection() alias
+class DatabaseManager {
+    private static $instances = [];
     private static $configs = null;
 
-    private static function loadConfigs(): array
-    {
+    /**
+     * Load database configs from environment
+     */
+    private static function loadConfigs() {
         if (self::$configs !== null) {
             return self::$configs;
         }
@@ -28,63 +30,175 @@ class DatabaseManager
         return self::$configs;
     }
 
-    public static function getConnection(string $serviceName): PDO
-    {
-        $configs = self::loadConfigs();
+    /**
+     * Get PDO instance for a service (Singleton pattern)
+     */
+    public static function getInstance($serviceName) {
+        if (!isset(self::$instances[$serviceName])) {
+            $configs = self::loadConfigs();
 
-        if (!isset($configs[$serviceName])) {
-            throw new Exception("Service [$serviceName] không tồn tại!");
-        }
+            if (!isset($configs[$serviceName])) {
+                throw new Exception("Service database '{$serviceName}' not found");
+            }
 
-        if (!isset(self::$connections[$serviceName])) {
-            $cfg = $configs[$serviceName];
-            
+            $config = $configs[$serviceName];
+
             try {
-                $dsn = "mysql:host={$cfg['host']};port={$cfg['port']};dbname={$cfg['dbname']};charset={$cfg['charset']}";
-                $pdo = new PDO($dsn, $cfg['username'], $cfg['password'], [
+                $dsn = "mysql:host={$config['host']};port={$config['port']};dbname={$config['dbname']};charset={$config['charset']}";
+                
+                $pdo = new PDO($dsn, $config['username'], $config['password'], [
                     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
                     PDO::ATTR_EMULATE_PREPARES => false,
+                    PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci"
                 ]);
                 
-                self::$connections[$serviceName] = $pdo;
+                self::$instances[$serviceName] = $pdo;
+                
             } catch (PDOException $e) {
+                error_log("Database connection error [{$serviceName}]: " . $e->getMessage());
                 throw new Exception("Could not connect to {$serviceName} database");
             }
         }
 
-        return self::$connections[$serviceName];
+        return self::$instances[$serviceName];
     }
-}
 
-// Helper functions
-function pdo_execute(string $service, string $sql, ...$params): bool {
-    $conn = DatabaseManager::getConnection($service);
-    $stmt = $conn->prepare($sql);
-    return $stmt->execute($params);
-}
+    /**
+     * Alias for getInstance() - for backward compatibility
+     */
+    public static function getConnection($serviceName) {
+        return self::getInstance($serviceName);
+    }
 
-function pdo_query(string $service, string $sql, ...$params): array {
-    $conn = DatabaseManager::getConnection($service);
-    $stmt = $conn->prepare($sql);
-    $stmt->execute($params);
-    return $stmt->fetchAll();
-}
+    /**
+     * Execute a query (INSERT, UPDATE, DELETE)
+     */
+    public static function execute($serviceName, $sql, $params = []) {
+        $pdo = self::getInstance($serviceName);
+        $stmt = $pdo->prepare($sql);
+        return $stmt->execute($params);
+    }
 
-function pdo_query_one(string $service, string $sql, ...$params) {
-    $conn = DatabaseManager::getConnection($service);
-    $stmt = $conn->prepare($sql);
-    $stmt->execute($params);
-    return $stmt->fetch();
-}
+    /**
+     * Query multiple rows
+     */
+    public static function query($serviceName, $sql, $params = []) {
+        $pdo = self::getInstance($serviceName);
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->fetchAll();
+    }
 
-function pdo_query_value(string $service, string $sql, ...$params) {
-    $conn = DatabaseManager::getConnection($service);
-    $stmt = $conn->prepare($sql);
-    $stmt->execute($params);
-    return $stmt->fetchColumn();
-}
+    /**
+     * Query single row
+     */
+    public static function queryOne($serviceName, $sql, $params = []) {
+        $pdo = self::getInstance($serviceName);
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->fetch();
+    }
 
-function pdo_last_insert_id(string $service): string {
-    return DatabaseManager::getConnection($service)->lastInsertId();
+    /**
+     * Query single value
+     */
+    public static function queryValue($serviceName, $sql, $params = []) {
+        $pdo = self::getInstance($serviceName);
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->fetchColumn();
+    }
+
+    /**
+     * Get last insert ID
+     */
+    public static function lastInsertId($serviceName) {
+        return self::getInstance($serviceName)->lastInsertId();
+    }
+
+    /**
+     * Begin transaction
+     */
+    public static function beginTransaction($serviceName) {
+        return self::getInstance($serviceName)->beginTransaction();
+    }
+
+    /**
+     * Commit transaction
+     */
+    public static function commit($serviceName) {
+        return self::getInstance($serviceName)->commit();
+    }
+
+    /**
+     * Rollback transaction
+     */
+    public static function rollback($serviceName) {
+        return self::getInstance($serviceName)->rollBack();
+    }
+
+    /**
+     * Check if in transaction
+     */
+    public static function inTransaction($serviceName) {
+        return self::getInstance($serviceName)->inTransaction();
+    }
+
+    /**
+     * Close all connections
+     */
+    public static function closeAll() {
+        self::$instances = [];
+    }
+
+    /**
+     * Close specific connection
+     */
+    public static function close($serviceName) {
+        if (isset(self::$instances[$serviceName])) {
+            unset(self::$instances[$serviceName]);
+        }
+    }
+
+    /**
+     * Test connection
+     */
+    public static function testConnection($serviceName) {
+        try {
+            $pdo = self::getInstance($serviceName);
+            $pdo->query("SELECT 1");
+            return [
+                'success' => true,
+                'message' => "Connection to {$serviceName} database successful"
+            ];
+        } catch (Exception $e) {
+            return [
+                'success' => false,
+                'message' => $e->getMessage()
+            ];
+        }
+    }
+
+    /**
+     * Get database info
+     */
+    public static function getDatabaseInfo($serviceName) {
+        $configs = self::loadConfigs();
+        
+        if (!isset($configs[$serviceName])) {
+            return null;
+        }
+
+        $config = $configs[$serviceName];
+        
+        return [
+            'service' => $serviceName,
+            'host' => $config['host'],
+            'port' => $config['port'],
+            'database' => $config['dbname'],
+            'username' => $config['username'],
+            'charset' => $config['charset']
+        ];
+    }
 }

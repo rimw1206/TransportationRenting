@@ -234,30 +234,91 @@ function setupCustomerDatabase($config) {
 /**
  * Setup Vehicle Database
  */
+/**
+ * Setup Vehicle Database - INVENTORY MODEL
+ */
 function setupVehicleDatabase($config) {
     try {
         $dsn = "mysql:host={$config['host']};port={$config['port']};dbname={$config['dbname']}";
         $conn = new PDO($dsn, $config['username'], $config['password']);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        // Vehicles Table
+        echo "   📦 Creating Vehicle Inventory tables...\n";
+
+        // VehicleCatalog Table
         $conn->exec("
-            CREATE TABLE IF NOT EXISTS Vehicles (
-                vehicle_id INT AUTO_INCREMENT PRIMARY KEY,
-                license_plate VARCHAR(20) UNIQUE NOT NULL,
+            CREATE TABLE IF NOT EXISTS VehicleCatalog (
+                catalog_id INT AUTO_INCREMENT PRIMARY KEY,
                 brand VARCHAR(50) NOT NULL,
                 model VARCHAR(50) NOT NULL,
                 type ENUM('Car', 'Motorbike', 'Bicycle', 'Electric_Scooter') NOT NULL,
-                status ENUM('Available', 'Rented', 'Maintenance', 'Retired') DEFAULT 'Available',
-                odo_km INT DEFAULT 0,
-                fuel_level DECIMAL(5,2) DEFAULT 100.00,
-                location VARCHAR(100),
-                registration_date DATE,
+                year INT NOT NULL,
+                color VARCHAR(30),
+                description TEXT,
+                image_url VARCHAR(255),
+                seats INT COMMENT 'Số chỗ ngồi',
+                engine_capacity INT COMMENT 'Dung tích động cơ (cc)',
+                transmission ENUM('Manual', 'Automatic', 'CVT') COMMENT 'Hộp số',
+                fuel_type ENUM('Gasoline', 'Diesel', 'Electric', 'Hybrid', 'None') DEFAULT 'Gasoline',
                 hourly_rate DECIMAL(10,2),
                 daily_rate DECIMAL(10,2),
-                INDEX idx_license (license_plate),
+                weekly_rate DECIMAL(10,2),
+                monthly_rate DECIMAL(10,2),
+                is_active BOOLEAN DEFAULT TRUE,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                UNIQUE KEY unique_vehicle_model (brand, model, year, color),
+                INDEX idx_type (type),
+                INDEX idx_brand (brand),
+                INDEX idx_active (is_active)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+        ");
+
+        // VehicleUnits Table
+        $conn->exec("
+            CREATE TABLE IF NOT EXISTS VehicleUnits (
+                unit_id INT AUTO_INCREMENT PRIMARY KEY,
+                catalog_id INT NOT NULL,
+                license_plate VARCHAR(20) UNIQUE NOT NULL,
+                status ENUM('Available', 'Rented', 'Maintenance', 'Retired') DEFAULT 'Available',
+                condition_rating DECIMAL(3,2) DEFAULT 5.00,
+                odo_km INT DEFAULT 0,
+                fuel_level DECIMAL(5,2) DEFAULT 100.00,
+                battery_level DECIMAL(5,2),
+                current_location VARCHAR(100),
+                parking_spot VARCHAR(50),
+                registration_date DATE NOT NULL,
+                last_inspection_date DATE,
+                next_inspection_date DATE,
+                purchase_price DECIMAL(12,2),
+                purchase_date DATE,
+                notes TEXT,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                FOREIGN KEY (catalog_id) REFERENCES VehicleCatalog(catalog_id) ON DELETE CASCADE,
+                INDEX idx_catalog (catalog_id),
                 INDEX idx_status (status),
-                INDEX idx_type (type)
+                INDEX idx_license (license_plate),
+                INDEX idx_location (current_location)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+        ");
+
+        // LocationInventory Table
+        $conn->exec("
+            CREATE TABLE IF NOT EXISTS LocationInventory (
+                inventory_id INT AUTO_INCREMENT PRIMARY KEY,
+                catalog_id INT NOT NULL,
+                location_name VARCHAR(100) NOT NULL,
+                total_units INT DEFAULT 0,
+                available_units INT DEFAULT 0,
+                rented_units INT DEFAULT 0,
+                maintenance_units INT DEFAULT 0,
+                min_stock_alert INT DEFAULT 2,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                FOREIGN KEY (catalog_id) REFERENCES VehicleCatalog(catalog_id) ON DELETE CASCADE,
+                UNIQUE KEY unique_location_catalog (catalog_id, location_name),
+                INDEX idx_location (location_name),
+                INDEX idx_catalog (catalog_id)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
         ");
 
@@ -265,14 +326,23 @@ function setupVehicleDatabase($config) {
         $conn->exec("
             CREATE TABLE IF NOT EXISTS Maintenance (
                 maintenance_id INT AUTO_INCREMENT PRIMARY KEY,
-                vehicle_id INT NOT NULL,
-                maintenance_date DATE NOT NULL,
-                description VARCHAR(255),
-                next_maintenance DATE,
-                status ENUM('Scheduled', 'InProgress', 'Completed') DEFAULT 'Scheduled',
-                FOREIGN KEY (vehicle_id) REFERENCES Vehicles(vehicle_id) ON DELETE CASCADE,
-                INDEX idx_vehicle_id (vehicle_id),
-                INDEX idx_status (status)
+                unit_id INT NOT NULL,
+                maintenance_type ENUM('Routine', 'Repair', 'Inspection', 'Cleaning', 'Emergency') NOT NULL,
+                scheduled_date DATE NOT NULL,
+                completed_date DATE,
+                description TEXT NOT NULL,
+                technician_name VARCHAR(100),
+                cost DECIMAL(10,2),
+                parts_replaced TEXT,
+                status ENUM('Scheduled', 'InProgress', 'Completed', 'Cancelled') DEFAULT 'Scheduled',
+                next_maintenance_date DATE,
+                next_maintenance_km INT,
+                notes TEXT,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (unit_id) REFERENCES VehicleUnits(unit_id) ON DELETE CASCADE,
+                INDEX idx_unit (unit_id),
+                INDEX idx_status (status),
+                INDEX idx_scheduled_date (scheduled_date)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
         ");
 
@@ -280,134 +350,239 @@ function setupVehicleDatabase($config) {
         $conn->exec("
             CREATE TABLE IF NOT EXISTS VehicleUsageHistory (
                 usage_id INT AUTO_INCREMENT PRIMARY KEY,
-                vehicle_id INT NOT NULL,
-                rental_id INT NOT NULL COMMENT 'Reference only - NO FK to RentalDB',
+                unit_id INT NOT NULL,
+                rental_id INT NOT NULL COMMENT 'Reference to Rental Service',
+                start_datetime DATETIME NOT NULL,
+                end_datetime DATETIME,
                 start_odo INT NOT NULL,
                 end_odo INT,
+                distance_km INT GENERATED ALWAYS AS (end_odo - start_odo) STORED,
+                fuel_start DECIMAL(5,2),
+                fuel_end DECIMAL(5,2),
                 fuel_used DECIMAL(5,2),
-                FOREIGN KEY (vehicle_id) REFERENCES Vehicles(vehicle_id) ON DELETE CASCADE,
-                INDEX idx_vehicle_id (vehicle_id),
-                INDEX idx_rental_id (rental_id)
+                return_condition ENUM('Excellent', 'Good', 'Fair', 'Poor', 'Damaged'),
+                return_notes TEXT,
+                damage_reported BOOLEAN DEFAULT FALSE,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (unit_id) REFERENCES VehicleUnits(unit_id) ON DELETE CASCADE,
+                INDEX idx_unit (unit_id),
+                INDEX idx_rental (rental_id),
+                INDEX idx_dates (start_datetime, end_datetime)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
         ");
 
+        // DamageReports Table
+        $conn->exec("
+            CREATE TABLE IF NOT EXISTS DamageReports (
+                report_id INT AUTO_INCREMENT PRIMARY KEY,
+                unit_id INT NOT NULL,
+                usage_id INT,
+                report_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+                reported_by VARCHAR(100),
+                damage_type ENUM('Scratches', 'Dent', 'Mechanical', 'Interior', 'Tire', 'Other') NOT NULL,
+                severity ENUM('Minor', 'Moderate', 'Major', 'Critical') NOT NULL,
+                description TEXT NOT NULL,
+                repair_cost_estimate DECIMAL(10,2),
+                actual_repair_cost DECIMAL(10,2),
+                status ENUM('Reported', 'UnderReview', 'Approved', 'Repaired', 'Closed') DEFAULT 'Reported',
+                resolution_notes TEXT,
+                images_url TEXT,
+                FOREIGN KEY (unit_id) REFERENCES VehicleUnits(unit_id) ON DELETE CASCADE,
+                FOREIGN KEY (usage_id) REFERENCES VehicleUsageHistory(usage_id) ON DELETE SET NULL,
+                INDEX idx_unit (unit_id),
+                INDEX idx_status (status),
+                INDEX idx_date (report_date)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+        ");
+
+        echo "   ✅ Tables created\n";
+        echo "   📝 Creating triggers...\n";
+
+        // Create Triggers
+        $conn->exec("DROP TRIGGER IF EXISTS after_vehicle_unit_insert");
+        $conn->exec("DROP TRIGGER IF EXISTS after_vehicle_unit_update");
+        $conn->exec("DROP TRIGGER IF EXISTS after_vehicle_unit_delete");
+
+        $conn->exec("
+            CREATE TRIGGER after_vehicle_unit_insert
+            AFTER INSERT ON VehicleUnits
+            FOR EACH ROW
+            BEGIN
+                INSERT INTO LocationInventory (catalog_id, location_name, total_units, available_units)
+                VALUES (NEW.catalog_id, NEW.current_location, 1, IF(NEW.status = 'Available', 1, 0))
+                ON DUPLICATE KEY UPDATE
+                    total_units = total_units + 1,
+                    available_units = available_units + IF(NEW.status = 'Available', 1, 0);
+            END
+        ");
+
+        $conn->exec("
+            CREATE TRIGGER after_vehicle_unit_update
+            AFTER UPDATE ON VehicleUnits
+            FOR EACH ROW
+            BEGIN
+                IF OLD.current_location != NEW.current_location THEN
+                    UPDATE LocationInventory 
+                    SET total_units = total_units - 1,
+                        available_units = available_units - IF(OLD.status = 'Available', 1, 0),
+                        rented_units = rented_units - IF(OLD.status = 'Rented', 1, 0),
+                        maintenance_units = maintenance_units - IF(OLD.status = 'Maintenance', 1, 0)
+                    WHERE catalog_id = OLD.catalog_id AND location_name = OLD.current_location;
+                    
+                    INSERT INTO LocationInventory (catalog_id, location_name, total_units, available_units, rented_units, maintenance_units)
+                    VALUES (
+                        NEW.catalog_id, 
+                        NEW.current_location, 
+                        1,
+                        IF(NEW.status = 'Available', 1, 0),
+                        IF(NEW.status = 'Rented', 1, 0),
+                        IF(NEW.status = 'Maintenance', 1, 0)
+                    )
+                    ON DUPLICATE KEY UPDATE
+                        total_units = total_units + 1,
+                        available_units = available_units + IF(NEW.status = 'Available', 1, 0),
+                        rented_units = rented_units + IF(NEW.status = 'Rented', 1, 0),
+                        maintenance_units = maintenance_units + IF(NEW.status = 'Maintenance', 1, 0);
+                END IF;
+                
+                IF OLD.status != NEW.status AND OLD.current_location = NEW.current_location THEN
+                    UPDATE LocationInventory 
+                    SET available_units = available_units 
+                        - IF(OLD.status = 'Available', 1, 0) 
+                        + IF(NEW.status = 'Available', 1, 0),
+                        rented_units = rented_units 
+                        - IF(OLD.status = 'Rented', 1, 0) 
+                        + IF(NEW.status = 'Rented', 1, 0),
+                        maintenance_units = maintenance_units 
+                        - IF(OLD.status = 'Maintenance', 1, 0) 
+                        + IF(NEW.status = 'Maintenance', 1, 0)
+                    WHERE catalog_id = NEW.catalog_id AND location_name = NEW.current_location;
+                END IF;
+            END
+        ");
+
+        $conn->exec("
+            CREATE TRIGGER after_vehicle_unit_delete
+            AFTER DELETE ON VehicleUnits
+            FOR EACH ROW
+            BEGIN
+                UPDATE LocationInventory 
+                SET total_units = total_units - 1,
+                    available_units = available_units - IF(OLD.status = 'Available', 1, 0),
+                    rented_units = rented_units - IF(OLD.status = 'Rented', 1, 0),
+                    maintenance_units = maintenance_units - IF(OLD.status = 'Maintenance', 1, 0)
+                WHERE catalog_id = OLD.catalog_id AND location_name = OLD.current_location;
+            END
+        ");
+
+        echo "   ✅ Triggers created\n";
+        echo "   📝 Creating views...\n";
+
+        // Create Views
+        $conn->exec("DROP VIEW IF EXISTS v_inventory_summary");
+        $conn->exec("DROP VIEW IF EXISTS v_available_vehicles");
+        $conn->exec("DROP VIEW IF EXISTS v_low_stock_alert");
+
+        $conn->exec("
+            CREATE VIEW v_inventory_summary AS
+            SELECT 
+                vc.catalog_id,
+                vc.brand,
+                vc.model,
+                vc.type,
+                vc.year,
+                COUNT(vu.unit_id) as total_units,
+                SUM(CASE WHEN vu.status = 'Available' THEN 1 ELSE 0 END) as available,
+                SUM(CASE WHEN vu.status = 'Rented' THEN 1 ELSE 0 END) as rented,
+                SUM(CASE WHEN vu.status = 'Maintenance' THEN 1 ELSE 0 END) as maintenance,
+                SUM(CASE WHEN vu.status = 'Retired' THEN 1 ELSE 0 END) as retired,
+                vc.daily_rate,
+                vc.is_active
+            FROM VehicleCatalog vc
+            LEFT JOIN VehicleUnits vu ON vc.catalog_id = vu.catalog_id
+            GROUP BY vc.catalog_id
+        ");
+
+        $conn->exec("
+            CREATE VIEW v_available_vehicles AS
+            SELECT 
+                vu.unit_id,
+                vu.license_plate,
+                vc.brand,
+                vc.model,
+                vc.type,
+                vc.year,
+                vc.color,
+                vu.current_location,
+                vu.odo_km,
+                vu.condition_rating,
+                vc.hourly_rate,
+                vc.daily_rate,
+                vc.seats,
+                vc.transmission,
+                vc.fuel_type
+            FROM VehicleUnits vu
+            JOIN VehicleCatalog vc ON vu.catalog_id = vc.catalog_id
+            WHERE vu.status = 'Available' AND vc.is_active = TRUE
+        ");
+
+        $conn->exec("
+            CREATE VIEW v_low_stock_alert AS
+            SELECT 
+                li.location_name,
+                vc.brand,
+                vc.model,
+                vc.type,
+                li.available_units,
+                li.min_stock_alert,
+                (li.min_stock_alert - li.available_units) as units_needed
+            FROM LocationInventory li
+            JOIN VehicleCatalog vc ON li.catalog_id = vc.catalog_id
+            WHERE li.available_units < li.min_stock_alert
+        ");
+
+        echo "   ✅ Views created\n";
+
         // Seed Data
-        $count = $conn->query("SELECT COUNT(*) FROM Vehicles")->fetchColumn();
+        $count = $conn->query("SELECT COUNT(*) FROM VehicleCatalog")->fetchColumn();
         if ($count == 0) {
-            echo "   🚗 Adding vehicles...\n";
+            echo "   📝 Adding sample catalog data...\n";
 
-            // Insert Cars
+            // Insert Catalogs
             $conn->exec("
-                INSERT INTO Vehicles (license_plate, brand, model, type, status, odo_km, fuel_level, location, registration_date, hourly_rate, daily_rate) VALUES
-                ('59A-12345', 'Toyota', 'Vios 2023', 'Car', 'Available', 5000, 95.00, 'Quận 1, TP.HCM', '2023-01-15', 80000, 500000),
-                ('51F-67890', 'Toyota', 'Camry 2023', 'Car', 'Available', 3000, 100.00, 'Quận 3, TP.HCM', '2023-03-20', 150000, 900000),
-                ('50G-11111', 'Toyota', 'Fortuner 2022', 'Car', 'Rented', 12000, 75.00, 'Quận 7, TP.HCM', '2022-06-10', 180000, 1200000),
-                ('59B-22222', 'Toyota', 'Innova 2023', 'Car', 'Available', 8000, 90.00, 'Quận 2, TP.HCM', '2023-02-28', 120000, 700000),
-                ('51G-33333', 'Honda', 'City 2023', 'Car', 'Available', 4000, 100.00, 'Quận 1, TP.HCM', '2023-04-05', 70000, 450000),
-                ('59C-44444', 'Honda', 'Civic 2022', 'Car', 'Maintenance', 15000, 80.00, 'Quận 5, TP.HCM', '2022-08-15', 100000, 600000),
-                ('50H-55555', 'Honda', 'CR-V 2023', 'Car', 'Available', 6000, 95.00, 'Quận 10, TP.HCM', '2023-01-10', 140000, 850000),
-                ('51H-66666', 'Mazda', 'CX-5 2023', 'Car', 'Available', 7000, 100.00, 'Quận 3, TP.HCM', '2023-05-20', 160000, 1000000),
-                ('59D-77777', 'Mazda', 'Mazda3 2022', 'Car', 'Available', 10000, 85.00, 'Quận Bình Thạnh', '2022-11-30', 90000, 550000),
-                ('51K-88888', 'VinFast', 'Fadil 2023', 'Car', 'Available', 2000, 100.00, 'Quận 1, TP.HCM', '2023-06-01', 60000, 400000),
-                ('59E-99999', 'VinFast', 'Lux A2.0', 'Car', 'Available', 5000, 95.00, 'Quận 7, TP.HCM', '2023-03-15', 130000, 800000)
+                INSERT INTO VehicleCatalog (brand, model, type, year, color, seats, engine_capacity, transmission, fuel_type, hourly_rate, daily_rate, weekly_rate, monthly_rate) VALUES
+                ('Toyota', 'Vios', 'Car', 2023, 'Trắng', 5, 1500, 'Automatic', 'Gasoline', 80000, 500000, 3200000, 12000000),
+                ('Toyota', 'Camry', 'Car', 2023, 'Đen', 5, 2500, 'Automatic', 'Gasoline', 150000, 900000, 5800000, 22000000),
+                ('Toyota', 'Fortuner', 'Car', 2022, 'Bạc', 7, 2700, 'Automatic', 'Diesel', 180000, 1200000, 7800000, 30000000),
+                ('Honda', 'City', 'Car', 2023, 'Đỏ', 5, 1500, 'CVT', 'Gasoline', 70000, 450000, 2900000, 11000000),
+                ('Honda', 'SH 160i', 'Motorbike', 2023, 'Đen', 2, 160, NULL, 'Gasoline', 30000, 150000, 950000, 3500000),
+                ('Honda', 'Air Blade', 'Motorbike', 2023, 'Trắng', 2, 160, NULL, 'Gasoline', 20000, 100000, 650000, 2400000),
+                ('Yamaha', 'Exciter 155', 'Motorbike', 2023, 'Xanh', 2, 155, NULL, 'Gasoline', 25000, 130000, 850000, 3200000),
+                ('Giant', 'ATX 890', 'Bicycle', 2023, 'Xanh', NULL, NULL, NULL, 'None', 5000, 30000, 180000, 650000),
+                ('Trek', 'FX 3', 'Bicycle', 2023, 'Cam', NULL, NULL, NULL, 'None', 6000, 35000, 210000, 750000),
+                ('Xiaomi', 'Pro 2', 'Electric_Scooter', 2023, 'Đen', NULL, NULL, NULL, 'Electric', 8000, 50000, 320000, 1200000)
             ");
 
-            // Insert Motorbikes
+            echo "   📝 Adding vehicle units...\n";
+
+            // Insert Vehicle Units
             $conn->exec("
-                INSERT INTO Vehicles (license_plate, brand, model, type, status, odo_km, fuel_level, location, registration_date, hourly_rate, daily_rate) VALUES
-                ('59-A1 12345', 'Honda', 'Air Blade 160', 'Motorbike', 'Available', 8000, 90.00, 'Quận 1, TP.HCM', '2022-01-15', 20000, 100000),
-                ('51-F1 67890', 'Honda', 'SH 160i', 'Motorbike', 'Available', 12000, 85.00, 'Quận 3, TP.HCM', '2021-08-20', 30000, 150000),
-                ('59-B1 11111', 'Honda', 'Wave RSX', 'Motorbike', 'Available', 15000, 80.00, 'Quận 5, TP.HCM', '2021-05-10', 15000, 80000),
-                ('50-G1 22222', 'Honda', 'Winner X', 'Motorbike', 'Rented', 10000, 75.00, 'Quận 7, TP.HCM', '2022-09-25', 25000, 120000),
-                ('51-H1 33333', 'Honda', 'Vision 2023', 'Motorbike', 'Available', 5000, 100.00, 'Quận 2, TP.HCM', '2023-02-14', 18000, 90000),
-                ('59-C1 44444', 'Yamaha', 'Exciter 155', 'Motorbike', 'Available', 9000, 90.00, 'Quận 1, TP.HCM', '2022-03-10', 25000, 130000),
-                ('51-K1 55555', 'Yamaha', 'Sirius', 'Motorbike', 'Available', 20000, 70.00, 'Quận 10, TP.HCM', '2020-11-20', 12000, 70000),
-                ('59-D1 66666', 'Yamaha', 'Janus', 'Motorbike', 'Available', 7000, 95.00, 'Quận Bình Thạnh', '2022-07-05', 20000, 100000),
-                ('50-H1 77777', 'Yamaha', 'Grande', 'Motorbike', 'Maintenance', 13000, 60.00, 'Quận 3, TP.HCM', '2021-12-30', 22000, 110000),
-                ('51-M1 88888', 'Suzuki', 'Raider 150', 'Motorbike', 'Available', 11000, 85.00, 'Quận 7, TP.HCM', '2021-10-15', 18000, 95000),
-                ('59-E1 99999', 'Suzuki', 'Address', 'Motorbike', 'Available', 6000, 100.00, 'Quận 1, TP.HCM', '2022-11-01', 20000, 100000),
-                ('50-K1 00000', 'SYM', 'Attila Venus', 'Motorbike', 'Available', 8500, 90.00, 'Quận 5, TP.HCM', '2022-04-20', 17000, 85000),
-                ('51-N1 10101', 'SYM', 'Galaxy', 'Motorbike', 'Available', 14000, 75.00, 'Quận 2, TP.HCM', '2021-06-18', 16000, 80000)
+                INSERT INTO VehicleUnits (catalog_id, license_plate, status, condition_rating, odo_km, fuel_level, current_location, parking_spot, registration_date, purchase_price, purchase_date) VALUES
+                (1, '59A-12345', 'Available', 4.8, 5000, 95.00, 'Quận 1, TP.HCM', 'A-01', '2023-01-15', 450000000, '2023-01-10'),
+                (1, '59A-12346', 'Available', 4.9, 3200, 98.00, 'Quận 1, TP.HCM', 'A-02', '2023-02-20', 450000000, '2023-02-15'),
+                (2, '51F-67890', 'Available', 5.0, 2000, 100.00, 'Quận 3, TP.HCM', 'B-01', '2023-03-20', 950000000, '2023-03-15'),
+                (3, '50G-11111', 'Rented', 4.7, 12000, 75.00, 'Quận 7, TP.HCM', 'C-01', '2022-06-10', 1200000000, '2022-06-05'),
+                (4, '51G-33333', 'Available', 4.8, 4000, 100.00, 'Quận 1, TP.HCM', 'A-05', '2023-04-05', 520000000, '2023-04-01'),
+                (5, '59-A1 12345', 'Available', 4.8, 8000, 90.00, 'Quận 1, TP.HCM', 'M-01', '2022-01-15', 95000000, '2022-01-10'),
+                (5, '59-A1 12346', 'Available', 4.9, 5500, 95.00, 'Quận 1, TP.HCM', 'M-02', '2022-03-20', 95000000, '2022-03-15'),
+                (6, '51-F1 67890', 'Available', 4.6, 12000, 85.00, 'Quận 1, TP.HCM', 'M-05', '2021-08-20', 42000000, '2021-08-15'),
+                (7, '59-C1 44444', 'Available', 4.7, 9000, 90.00, 'Quận 1, TP.HCM', 'M-10', '2022-03-10', 48000000, '2022-03-05'),
+                (8, 'BIC-001', 'Available', 4.9, 500, 0, 'Quận 1, TP.HCM', 'B-RACK-01', '2023-01-10', 12000000, '2023-01-05'),
+                (9, 'BIC-002', 'Available', 5.0, 300, 0, 'Quận 3, TP.HCM', 'B-RACK-05', '2023-02-15', 13000000, '2023-02-10'),
+                (10, 'SCOOT-001', 'Available', 4.9, 300, 85.00, 'Quận 1, TP.HCM', 'E-01', '2023-03-10', 15000000, '2023-03-05')
             ");
 
-            // Insert Bicycles
-            $conn->exec("
-                INSERT INTO Vehicles (license_plate, brand, model, type, status, odo_km, fuel_level, location, registration_date, hourly_rate, daily_rate) VALUES
-                ('BIC-001', 'Giant', 'ATX 890', 'Bicycle', 'Available', 500, 0, 'Quận 1, TP.HCM', '2023-01-10', 5000, 30000),
-                ('BIC-002', 'Trek', 'FX 3', 'Bicycle', 'Available', 300, 0, 'Quận 3, TP.HCM', '2023-02-15', 6000, 35000),
-                ('BIC-003', 'Merida', 'Crossway 100', 'Bicycle', 'Available', 800, 0, 'Quận 7, TP.HCM', '2022-11-20', 5000, 30000),
-                ('BIC-004', 'Giant', 'Escape 3', 'Bicycle', 'Rented', 1200, 0, 'Quận 2, TP.HCM', '2022-08-05', 5500, 32000),
-                ('BIC-005', 'Cannondale', 'Quick 4', 'Bicycle', 'Available', 200, 0, 'Quận 1, TP.HCM', '2023-04-01', 7000, 40000),
-                ('BIC-006', 'Specialized', 'Sirrus X 2.0', 'Bicycle', 'Available', 600, 0, 'Quận 5, TP.HCM', '2022-12-10', 8000, 45000),
-                ('BIC-007', 'Trek', 'Marlin 5', 'Bicycle', 'Available', 1500, 0, 'Quận 10, TP.HCM', '2022-05-22', 6500, 38000),
-                ('BIC-008', 'Giant', 'Roam 2', 'Bicycle', 'Maintenance', 2000, 0, 'Quận Bình Thạnh', '2022-03-15', 5500, 33000)
-            ");
-
-            // Insert Electric Scooters
-            $conn->exec("
-                INSERT INTO Vehicles (license_plate, brand, model, type, status, odo_km, fuel_level, location, registration_date, hourly_rate, daily_rate) VALUES
-                ('SCOOT-001', 'Xiaomi', 'Mi Scooter Pro 2', 'Electric_Scooter', 'Available', 300, 85.00, 'Quận 1, TP.HCM', '2023-03-10', 8000, 50000),
-                ('SCOOT-002', 'Segway', 'Ninebot Max', 'Electric_Scooter', 'Available', 450, 90.00, 'Quận 3, TP.HCM', '2023-02-20', 10000, 60000),
-                ('SCOOT-003', 'Xiaomi', 'Mi Scooter Essential', 'Electric_Scooter', 'Available', 200, 100.00, 'Quận 7, TP.HCM', '2023-04-05', 7000, 45000),
-                ('SCOOT-004', 'Segway', 'Ninebot E22', 'Electric_Scooter', 'Rented', 600, 70.00, 'Quận 2, TP.HCM', '2023-01-15', 9000, 55000),
-                ('SCOOT-005', 'Xiaomi', 'Mi Scooter 1S', 'Electric_Scooter', 'Available', 350, 95.00, 'Quận 5, TP.HCM', '2023-03-01', 8500, 52000),
-                ('SCOOT-006', 'NIU', 'KQi3 Pro', 'Electric_Scooter', 'Available', 150, 100.00, 'Quận 1, TP.HCM', '2023-05-10', 11000, 65000),
-                ('SCOOT-007', 'Segway', 'Ninebot F40', 'Electric_Scooter', 'Available', 500, 80.00, 'Quận 10, TP.HCM', '2023-02-12', 9500, 58000)
-            ");
-
-            echo "      ✅ Added " . $conn->query("SELECT COUNT(*) FROM Vehicles")->fetchColumn() . " vehicles\n";
-
-            // Insert Maintenance Records
-            echo "   📝 Adding maintenance records...\n";
-            $conn->exec("
-                INSERT INTO Maintenance (vehicle_id, maintenance_date, description, next_maintenance, status)
-                SELECT v.vehicle_id, '2024-11-01', 'Thay dầu động cơ và lọc gió', '2025-02-01', 'Completed'
-                FROM Vehicles v WHERE v.license_plate = '59C-44444'
-                UNION ALL
-                SELECT v.vehicle_id, '2024-11-15', 'Sửa hệ thống phanh và kiểm tra lốp', '2024-12-15', 'InProgress'
-                FROM Vehicles v WHERE v.license_plate = '59C-44444'
-                UNION ALL
-                SELECT v.vehicle_id, '2024-10-20', 'Bảo dưỡng định kỳ 10,000 km', '2025-01-20', 'Completed'
-                FROM Vehicles v WHERE v.license_plate = '50G-11111'
-                UNION ALL
-                SELECT v.vehicle_id, '2024-11-10', 'Thay nhớt và lọc nhớt', '2025-01-10', 'Completed'
-                FROM Vehicles v WHERE v.license_plate = '59-D1 66666'
-                UNION ALL
-                SELECT v.vehicle_id, '2024-11-20', 'Kiểm tra và điều chỉnh xích', NULL, 'Scheduled'
-                FROM Vehicles v WHERE v.license_plate = '50-H1 77777'
-                UNION ALL
-                SELECT v.vehicle_id, '2024-11-05', 'Thay lốp và căng xích', '2024-12-05', 'Completed'
-                FROM Vehicles v WHERE v.license_plate = 'BIC-008'
-            ");
-
-            // Insert Vehicle Usage History
-            echo "   📝 Adding usage history...\n";
-            $conn->exec("
-                INSERT INTO VehicleUsageHistory (vehicle_id, rental_id, start_odo, end_odo, fuel_used)
-                SELECT v.vehicle_id, 1001, 4800, 5000, 5.50 FROM Vehicles v WHERE v.license_plate = '59A-12345'
-                UNION ALL
-                SELECT v.vehicle_id, 1002, 2800, 3000, 4.20 FROM Vehicles v WHERE v.license_plate = '51F-67890'
-                UNION ALL
-                SELECT v.vehicle_id, 1003, 11500, 12000, 12.00 FROM Vehicles v WHERE v.license_plate = '50G-11111'
-                UNION ALL
-                SELECT v.vehicle_id, 1004, 7500, 8000, 10.50 FROM Vehicles v WHERE v.license_plate = '59B-22222'
-                UNION ALL
-                SELECT v.vehicle_id, 2001, 7800, 8000, 1.20 FROM Vehicles v WHERE v.license_plate = '59-A1 12345'
-                UNION ALL
-                SELECT v.vehicle_id, 2002, 11800, 12000, 1.50 FROM Vehicles v WHERE v.license_plate = '51-F1 67890'
-                UNION ALL
-                SELECT v.vehicle_id, 2003, 14800, 15000, 1.00 FROM Vehicles v WHERE v.license_plate = '59-B1 11111'
-                UNION ALL
-                SELECT v.vehicle_id, 2004, 9800, 10000, 1.40 FROM Vehicles v WHERE v.license_plate = '50-G1 22222'
-                UNION ALL
-                SELECT v.vehicle_id, 3001, 450, 500, NULL FROM Vehicles v WHERE v.license_plate = 'BIC-001'
-                UNION ALL
-                SELECT v.vehicle_id, 3002, 250, 300, NULL FROM Vehicles v WHERE v.license_plate = 'BIC-002'
-                UNION ALL
-                SELECT v.vehicle_id, 4001, 280, 300, NULL FROM Vehicles v WHERE v.license_plate = 'SCOOT-001'
-                UNION ALL
-                SELECT v.vehicle_id, 4002, 550, 600, NULL FROM Vehicles v WHERE v.license_plate = 'SCOOT-004'
-            ");
+            echo "      ✅ Added " . $conn->query("SELECT COUNT(*) FROM VehicleUnits")->fetchColumn() . " vehicle units\n";
         }
 
         return true;
@@ -416,7 +591,6 @@ function setupVehicleDatabase($config) {
         return false;
     }
 }
-
 /**
  * Setup Rental Database
  */

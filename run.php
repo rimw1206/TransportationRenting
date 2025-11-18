@@ -132,18 +132,18 @@ function setupCustomerDatabase($config) {
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
         ");
         
-        // Create PaymentMethod table
+        // Create PaymentMethod table - SIMPLIFIED VERSION
         $conn->exec("
             CREATE TABLE IF NOT EXISTS PaymentMethod (
                 method_id INT AUTO_INCREMENT PRIMARY KEY,
                 user_id INT NOT NULL,
-                type ENUM('CreditCard', 'DebitCard', 'EWallet', 'BankTransfer') NOT NULL,
-                provider VARCHAR(50) NOT NULL,
-                account_number VARCHAR(50),
-                expiry_date DATE,
+                type ENUM('COD', 'VNPayQR') NOT NULL COMMENT 'COD = Tiền mặt, VNPayQR = QR Code VNPay',
+                provider VARCHAR(50) DEFAULT 'VNPay' COMMENT 'VNPay cho QR, NULL cho COD',
                 is_default BOOLEAN DEFAULT FALSE,
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
                 FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE,
                 INDEX idx_user_id (user_id),
+                INDEX idx_type (type),
                 INDEX idx_default (is_default)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
         ");
@@ -214,13 +214,15 @@ function setupCustomerDatabase($config) {
                 (4, '001234567892', 'Pending', NULL)
             ");
             
-            // Insert PaymentMethod data
-            echo "   📝 Adding payment methods...\n";
+            // Insert PaymentMethod data - SIMPLIFIED
+            echo "   📝 Adding payment methods (COD & VNPayQR)...\n";
             $conn->exec("
-                INSERT INTO PaymentMethod (user_id, type, provider, account_number, is_default) VALUES
-                (2, 'CreditCard', 'Visa', '**** **** **** 1234', TRUE),
-                (3, 'EWallet', 'MoMo', '0923456789', TRUE),
-                (4, 'BankTransfer', 'Vietcombank', '1234567890', TRUE)
+                INSERT INTO PaymentMethod (user_id, type, provider, is_default) VALUES
+                (2, 'VNPayQR', 'VNPay', TRUE),
+                (2, 'COD', NULL, FALSE),
+                (3, 'COD', NULL, TRUE),
+                (3, 'VNPayQR', 'VNPay', FALSE),
+                (4, 'VNPayQR', 'VNPay', TRUE)
             ");
         }
         
@@ -230,7 +232,6 @@ function setupCustomerDatabase($config) {
         return false;
     }
 }
-
 /**
  * Setup Vehicle Database
  */
@@ -592,6 +593,132 @@ function setupVehicleDatabase($config) {
     }
 }
 /**
+ * Seed Promotion Data
+ */
+function seedPromotionData($config) {
+    try {
+        $dsn = "mysql:host={$config['host']};port={$config['port']};dbname={$config['dbname']}";
+        $conn = new PDO($dsn, $config['username'], $config['password']);
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        
+        // Check if promotions already exist
+        $count = $conn->query("SELECT COUNT(*) FROM Promotion")->fetchColumn();
+        
+        if ($count == 0) {
+            echo "   🎁 Adding sample promotions...\n";
+            
+            // Get current date for dynamic validity
+            $today = date('Y-m-d');
+            $nextMonth = date('Y-m-d', strtotime('+1 month'));
+            $nextWeek = date('Y-m-d', strtotime('+1 week'));
+            $threeMonths = date('Y-m-d', strtotime('+3 months'));
+            
+            $promotions = [
+                [
+                    'code' => 'FIRST20',
+                    'description' => 'Giảm 20% cho khách hàng mới - Chỉ áp dụng cho lần thuê đầu tiên',
+                    'discount' => 20,
+                    'from' => $today,
+                    'to' => $threeMonths,
+                    'active' => 1
+                ],
+                [
+                    'code' => 'WEEK15',
+                    'description' => 'Giảm 15% cho đơn thuê từ 7 ngày trở lên',
+                    'discount' => 15,
+                    'from' => $today,
+                    'to' => $nextMonth,
+                    'active' => 1
+                ],
+                [
+                    'code' => 'NEW10',
+                    'description' => 'Giảm 10% cho tất cả các loại xe',
+                    'discount' => 10,
+                    'from' => $today,
+                    'to' => $nextWeek,
+                    'active' => 1
+                ],
+                [
+                    'code' => 'SUMMER25',
+                    'description' => 'Khuyến mãi mùa hè - Giảm 25% cho xe du lịch',
+                    'discount' => 25,
+                    'from' => $today,
+                    'to' => $threeMonths,
+                    'active' => 1
+                ],
+                [
+                    'code' => 'VIP30',
+                    'description' => 'Ưu đãi VIP - Giảm 30% cho khách hàng thân thiết',
+                    'discount' => 30,
+                    'from' => $today,
+                    'to' => $threeMonths,
+                    'active' => 1
+                ],
+                [
+                    'code' => 'FLASH50',
+                    'description' => 'Flash Sale - Giảm 50% (Chỉ 24h)',
+                    'discount' => 50,
+                    'from' => $today,
+                    'to' => date('Y-m-d', strtotime('+1 day')),
+                    'active' => 1
+                ],
+                [
+                    'code' => 'STUDENT12',
+                    'description' => 'Ưu đãi sinh viên - Giảm 12%',
+                    'discount' => 12,
+                    'from' => $today,
+                    'to' => $nextMonth,
+                    'active' => 1
+                ],
+                [
+                    'code' => 'WEEKEND18',
+                    'description' => 'Giảm 18% cho thuê cuối tuần (T7-CN)',
+                    'discount' => 18,
+                    'from' => $today,
+                    'to' => $nextMonth,
+                    'active' => 1
+                ],
+                [
+                    'code' => 'EXPIRED5',
+                    'description' => 'Mã đã hết hạn (để test)',
+                    'discount' => 5,
+                    'from' => date('Y-m-d', strtotime('-1 month')),
+                    'to' => date('Y-m-d', strtotime('-1 day')),
+                    'active' => 0
+                ]
+            ];
+            
+            $stmt = $conn->prepare("
+                INSERT INTO Promotion (code, description, discount_percent, valid_from, valid_to, active)
+                VALUES (?, ?, ?, ?, ?, ?)
+            ");
+            
+            foreach ($promotions as $promo) {
+                $stmt->execute([
+                    $promo['code'],
+                    $promo['description'],
+                    $promo['discount'],
+                    $promo['from'],
+                    $promo['to'],
+                    $promo['active']
+                ]);
+                
+                $status = $promo['active'] ? '✅ Active' : '❌ Inactive';
+                echo "      {$status} {$promo['code']} (-{$promo['discount']}%)\n";
+            }
+            
+            $totalActive = $conn->query("SELECT COUNT(*) FROM Promotion WHERE active = 1")->fetchColumn();
+            echo "   ✅ Added " . count($promotions) . " promotions ({$totalActive} active)\n";
+        }
+        
+        return true;
+        
+    } catch (PDOException $e) {
+        error_log("❌ Promotion seed error: " . $e->getMessage());
+        return false;
+    }
+}
+/**
  * Setup Rental Database
  */
 function setupRentalDatabase($config) {
@@ -664,6 +791,7 @@ function setupRentalDatabase($config) {
 
             echo "      ✅ Added " . $conn->query("SELECT COUNT(*) FROM Rentals")->fetchColumn() . " rentals\n";
         }
+        seedPromotionData($config);
 
         return true;
     } catch (PDOException $e) {
@@ -740,21 +868,25 @@ function setupPaymentDatabase($config) {
         $conn = new PDO($dsn, $config['username'], $config['password']);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        // Transactions Table
+        // Transactions Table - SIMPLIFIED
         $conn->exec("
             CREATE TABLE IF NOT EXISTS Transactions (
                 transaction_id INT AUTO_INCREMENT PRIMARY KEY,
                 rental_id INT NOT NULL COMMENT 'Reference only - validated via Rental API',
                 user_id INT NOT NULL COMMENT 'Reference only - validated via Customer API',
                 amount DECIMAL(10,2) NOT NULL,
-                payment_method VARCHAR(50) NOT NULL,
-                payment_gateway VARCHAR(50) NOT NULL,
+                payment_method ENUM('COD', 'VNPayQR') NOT NULL COMMENT 'Phương thức thanh toán',
+                payment_gateway VARCHAR(50) DEFAULT 'VNPay' COMMENT 'VNPay cho QR, NULL cho COD',
+                transaction_code VARCHAR(100) UNIQUE COMMENT 'Mã giao dịch VNPay hoặc mã COD',
+                qr_code_url TEXT COMMENT 'URL QR code VNPay (nếu dùng VNPayQR)',
                 transaction_date DATETIME DEFAULT CURRENT_TIMESTAMP,
                 status ENUM('Pending', 'Success', 'Failed', 'Refunded') DEFAULT 'Pending',
                 INDEX idx_rental_id (rental_id),
                 INDEX idx_user_id (user_id),
                 INDEX idx_status (status),
-                INDEX idx_date (transaction_date)
+                INDEX idx_method (payment_method),
+                INDEX idx_date (transaction_date),
+                INDEX idx_transaction_code (transaction_code)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
         ");
 
@@ -780,6 +912,7 @@ function setupPaymentDatabase($config) {
                 transaction_id INT NOT NULL,
                 amount DECIMAL(10,2) NOT NULL,
                 reason VARCHAR(255),
+                refund_method ENUM('Cash', 'VNPay', 'BankTransfer') DEFAULT 'VNPay',
                 processed_at DATETIME,
                 status ENUM('Pending', 'Completed', 'Failed') DEFAULT 'Pending',
                 FOREIGN KEY (transaction_id) REFERENCES Transactions(transaction_id) ON DELETE CASCADE,
@@ -788,7 +921,7 @@ function setupPaymentDatabase($config) {
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
         ");
 
-        echo "   ✅ Payment tables created\n";
+        echo "   ✅ Payment tables created (Simplified: COD & VNPayQR)\n";
         return true;
     } catch (PDOException $e) {
         error_log("❌ Payment database setup error: " . $e->getMessage());

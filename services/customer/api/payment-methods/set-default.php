@@ -1,7 +1,7 @@
 <?php
 /**
- * services/customer/api/payment-methods/delete.php
- * Delete Payment Method Endpoint
+ * services/customer/api/payment-methods/set-default.php
+ * Set Default Payment Method Endpoint
  */
 
 require_once __DIR__ . '/../../../../env-bootstrap.php';
@@ -11,7 +11,7 @@ require_once __DIR__ . '/../../../../shared/classes/ApiResponse.php';
 
 header('Content-Type: application/json; charset=UTF-8');
 header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: DELETE, OPTIONS');
+header('Access-Control-Allow-Methods: PUT, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type, Authorization');
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit();
 }
 
-if ($_SERVER['REQUEST_METHOD'] !== 'DELETE') {
+if ($_SERVER['REQUEST_METHOD'] !== 'PUT') {
     http_response_code(405);
     echo json_encode([
         'success' => false,
@@ -88,15 +88,15 @@ try {
     $userId = (int)$decoded['user_id'];
     $methodId = (int)$methodId;
     
-    // Delete payment method
+    // Set as default
     $paymentModel = new PaymentMethod();
-    $result = $paymentModel->delete($methodId, $userId);
+    $result = $paymentModel->setDefault($methodId, $userId);
     
     if ($result) {
         http_response_code(200);
         echo json_encode([
             'success' => true,
-            'message' => 'Payment method deleted successfully'
+            'message' => 'Default payment method updated successfully'
         ]);
     } else {
         http_response_code(404);
@@ -107,7 +107,7 @@ try {
     }
     
 } catch (Exception $e) {
-    error_log('Delete payment method error: ' . $e->getMessage());
+    error_log('Set default payment method error: ' . $e->getMessage());
     error_log('Stack trace: ' . $e->getTraceAsString());
     http_response_code(500);
     echo json_encode([

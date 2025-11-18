@@ -14,6 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 require_once __DIR__ . '/../services/RentalService.php';
 require_once __DIR__ . '/../../../shared/classes/ApiResponse.php';
 require_once __DIR__ . '/../../../gateway/middleware/auth.php';
+require_once __DIR__ . '/../classes/Promotion.php';
 
 $requestUri = $_SERVER['REQUEST_URI'];
 $requestMethod = $_SERVER['REQUEST_METHOD'];
@@ -26,12 +27,150 @@ if (strpos($uri, $prefix) === 0) {
     if ($uri === '') $uri = '/';
 }
 
+// ✅ GET QUERY PARAMS EARLY (TRƯỚC KHI DÙNG)
+$queryParams = $_GET;
+
 // Health check
 if ($uri === '/health') {
     require_once __DIR__ . '/health.php';
     exit;
 }
 
+// ===== PROMOTION ROUTES =====
+if (strpos($uri, '/promotions') === 0) {
+    $promotion = new Promotion();
+    $promoSegments = array_values(array_filter(explode('/', str_replace('/promotions', '', $uri))));
+    
+    // Get request body for POST/PUT
+    $requestBody = null;
+    if (in_array($requestMethod, ['POST', 'PUT', 'PATCH'])) {
+        $body = file_get_contents('php://input');
+        $requestBody = json_decode($body, true);
+    }
+    
+    try {
+        switch ($requestMethod) {
+            case 'GET':
+                if (empty($promoSegments)) {
+                    // GET /promotions - Get all promotions (admin only)
+                    $auth = AuthMiddleware::authenticate();
+                    if (!$auth['success'] || $auth['role'] !== 'admin') {
+                        ApiResponse::forbidden('Admin access required');
+                    }
+                    
+                    $filters = ['active' => $queryParams['active'] ?? null];
+                    $promos = $promotion->getAll(array_filter($filters));
+                    ApiResponse::success($promos, 'Promotions retrieved');
+                    
+                } elseif ($promoSegments[0] === 'active') {
+                    // GET /promotions/active - Get active promotions (public)
+                    $promos = $promotion->getActive();
+                    ApiResponse::success($promos, 'Active promotions retrieved');
+                    
+                } elseif ($promoSegments[0] === 'validate') {
+                    // GET /promotions/validate?code=XXX - Validate promo code (public)
+                    if (empty($queryParams['code'])) {
+                        ApiResponse::badRequest('Code parameter required');
+                    }
+                    
+                    $result = $promotion->validate($queryParams['code']);
+                    
+                    if ($result['valid']) {
+                        ApiResponse::success([
+                            'code' => $result['promo']['code'],
+                            'discount_percent' => $result['promo']['discount_percent'],
+                            'description' => $result['promo']['description']
+                        ], $result['message']);
+                    } else {
+                        ApiResponse::badRequest($result['message']);
+                    }
+                    
+                } elseif (is_numeric($promoSegments[0])) {
+                    // GET /promotions/{id} - Get promotion by ID (admin)
+                    $auth = AuthMiddleware::authenticate();
+                    if (!$auth['success'] || $auth['role'] !== 'admin') {
+                        ApiResponse::forbidden('Admin access required');
+                    }
+                    
+                    $promo = $promotion->getById($promoSegments[0]);
+                    if ($promo) {
+                        ApiResponse::success($promo, 'Promotion retrieved');
+                    } else {
+                        ApiResponse::notFound('Promotion not found');
+                    }
+                } else {
+                    ApiResponse::notFound('Invalid endpoint');
+                }
+                break;
+                
+            case 'POST':
+                // POST /promotions - Create promotion (admin only)
+                $auth = AuthMiddleware::authenticate();
+                if (!$auth['success'] || $auth['role'] !== 'admin') {
+                    ApiResponse::forbidden('Admin access required');
+                }
+                
+                if (!$requestBody) {
+                    ApiResponse::badRequest('Request body required');
+                }
+                
+                $required = ['code', 'discount_percent', 'valid_from', 'valid_to'];
+                foreach ($required as $field) {
+                    if (empty($requestBody[$field])) {
+                        ApiResponse::badRequest("Field '{$field}' is required");
+                    }
+                }
+                
+                $result = $promotion->create($requestBody);
+                ApiResponse::created(['promo_id' => $result['promo_id']], 'Promotion created');
+                break;
+                
+            case 'PUT':
+            case 'PATCH':
+                if (is_numeric($promoSegments[0])) {
+                    $auth = AuthMiddleware::authenticate();
+                    if (!$auth['success'] || $auth['role'] !== 'admin') {
+                        ApiResponse::forbidden('Admin access required');
+                    }
+                    
+                    if (!$requestBody) {
+                        ApiResponse::badRequest('Request body required');
+                    }
+                    
+                    $promo = $promotion->update($promoSegments[0], $requestBody);
+                    ApiResponse::success($promo, 'Promotion updated');
+                } else {
+                    ApiResponse::notFound('Invalid endpoint');
+                }
+                break;
+                
+            case 'DELETE':
+                if (is_numeric($promoSegments[0])) {
+                    $auth = AuthMiddleware::authenticate();
+                    if (!$auth['success'] || $auth['role'] !== 'admin') {
+                        ApiResponse::forbidden('Admin access required');
+                    }
+                    
+                    $promotion->delete($promoSegments[0]);
+                    ApiResponse::success(null, 'Promotion deleted');
+                } else {
+                    ApiResponse::notFound('Invalid endpoint');
+                }
+                break;
+                
+            default:
+                ApiResponse::methodNotAllowed('Method not allowed');
+        }
+        
+    } catch (Exception $e) {
+        error_log('Promotion API error: ' . $e->getMessage());
+        ApiResponse::error($e->getMessage(), 500);
+    }
+    
+    exit; // Stop execution after handling promotion routes
+}
+
+// ===== RENTAL ROUTES =====
 $rentalService = new RentalService();
 
 // Parse path segments
@@ -45,9 +184,6 @@ if (preg_match('/Bearer\s+(.+)/', $authHeader, $matches)) {
 }
 
 try {
-    // Get query parameters
-    $queryParams = $_GET;
-    
     // Get request body
     $requestBody = null;
     if (in_array($requestMethod, ['POST', 'PUT', 'PATCH'])) {

@@ -1,419 +1,70 @@
-[18-Nov-2025 02:31:00 Europe/Berlin] Vehicle API Request: GET /health
-[18-Nov-2025 02:31:00 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:31:00 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":50,"offset":0}
-[18-Nov-2025 02:31:00 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: http_response_code(): Argument #1 ($response_code) must be of type int, array given in C:\xampp\htdocs\TransportationRenting\shared\classes\ApiResponse.php:161
+[18-Nov-2025 06:26:17 Europe/Berlin] Vehicle API Request: GET /stats
+[18-Nov-2025 06:26:17 Europe/Berlin] Vehicle API Request: GET /available
+[18-Nov-2025 06:26:17 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
+[18-Nov-2025 06:26:19 Europe/Berlin] Vehicle API Request: GET /10
+[18-Nov-2025 06:26:22 Europe/Berlin] Vehicle API Request: GET /10
+[18-Nov-2025 06:26:36 Europe/Berlin] Vehicle API Request: GET /stats
+[18-Nov-2025 06:26:36 Europe/Berlin] Vehicle API Request: GET /available
+[18-Nov-2025 06:26:36 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
+[18-Nov-2025 06:26:38 Europe/Berlin] Vehicle API Request: GET /8
+[18-Nov-2025 06:26:43 Europe/Berlin] Vehicle API Request: GET /available
+[18-Nov-2025 06:26:43 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"12","offset":"0"}
+[18-Nov-2025 06:35:21 Europe/Berlin] Vehicle API Request: GET /stats
+[18-Nov-2025 06:35:21 Europe/Berlin] Vehicle API Request: GET /available
+[18-Nov-2025 06:35:21 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
+[18-Nov-2025 06:36:18 Europe/Berlin] Vehicle API Request: GET /available
+[18-Nov-2025 06:36:18 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"12","offset":"0"}
+[18-Nov-2025 06:36:19 Europe/Berlin] Vehicle API Request: GET /8
+[18-Nov-2025 06:36:39 Europe/Berlin] Vehicle API Request: GET /8
+[18-Nov-2025 08:29:25 Europe/Berlin] Vehicle API Request: GET /stats
+[18-Nov-2025 08:29:25 Europe/Berlin] Vehicle API Request: GET /available
+[18-Nov-2025 08:29:25 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
+[18-Nov-2025 08:45:14 Europe/Berlin] Vehicle API Request: GET /health
+[18-Nov-2025 08:45:14 Europe/Berlin] Database connection error [vehicle]: SQLSTATE[HY000] [1049] Unknown database 'vehicle_service_db'
+[18-Nov-2025 08:45:21 Europe/Berlin] Vehicle API Request: GET /health
+[18-Nov-2025 08:45:21 Europe/Berlin] Database connection error [vehicle]: SQLSTATE[HY000] [1049] Unknown database 'vehicle_service_db'
+[18-Nov-2025 08:45:21 Europe/Berlin] Vehicle API Request: GET /health
+[18-Nov-2025 08:45:21 Europe/Berlin] Database connection error [vehicle]: SQLSTATE[HY000] [1049] Unknown database 'vehicle_service_db'
+[18-Nov-2025 08:45:23 Europe/Berlin] Vehicle API Request: GET /health
+[18-Nov-2025 08:45:23 Europe/Berlin] Database connection error [vehicle]: SQLSTATE[HY000] [1049] Unknown database 'vehicle_service_db'
+[18-Nov-2025 08:45:24 Europe/Berlin] Vehicle API Request: GET /health
+[18-Nov-2025 08:45:24 Europe/Berlin] Database connection error [vehicle]: SQLSTATE[HY000] [1049] Unknown database 'vehicle_service_db'
+[18-Nov-2025 08:48:22 Europe/Berlin] Vehicle API Request: GET /health
+[18-Nov-2025 08:48:40 Europe/Berlin] Vehicle API Request: GET /health
+[18-Nov-2025 08:49:38 Europe/Berlin] Vehicle API Request: GET /stats
+[18-Nov-2025 08:49:38 Europe/Berlin] Vehicle API Request: GET /available
+[18-Nov-2025 08:49:38 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
+[18-Nov-2025 08:49:50 Europe/Berlin] Vehicle API Request: GET /stats
+[18-Nov-2025 08:49:50 Europe/Berlin] Vehicle API Request: GET /available
+[18-Nov-2025 08:49:50 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
+[18-Nov-2025 08:54:13 Europe/Berlin] Vehicle API Request: GET /stats
+[18-Nov-2025 08:54:13 Europe/Berlin] Vehicle API Request: GET /available
+[18-Nov-2025 08:54:13 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
+[18-Nov-2025 09:06:36 Europe/Berlin] Vehicle API Request: GET /stats
+[18-Nov-2025 09:06:36 Europe/Berlin] Database connection error [vehicle]: SQLSTATE[HY000] [1049] Unknown database 'vehicle_service_db'
+[18-Nov-2025 09:06:36 Europe/Berlin] PHP Fatal error:  Uncaught Exception: Could not connect to vehicle database in C:\xampp\htdocs\TransportationRenting\shared\classes\DatabaseManager.php:60
 Stack trace:
-#0 C:\xampp\htdocs\TransportationRenting\shared\classes\ApiResponse.php(161): http_response_code(Array)
-#1 C:\xampp\htdocs\TransportationRenting\shared\classes\ApiResponse.php(10): ApiResponse::send(true, 'Available vehic...', Array, Array)
-#2 C:\xampp\htdocs\TransportationRenting\services\vehicle\public\index.php(112): ApiResponse::success(Array, 'Available vehic...', Array)
+#0 C:\xampp\htdocs\TransportationRenting\services\vehicle\classes\Vehicle.php(9): DatabaseManager::getInstance('vehicle')
+#1 C:\xampp\htdocs\TransportationRenting\services\vehicle\services\VehicleService.php(11): Vehicle->__construct()
+#2 C:\xampp\htdocs\TransportationRenting\services\vehicle\public\index.php(80): VehicleService->__construct()
 #3 {main}
-  thrown in C:\xampp\htdocs\TransportationRenting\shared\classes\ApiResponse.php on line 161
-[18-Nov-2025 02:31:00 Europe/Berlin] Vehicle API Request: GET /health
-[18-Nov-2025 02:31:00 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:31:00 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":50,"offset":0}
-[18-Nov-2025 02:31:00 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: http_response_code(): Argument #1 ($response_code) must be of type int, array given in C:\xampp\htdocs\TransportationRenting\shared\classes\ApiResponse.php:161
+  thrown in C:\xampp\htdocs\TransportationRenting\shared\classes\DatabaseManager.php on line 60
+[18-Nov-2025 09:06:36 Europe/Berlin] Vehicle API Request: GET /available
+[18-Nov-2025 09:06:36 Europe/Berlin] Database connection error [vehicle]: SQLSTATE[HY000] [1049] Unknown database 'vehicle_service_db'
+[18-Nov-2025 09:06:36 Europe/Berlin] PHP Fatal error:  Uncaught Exception: Could not connect to vehicle database in C:\xampp\htdocs\TransportationRenting\shared\classes\DatabaseManager.php:60
 Stack trace:
-#0 C:\xampp\htdocs\TransportationRenting\shared\classes\ApiResponse.php(161): http_response_code(Array)
-#1 C:\xampp\htdocs\TransportationRenting\shared\classes\ApiResponse.php(10): ApiResponse::send(true, 'Available vehic...', Array, Array)
-#2 C:\xampp\htdocs\TransportationRenting\services\vehicle\public\index.php(112): ApiResponse::success(Array, 'Available vehic...', Array)
+#0 C:\xampp\htdocs\TransportationRenting\services\vehicle\classes\Vehicle.php(9): DatabaseManager::getInstance('vehicle')
+#1 C:\xampp\htdocs\TransportationRenting\services\vehicle\services\VehicleService.php(11): Vehicle->__construct()
+#2 C:\xampp\htdocs\TransportationRenting\services\vehicle\public\index.php(80): VehicleService->__construct()
 #3 {main}
-  thrown in C:\xampp\htdocs\TransportationRenting\shared\classes\ApiResponse.php on line 161
-[18-Nov-2025 02:31:01 Europe/Berlin] Vehicle API Request: GET /health
-[18-Nov-2025 02:31:01 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:31:01 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":50,"offset":0}
-[18-Nov-2025 02:31:01 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: http_response_code(): Argument #1 ($response_code) must be of type int, array given in C:\xampp\htdocs\TransportationRenting\shared\classes\ApiResponse.php:161
-Stack trace:
-#0 C:\xampp\htdocs\TransportationRenting\shared\classes\ApiResponse.php(161): http_response_code(Array)
-#1 C:\xampp\htdocs\TransportationRenting\shared\classes\ApiResponse.php(10): ApiResponse::send(true, 'Available vehic...', Array, Array)
-#2 C:\xampp\htdocs\TransportationRenting\services\vehicle\public\index.php(112): ApiResponse::success(Array, 'Available vehic...', Array)
-#3 {main}
-  thrown in C:\xampp\htdocs\TransportationRenting\shared\classes\ApiResponse.php on line 161
-[18-Nov-2025 02:31:01 Europe/Berlin] Vehicle API Request: GET /health
-[18-Nov-2025 02:31:01 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:31:01 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":50,"offset":0}
-[18-Nov-2025 02:31:01 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: http_response_code(): Argument #1 ($response_code) must be of type int, array given in C:\xampp\htdocs\TransportationRenting\shared\classes\ApiResponse.php:161
-Stack trace:
-#0 C:\xampp\htdocs\TransportationRenting\shared\classes\ApiResponse.php(161): http_response_code(Array)
-#1 C:\xampp\htdocs\TransportationRenting\shared\classes\ApiResponse.php(10): ApiResponse::send(true, 'Available vehic...', Array, Array)
-#2 C:\xampp\htdocs\TransportationRenting\services\vehicle\public\index.php(112): ApiResponse::success(Array, 'Available vehic...', Array)
-#3 {main}
-  thrown in C:\xampp\htdocs\TransportationRenting\shared\classes\ApiResponse.php on line 161
-[18-Nov-2025 02:31:01 Europe/Berlin] Vehicle API Request: GET /health
-[18-Nov-2025 02:31:01 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:31:01 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":50,"offset":0}
-[18-Nov-2025 02:31:01 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: http_response_code(): Argument #1 ($response_code) must be of type int, array given in C:\xampp\htdocs\TransportationRenting\shared\classes\ApiResponse.php:161
-Stack trace:
-#0 C:\xampp\htdocs\TransportationRenting\shared\classes\ApiResponse.php(161): http_response_code(Array)
-#1 C:\xampp\htdocs\TransportationRenting\shared\classes\ApiResponse.php(10): ApiResponse::send(true, 'Available vehic...', Array, Array)
-#2 C:\xampp\htdocs\TransportationRenting\services\vehicle\public\index.php(112): ApiResponse::success(Array, 'Available vehic...', Array)
-#3 {main}
-  thrown in C:\xampp\htdocs\TransportationRenting\shared\classes\ApiResponse.php on line 161
-[18-Nov-2025 02:31:01 Europe/Berlin] Vehicle API Request: GET /health
-[18-Nov-2025 02:31:01 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:31:01 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":50,"offset":0}
-[18-Nov-2025 02:31:01 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: http_response_code(): Argument #1 ($response_code) must be of type int, array given in C:\xampp\htdocs\TransportationRenting\shared\classes\ApiResponse.php:161
-Stack trace:
-#0 C:\xampp\htdocs\TransportationRenting\shared\classes\ApiResponse.php(161): http_response_code(Array)
-#1 C:\xampp\htdocs\TransportationRenting\shared\classes\ApiResponse.php(10): ApiResponse::send(true, 'Available vehic...', Array, Array)
-#2 C:\xampp\htdocs\TransportationRenting\services\vehicle\public\index.php(112): ApiResponse::success(Array, 'Available vehic...', Array)
-#3 {main}
-  thrown in C:\xampp\htdocs\TransportationRenting\shared\classes\ApiResponse.php on line 161
-[18-Nov-2025 02:31:01 Europe/Berlin] Vehicle API Request: GET /health
-[18-Nov-2025 02:31:01 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:31:01 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":50,"offset":0}
-[18-Nov-2025 02:31:02 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: http_response_code(): Argument #1 ($response_code) must be of type int, array given in C:\xampp\htdocs\TransportationRenting\shared\classes\ApiResponse.php:161
-Stack trace:
-#0 C:\xampp\htdocs\TransportationRenting\shared\classes\ApiResponse.php(161): http_response_code(Array)
-#1 C:\xampp\htdocs\TransportationRenting\shared\classes\ApiResponse.php(10): ApiResponse::send(true, 'Available vehic...', Array, Array)
-#2 C:\xampp\htdocs\TransportationRenting\services\vehicle\public\index.php(112): ApiResponse::success(Array, 'Available vehic...', Array)
-#3 {main}
-  thrown in C:\xampp\htdocs\TransportationRenting\shared\classes\ApiResponse.php on line 161
-[18-Nov-2025 02:32:03 Europe/Berlin] Vehicle API Request: GET /health
-[18-Nov-2025 02:32:03 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:32:03 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":50,"offset":0}
-[18-Nov-2025 02:32:03 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: http_response_code(): Argument #1 ($response_code) must be of type int, array given in C:\xampp\htdocs\TransportationRenting\shared\classes\ApiResponse.php:161
-Stack trace:
-#0 C:\xampp\htdocs\TransportationRenting\shared\classes\ApiResponse.php(161): http_response_code(Array)
-#1 C:\xampp\htdocs\TransportationRenting\shared\classes\ApiResponse.php(10): ApiResponse::send(true, 'Available vehic...', Array, Array)
-#2 C:\xampp\htdocs\TransportationRenting\services\vehicle\public\index.php(112): ApiResponse::success(Array, 'Available vehic...', Array)
-#3 {main}
-  thrown in C:\xampp\htdocs\TransportationRenting\shared\classes\ApiResponse.php on line 161
-[18-Nov-2025 02:32:03 Europe/Berlin] Vehicle API Request: GET /stats
-[18-Nov-2025 02:32:03 Europe/Berlin] Vehicle API Request: GET /health
-[18-Nov-2025 02:32:36 Europe/Berlin] Vehicle API Request: GET /health
-[18-Nov-2025 02:32:36 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:32:36 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":50,"offset":0}
-[18-Nov-2025 02:32:36 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: http_response_code(): Argument #1 ($response_code) must be of type int, array given in C:\xampp\htdocs\TransportationRenting\shared\classes\ApiResponse.php:161
-Stack trace:
-#0 C:\xampp\htdocs\TransportationRenting\shared\classes\ApiResponse.php(161): http_response_code(Array)
-#1 C:\xampp\htdocs\TransportationRenting\shared\classes\ApiResponse.php(10): ApiResponse::send(true, 'Available vehic...', Array, Array)
-#2 C:\xampp\htdocs\TransportationRenting\services\vehicle\public\index.php(112): ApiResponse::success(Array, 'Available vehic...', Array)
-#3 {main}
-  thrown in C:\xampp\htdocs\TransportationRenting\shared\classes\ApiResponse.php on line 161
-[18-Nov-2025 02:32:36 Europe/Berlin] Vehicle API Request: GET /stats
-[18-Nov-2025 02:32:36 Europe/Berlin] Vehicle API Request: GET /health
-[18-Nov-2025 02:33:18 Europe/Berlin] Vehicle API Request: GET /health
-[18-Nov-2025 02:33:19 Europe/Berlin] Vehicle API Request: GET /health
-[18-Nov-2025 02:33:19 Europe/Berlin] Vehicle API Request: GET /health
-[18-Nov-2025 02:33:19 Europe/Berlin] Vehicle API Request: GET /health
-[18-Nov-2025 02:33:19 Europe/Berlin] Vehicle API Request: GET /health
-[18-Nov-2025 02:33:19 Europe/Berlin] Vehicle API Request: GET /health
-[18-Nov-2025 02:33:20 Europe/Berlin] Vehicle API Request: GET /health
-[18-Nov-2025 02:33:20 Europe/Berlin] Vehicle API Request: GET /health
-[18-Nov-2025 02:33:20 Europe/Berlin] Vehicle API Request: GET /health
-[18-Nov-2025 02:33:53 Europe/Berlin] Vehicle API Request: GET /health
-[18-Nov-2025 02:33:56 Europe/Berlin] Vehicle API Request: GET /stats
-[18-Nov-2025 02:33:56 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:33:56 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
-[18-Nov-2025 02:33:56 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: http_response_code(): Argument #1 ($response_code) must be of type int, array given in C:\xampp\htdocs\TransportationRenting\shared\classes\ApiResponse.php:161
-Stack trace:
-#0 C:\xampp\htdocs\TransportationRenting\shared\classes\ApiResponse.php(161): http_response_code(Array)
-#1 C:\xampp\htdocs\TransportationRenting\shared\classes\ApiResponse.php(10): ApiResponse::send(true, 'Available vehic...', Array, Array)
-#2 C:\xampp\htdocs\TransportationRenting\services\vehicle\public\index.php(112): ApiResponse::success(Array, 'Available vehic...', Array)
-#3 {main}
-  thrown in C:\xampp\htdocs\TransportationRenting\shared\classes\ApiResponse.php on line 161
-[18-Nov-2025 02:33:59 Europe/Berlin] Vehicle API Request: GET /health
-[18-Nov-2025 02:34:15 Europe/Berlin] Vehicle API Request: GET /stats
-[18-Nov-2025 02:34:15 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:34:15 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
-[18-Nov-2025 02:34:15 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: http_response_code(): Argument #1 ($response_code) must be of type int, array given in C:\xampp\htdocs\TransportationRenting\shared\classes\ApiResponse.php:161
-Stack trace:
-#0 C:\xampp\htdocs\TransportationRenting\shared\classes\ApiResponse.php(161): http_response_code(Array)
-#1 C:\xampp\htdocs\TransportationRenting\shared\classes\ApiResponse.php(10): ApiResponse::send(true, 'Available vehic...', Array, Array)
-#2 C:\xampp\htdocs\TransportationRenting\services\vehicle\public\index.php(112): ApiResponse::success(Array, 'Available vehic...', Array)
-#3 {main}
-  thrown in C:\xampp\htdocs\TransportationRenting\shared\classes\ApiResponse.php on line 161
-[18-Nov-2025 02:34:22 Europe/Berlin] Vehicle API Request: GET /health
-[18-Nov-2025 02:34:57 Europe/Berlin] Vehicle API Request: GET /health
-[18-Nov-2025 02:34:57 Europe/Berlin] Vehicle API Request: GET /health
-[18-Nov-2025 02:34:58 Europe/Berlin] Vehicle API Request: GET /health
-[18-Nov-2025 02:34:58 Europe/Berlin] Vehicle API Request: GET /health
-[18-Nov-2025 02:34:58 Europe/Berlin] Vehicle API Request: GET /health
-[18-Nov-2025 02:35:03 Europe/Berlin] Vehicle API Request: GET /stats
-[18-Nov-2025 02:35:03 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:35:03 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
-[18-Nov-2025 02:35:03 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: http_response_code(): Argument #1 ($response_code) must be of type int, array given in C:\xampp\htdocs\TransportationRenting\shared\classes\ApiResponse.php:161
-Stack trace:
-#0 C:\xampp\htdocs\TransportationRenting\shared\classes\ApiResponse.php(161): http_response_code(Array)
-#1 C:\xampp\htdocs\TransportationRenting\shared\classes\ApiResponse.php(10): ApiResponse::send(true, 'Available vehic...', Array, Array)
-#2 C:\xampp\htdocs\TransportationRenting\services\vehicle\public\index.php(112): ApiResponse::success(Array, 'Available vehic...', Array)
-#3 {main}
-  thrown in C:\xampp\htdocs\TransportationRenting\shared\classes\ApiResponse.php on line 161
-[18-Nov-2025 02:36:35 Europe/Berlin] Vehicle API Request: GET /health
-[18-Nov-2025 02:36:35 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:36:35 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":50,"offset":0}
-[18-Nov-2025 02:36:35 Europe/Berlin] Vehicle API Request: GET /stats
-[18-Nov-2025 02:36:36 Europe/Berlin] Vehicle API Request: GET /health
-[18-Nov-2025 02:37:04 Europe/Berlin] Vehicle API Request: GET /stats
-[18-Nov-2025 02:37:04 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:37:04 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
-[18-Nov-2025 02:37:30 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:37:30 Europe/Berlin] Getting available vehicles with filters: {"type":"Motorbike","brand":null,"search":null,"min_price":null,"max_price":null,"limit":"12","offset":"0"}
-[18-Nov-2025 02:44:10 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:44:10 Europe/Berlin] Getting available vehicles with filters: {"type":"Motorbike","brand":null,"search":null,"min_price":null,"max_price":null,"limit":"12","offset":"0"}
-[18-Nov-2025 02:45:46 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:45:46 Europe/Berlin] Getting available vehicles with filters: {"type":"Motorbike","brand":null,"search":null,"min_price":null,"max_price":null,"limit":"12","offset":"0"}
-[18-Nov-2025 02:45:47 Europe/Berlin] Vehicle API Request: GET /7
-[18-Nov-2025 02:45:52 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:45:52 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"12","offset":"0"}
-[18-Nov-2025 02:45:56 Europe/Berlin] Vehicle API Request: GET /5
-[18-Nov-2025 02:46:28 Europe/Berlin] Vehicle API Request: GET /5
-[18-Nov-2025 02:46:30 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:46:30 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"12","offset":"0"}
-[18-Nov-2025 02:46:35 Europe/Berlin] Vehicle API Request: GET /stats
-[18-Nov-2025 02:46:35 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:46:35 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
-[18-Nov-2025 02:46:39 Europe/Berlin] Vehicle API Request: GET /stats
-[18-Nov-2025 02:46:39 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:46:39 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
-[18-Nov-2025 02:46:51 Europe/Berlin] Vehicle API Request: GET /stats
-[18-Nov-2025 02:46:51 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:46:51 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
-[18-Nov-2025 02:46:53 Europe/Berlin] Vehicle API Request: GET /10
-[18-Nov-2025 02:47:03 Europe/Berlin] Vehicle API Request: GET /5
-[18-Nov-2025 02:47:03 Europe/Berlin] Vehicle API Request: GET /10
-[18-Nov-2025 02:47:11 Europe/Berlin] Vehicle API Request: GET /vehicles/5
-[18-Nov-2025 02:47:11 Europe/Berlin] Vehicle API Request: GET /vehicles/10
-[18-Nov-2025 02:47:20 Europe/Berlin] Vehicle API Request: GET /stats
-[18-Nov-2025 02:47:20 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:47:20 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
-[18-Nov-2025 02:47:26 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:47:26 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"12","offset":"0"}
-[18-Nov-2025 02:49:24 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:49:24 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"12","offset":"0"}
-[18-Nov-2025 02:49:26 Europe/Berlin] Vehicle API Request: GET /stats
-[18-Nov-2025 02:49:26 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:49:26 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
-[18-Nov-2025 02:49:27 Europe/Berlin] Vehicle API Request: GET /stats
-[18-Nov-2025 02:49:27 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:49:27 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
-[18-Nov-2025 02:49:28 Europe/Berlin] Vehicle API Request: GET /stats
-[18-Nov-2025 02:49:28 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:49:28 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
-[18-Nov-2025 02:49:33 Europe/Berlin] Vehicle API Request: GET /stats
-[18-Nov-2025 02:49:33 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:49:33 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
-[18-Nov-2025 02:49:34 Europe/Berlin] Vehicle API Request: GET /stats
-[18-Nov-2025 02:49:34 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:49:34 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
-[18-Nov-2025 02:49:47 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:49:47 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"12","offset":"0"}
-[18-Nov-2025 02:49:47 Europe/Berlin] Vehicle API Request: GET /stats
-[18-Nov-2025 02:49:47 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:49:47 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
-[18-Nov-2025 02:52:43 Europe/Berlin] Vehicle API Request: GET /stats
-[18-Nov-2025 02:52:43 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:52:43 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
-[18-Nov-2025 02:52:51 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:52:51 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"12","offset":"0"}
-[18-Nov-2025 02:52:54 Europe/Berlin] Vehicle API Request: GET /stats
-[18-Nov-2025 02:52:54 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:52:54 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
-[18-Nov-2025 02:52:55 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:52:55 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"12","offset":"0"}
-[18-Nov-2025 02:52:55 Europe/Berlin] Vehicle API Request: GET /stats
-[18-Nov-2025 02:52:55 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:52:55 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
-[18-Nov-2025 02:52:56 Europe/Berlin] Vehicle API Request: GET /5
-[18-Nov-2025 02:52:56 Europe/Berlin] Vehicle API Request: GET /10
-[18-Nov-2025 02:53:00 Europe/Berlin] Vehicle API Request: GET /stats
-[18-Nov-2025 02:53:00 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:53:00 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
-[18-Nov-2025 02:53:02 Europe/Berlin] Vehicle API Request: GET /5
-[18-Nov-2025 02:53:02 Europe/Berlin] Vehicle API Request: GET /10
-[18-Nov-2025 02:53:16 Europe/Berlin] Vehicle API Request: GET /5
-[18-Nov-2025 02:53:18 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:53:18 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"12","offset":"0"}
-[18-Nov-2025 02:53:19 Europe/Berlin] Vehicle API Request: GET /stats
-[18-Nov-2025 02:53:19 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:53:19 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
-[18-Nov-2025 02:53:55 Europe/Berlin] Vehicle API Request: GET /stats
-[18-Nov-2025 02:53:55 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:53:55 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
-[18-Nov-2025 02:53:57 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:53:57 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"12","offset":"0"}
-[18-Nov-2025 02:54:00 Europe/Berlin] Vehicle API Request: GET /stats
-[18-Nov-2025 02:54:00 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:54:00 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
-[18-Nov-2025 02:54:02 Europe/Berlin] Vehicle API Request: GET /stats
-[18-Nov-2025 02:54:02 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:54:02 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
-[18-Nov-2025 02:54:04 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:54:04 Europe/Berlin] Getting available vehicles with filters: {"type":"Motorbike","brand":null,"search":null,"min_price":null,"max_price":null,"limit":"12","offset":"0"}
-[18-Nov-2025 02:54:07 Europe/Berlin] Vehicle API Request: GET /7
-[18-Nov-2025 02:54:09 Europe/Berlin] Vehicle API Request: GET /stats
-[18-Nov-2025 02:54:09 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:54:10 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
-[18-Nov-2025 02:54:15 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:54:15 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"12","offset":"0"}
-[18-Nov-2025 02:54:19 Europe/Berlin] Vehicle API Request: GET /10
-[18-Nov-2025 02:54:20 Europe/Berlin] Vehicle API Request: GET /stats
-[18-Nov-2025 02:54:20 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:54:20 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
-[18-Nov-2025 02:54:22 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:54:22 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"12","offset":"0"}
-[18-Nov-2025 02:54:29 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:54:29 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"12","offset":"0"}
-[18-Nov-2025 02:54:31 Europe/Berlin] Vehicle API Request: GET /stats
-[18-Nov-2025 02:54:31 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:54:31 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
-[18-Nov-2025 02:54:36 Europe/Berlin] Vehicle API Request: GET /9
-[18-Nov-2025 02:54:44 Europe/Berlin] Vehicle API Request: GET /9
-[18-Nov-2025 02:54:47 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:54:47 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"12","offset":"0"}
-[18-Nov-2025 02:54:49 Europe/Berlin] Vehicle API Request: GET /stats
-[18-Nov-2025 02:54:49 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:54:49 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
-[18-Nov-2025 02:54:51 Europe/Berlin] Vehicle API Request: GET /stats
-[18-Nov-2025 02:54:51 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:54:51 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
-[18-Nov-2025 02:54:53 Europe/Berlin] Vehicle API Request: GET /9
-[18-Nov-2025 02:54:54 Europe/Berlin] Vehicle API Request: GET /stats
-[18-Nov-2025 02:54:54 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:54:54 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
-[18-Nov-2025 02:54:58 Europe/Berlin] Vehicle API Request: GET /9
-[18-Nov-2025 02:55:00 Europe/Berlin] Vehicle API Request: GET /stats
-[18-Nov-2025 02:55:00 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:55:00 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
-[18-Nov-2025 02:55:10 Europe/Berlin] Vehicle API Request: GET /5
-[18-Nov-2025 02:55:14 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:55:14 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"12","offset":"0"}
-[18-Nov-2025 02:55:17 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:55:17 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"12","offset":"0"}
-[18-Nov-2025 02:55:20 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:55:20 Europe/Berlin] Getting available vehicles with filters: {"type":"Car","brand":null,"search":null,"min_price":null,"max_price":null,"limit":"12","offset":"0"}
-[18-Nov-2025 02:55:27 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:55:27 Europe/Berlin] Getting available vehicles with filters: {"type":"Car","brand":null,"search":null,"min_price":null,"max_price":"200000","limit":"12","offset":"0"}
-[18-Nov-2025 02:55:29 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:55:29 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"12","offset":"0"}
-[18-Nov-2025 02:55:31 Europe/Berlin] Vehicle API Request: GET /stats
-[18-Nov-2025 02:55:31 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:55:31 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
-[18-Nov-2025 02:55:38 Europe/Berlin] Vehicle API Request: GET /stats
-[18-Nov-2025 02:55:38 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:55:38 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
-[18-Nov-2025 02:55:42 Europe/Berlin] Vehicle API Request: GET /stats
-[18-Nov-2025 02:55:42 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:55:42 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
-[18-Nov-2025 02:56:40 Europe/Berlin] Vehicle API Request: GET /stats
-[18-Nov-2025 02:56:40 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 02:56:40 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
-[18-Nov-2025 03:03:29 Europe/Berlin] Vehicle API Request: GET /stats
-[18-Nov-2025 03:03:29 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 03:03:29 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
-[18-Nov-2025 03:03:33 Europe/Berlin] Vehicle API Request: GET /9
-[18-Nov-2025 03:03:35 Europe/Berlin] Vehicle API Request: GET /stats
-[18-Nov-2025 03:03:35 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 03:03:35 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
-[18-Nov-2025 03:03:39 Europe/Berlin] Vehicle API Request: GET /9
-[18-Nov-2025 03:03:41 Europe/Berlin] Vehicle API Request: GET /stats
-[18-Nov-2025 03:03:41 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 03:03:41 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
-[18-Nov-2025 03:03:44 Europe/Berlin] Vehicle API Request: GET /9
-[18-Nov-2025 03:06:44 Europe/Berlin] Vehicle API Request: GET /9
-[18-Nov-2025 03:06:45 Europe/Berlin] Vehicle API Request: GET /stats
-[18-Nov-2025 03:06:45 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 03:06:45 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
-[18-Nov-2025 03:06:47 Europe/Berlin] Vehicle API Request: GET /stats
-[18-Nov-2025 03:06:47 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 03:06:47 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
-[18-Nov-2025 03:06:48 Europe/Berlin] Vehicle API Request: GET /stats
-[18-Nov-2025 03:06:48 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 03:06:48 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
-[18-Nov-2025 03:06:52 Europe/Berlin] Vehicle API Request: GET /stats
-[18-Nov-2025 03:06:52 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 03:06:52 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
-[18-Nov-2025 03:06:55 Europe/Berlin] Vehicle API Request: GET /9
-[18-Nov-2025 03:07:10 Europe/Berlin] Vehicle API Request: GET /stats
-[18-Nov-2025 03:07:10 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 03:07:10 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
-[18-Nov-2025 03:07:45 Europe/Berlin] Vehicle API Request: GET /stats
-[18-Nov-2025 03:07:45 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 03:07:45 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
-[18-Nov-2025 03:07:47 Europe/Berlin] Vehicle API Request: GET /stats
-[18-Nov-2025 03:07:47 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 03:07:47 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
-[18-Nov-2025 03:08:10 Europe/Berlin] Vehicle API Request: GET /stats
-[18-Nov-2025 03:08:10 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 03:08:10 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
-[18-Nov-2025 03:08:14 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 03:08:14 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"12","offset":"0"}
-[18-Nov-2025 03:08:17 Europe/Berlin] Vehicle API Request: GET /stats
-[18-Nov-2025 03:08:17 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 03:08:17 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
-[18-Nov-2025 03:08:18 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 03:08:18 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"12","offset":"0"}
-[18-Nov-2025 03:08:19 Europe/Berlin] Vehicle API Request: GET /stats
-[18-Nov-2025 03:08:19 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 03:08:19 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
-[18-Nov-2025 03:08:21 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 03:08:21 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"12","offset":"0"}
-[18-Nov-2025 03:08:23 Europe/Berlin] Vehicle API Request: GET /9
-[18-Nov-2025 03:08:24 Europe/Berlin] Vehicle API Request: GET /stats
-[18-Nov-2025 03:08:24 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 03:08:24 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
-[18-Nov-2025 03:08:25 Europe/Berlin] Vehicle API Request: GET /9
-[18-Nov-2025 03:08:59 Europe/Berlin] Vehicle API Request: GET /9
-[18-Nov-2025 03:09:07 Europe/Berlin] Vehicle API Request: GET /9
-[18-Nov-2025 03:09:08 Europe/Berlin] Vehicle API Request: GET /9
-[18-Nov-2025 03:09:08 Europe/Berlin] Vehicle API Request: GET /9
-[18-Nov-2025 03:09:23 Europe/Berlin] Vehicle API Request: GET /stats
-[18-Nov-2025 03:09:23 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 03:09:23 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
-[18-Nov-2025 03:09:24 Europe/Berlin] Vehicle API Request: GET /9
-[18-Nov-2025 03:09:26 Europe/Berlin] Vehicle API Request: GET /stats
-[18-Nov-2025 03:09:26 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 03:09:26 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
-[18-Nov-2025 03:09:27 Europe/Berlin] Vehicle API Request: GET /9
-[18-Nov-2025 03:10:37 Europe/Berlin] Vehicle API Request: GET /9
-[18-Nov-2025 03:10:38 Europe/Berlin] Vehicle API Request: GET /9
-[18-Nov-2025 03:10:42 Europe/Berlin] Vehicle API Request: GET /9
-[18-Nov-2025 03:10:42 Europe/Berlin] Vehicle API Request: GET /9
-[18-Nov-2025 03:10:42 Europe/Berlin] Vehicle API Request: GET /9
-[18-Nov-2025 03:10:43 Europe/Berlin] Vehicle API Request: GET /9
-[18-Nov-2025 03:10:43 Europe/Berlin] Vehicle API Request: GET /9
-[18-Nov-2025 03:11:00 Europe/Berlin] Vehicle API Request: GET /9
-[18-Nov-2025 03:11:00 Europe/Berlin] Vehicle API Request: GET /9
-[18-Nov-2025 03:11:01 Europe/Berlin] Vehicle API Request: GET /stats
-[18-Nov-2025 03:11:01 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 03:11:01 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
-[18-Nov-2025 03:11:02 Europe/Berlin] Vehicle API Request: GET /9
-[18-Nov-2025 03:11:04 Europe/Berlin] Vehicle API Request: GET /9
-[18-Nov-2025 03:11:04 Europe/Berlin] Vehicle API Request: GET /9
-[18-Nov-2025 03:11:04 Europe/Berlin] Vehicle API Request: GET /9
-[18-Nov-2025 03:11:05 Europe/Berlin] Vehicle API Request: GET /9
-[18-Nov-2025 03:11:05 Europe/Berlin] Vehicle API Request: GET /9
-[18-Nov-2025 03:11:06 Europe/Berlin] Vehicle API Request: GET /9
-[18-Nov-2025 03:11:06 Europe/Berlin] Vehicle API Request: GET /9
-[18-Nov-2025 03:11:09 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 03:11:09 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"12","offset":"0"}
-[18-Nov-2025 03:11:09 Europe/Berlin] Vehicle API Request: GET /stats
-[18-Nov-2025 03:11:09 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 03:11:09 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
-[18-Nov-2025 03:11:10 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 03:11:10 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"12","offset":"0"}
-[18-Nov-2025 03:11:11 Europe/Berlin] Vehicle API Request: GET /stats
-[18-Nov-2025 03:11:11 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 03:11:11 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
-[18-Nov-2025 03:11:11 Europe/Berlin] Vehicle API Request: GET /9
-[18-Nov-2025 03:11:12 Europe/Berlin] Vehicle API Request: GET /9
-[18-Nov-2025 03:11:16 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 03:11:16 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"12","offset":"0"}
-[18-Nov-2025 03:11:17 Europe/Berlin] Vehicle API Request: GET /stats
-[18-Nov-2025 03:11:17 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 03:11:17 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
-[18-Nov-2025 03:11:31 Europe/Berlin] Vehicle API Request: GET /stats
-[18-Nov-2025 03:11:31 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 03:11:31 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
-[18-Nov-2025 03:11:33 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 03:11:33 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"12","offset":"0"}
-[18-Nov-2025 03:11:33 Europe/Berlin] Vehicle API Request: GET /stats
-[18-Nov-2025 03:11:33 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 03:11:33 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
-[18-Nov-2025 03:11:35 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 03:11:35 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"12","offset":"0"}
-[18-Nov-2025 03:11:38 Europe/Berlin] Vehicle API Request: GET /stats
-[18-Nov-2025 03:11:38 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 03:11:38 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
-[18-Nov-2025 03:11:40 Europe/Berlin] Vehicle API Request: GET /available
-[18-Nov-2025 03:11:40 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"12","offset":"0"}
+  thrown in C:\xampp\htdocs\TransportationRenting\shared\classes\DatabaseManager.php on line 60
+[18-Nov-2025 09:06:51 Europe/Berlin] Vehicle API Request: GET /stats
+[18-Nov-2025 09:06:51 Europe/Berlin] Vehicle API Request: GET /available
+[18-Nov-2025 09:06:51 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
+[18-Nov-2025 09:07:44 Europe/Berlin] Vehicle API Request: GET /stats
+[18-Nov-2025 09:07:44 Europe/Berlin] Vehicle API Request: GET /available
+[18-Nov-2025 09:07:44 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
+[18-Nov-2025 09:15:11 Europe/Berlin] Vehicle API Request: GET /available
+[18-Nov-2025 09:15:11 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"12","offset":"0"}
+[18-Nov-2025 09:15:12 Europe/Berlin] Vehicle API Request: GET /9
+[18-Nov-2025 09:15:21 Europe/Berlin] Vehicle API Request: GET /9

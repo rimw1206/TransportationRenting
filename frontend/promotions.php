@@ -376,16 +376,83 @@ try {
             userDropdown?.classList.remove('show');
         });
 
-        // Copy promo code
+        // Copy promo code with fallback for older browsers
         function copyCode(code, promoId) {
-            navigator.clipboard.writeText(code).then(() => {
-                const btn = event.target.closest('.btn-copy');
-                const originalHTML = btn.innerHTML;
+            const btn = event.target.closest('.btn-copy');
+            const originalHTML = btn.innerHTML;
+            
+            // Method 1: Modern Clipboard API
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(code)
+                    .then(() => {
+                        showCopySuccess(btn, originalHTML);
+                    })
+                    .catch(err => {
+                        console.warn('Clipboard API failed, trying fallback...', err);
+                        // Fallback to old method
+                        copyTextFallback(code, btn, originalHTML);
+                    });
+            } else {
+                // Method 2: Fallback for older browsers
+                copyTextFallback(code, btn, originalHTML);
+            }
+        }
+
+        // Fallback method using textarea
+        function copyTextFallback(text, btn, originalHTML) {
+            try {
+                // Create temporary textarea
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                textarea.style.position = 'fixed';
+                textarea.style.top = '0';
+                textarea.style.left = '0';
+                textarea.style.opacity = '0';
+                document.body.appendChild(textarea);
                 
-                btn.innerHTML = '<i class="fas fa-check"></i> Đã sao chép!';
-                btn.style.background = '#059669';
+                // Select and copy
+                textarea.focus();
+                textarea.select();
+                
+                const successful = document.execCommand('copy');
+                document.body.removeChild(textarea);
+                
+                if (successful) {
+                    showCopySuccess(btn, originalHTML);
+                } else {
+                    showCopyError(btn, originalHTML, text);
+                }
+            } catch (err) {
+                console.error('Fallback copy failed:', err);
+                showCopyError(btn, originalHTML, text);
+            }
+        }
+
+        // Show success state
+        function showCopySuccess(btn, originalHTML) {
+            btn.innerHTML = '<i class="fas fa-check"></i> Đã sao chép!';
+            btn.style.background = '#059669';
+            btn.style.color = 'white';
+            btn.style.borderColor = '#059669';
+            
+            setTimeout(() => {
+                btn.innerHTML = originalHTML;
+                btn.style.background = 'white';
+                btn.style.color = '#4F46E5';
+                btn.style.borderColor = '#4F46E5';
+            }, 2000);
+        }
+
+        // Show error with manual copy option
+        function showCopyError(btn, originalHTML, code) {
+            // Show prompt for manual copy
+            const result = prompt('Không thể tự động sao chép. Vui lòng copy mã bên dưới:', code);
+            
+            if (result) {
+                btn.innerHTML = '<i class="fas fa-info-circle"></i> Đã hiển thị mã';
+                btn.style.background = '#0284c7';
                 btn.style.color = 'white';
-                btn.style.borderColor = '#059669';
+                btn.style.borderColor = '#0284c7';
                 
                 setTimeout(() => {
                     btn.innerHTML = originalHTML;
@@ -393,14 +460,12 @@ try {
                     btn.style.color = '#4F46E5';
                     btn.style.borderColor = '#4F46E5';
                 }, 2000);
-            }).catch(err => {
-                alert('Không thể sao chép mã');
-            });
+            }
         }
 
         // Use promo - redirect to cart or vehicles
         function usePromo(code) {
-            // Save promo code to session/localStorage
+            // Save promo code to sessionStorage
             sessionStorage.setItem('pendingPromo', code);
             
             // Check if cart has items
@@ -412,6 +477,22 @@ try {
                 }
             <?php endif; ?>
         }
+
+        // Auto-apply promo if coming from promotion page
+        window.addEventListener('DOMContentLoaded', () => {
+            const pendingPromo = sessionStorage.getItem('pendingPromo');
+            
+            if (pendingPromo && typeof applyPromoCode === 'function') {
+                // If on cart page and has applyPromoCode function
+                document.getElementById('promoCode').value = pendingPromo;
+                sessionStorage.removeItem('pendingPromo');
+                
+                // Show notification
+                setTimeout(() => {
+                    applyPromoCode();
+                }, 500);
+            }
+        });
     </script>
 </body>
 </html>

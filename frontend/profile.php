@@ -10,10 +10,8 @@ if (!isset($_SESSION['user'])) {
 $user = $_SESSION['user'];
 $token = $_SESSION['token'] ?? '';
 
-require_once __DIR__ . '/../shared/classes/ApiClient.php';
-
-$apiClient = new ApiClient();
-$apiClient->setServiceUrl('customer', 'http://localhost:8001');
+// ✅ FIX: Use Gateway API instead of direct ApiClient
+$gatewayUrl = '/TransportationRenting/gateway/api';
 
 // Fetch user profile
 $profile = null;
@@ -21,11 +19,42 @@ $kycStatus = null;
 $paymentMethods = [];
 $rentalHistory = [];
 
+/**
+ * Helper function to call Gateway API
+ */
+function callGatewayAPI($endpoint, $token, $method = 'GET', $data = null) {
+    global $gatewayUrl;
+    
+    $url = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . $gatewayUrl . $endpoint;
+    
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        'Content-Type: application/json',
+        'Authorization: Bearer ' . $token
+    ]);
+    
+    if ($data && in_array($method, ['POST', 'PUT', 'PATCH'])) {
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+    }
+    
+    $response = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+    
+    return [
+        'status_code' => $httpCode,
+        'raw_response' => $response,
+        'data' => json_decode($response, true)
+    ];
+}
+
 try {
     // Get profile
-    $response = $apiClient->get('customer', '/profile', ["Authorization: Bearer {$token}"]);
+    $response = callGatewayAPI('/profile', $token);
     if ($response['status_code'] === 200) {
-        $data = json_decode($response['raw_response'], true);
+        $data = $response['data'];
         if ($data && isset($data['success']) && $data['success'] && isset($data['data'])) {
             $profile = $data['data'];
         } else {
@@ -33,17 +62,16 @@ try {
         }
     } else {
         error_log("Profile API returned status: " . $response['status_code']);
+        error_log("Response: " . $response['raw_response']);
     }
     
-    // Get KYC status - LINE 39 FIX
-    $response = $apiClient->get('customer', '/kyc', ["Authorization: Bearer {$token}"]);
+    // Get KYC status
+    $response = callGatewayAPI('/kyc', $token);
     if ($response['status_code'] === 200) {
-        $data = json_decode($response['raw_response'], true);
-        // ✅ ADD ISSET CHECK HERE
+        $data = $response['data'];
         if ($data && isset($data['success']) && $data['success'] && isset($data['data'])) {
             $kycStatus = $data['data'];
         } else {
-            // KYC might not exist for user - this is OK
             $kycStatus = null;
             error_log("KYC not found or empty for user: " . $user['user_id']);
         }
@@ -51,26 +79,29 @@ try {
         error_log("KYC API returned status: " . $response['status_code']);
     }
     
-    // Get payment methods
-    $response = $apiClient->get('customer', '/payment-methods', ["Authorization: Bearer {$token}"]);
+    // Get payment methods - CRITICAL FIX
+    $response = callGatewayAPI('/payment-methods', $token);
+    error_log("Payment Methods Response: " . $response['raw_response']);
+    
     if ($response['status_code'] === 200) {
-        $data = json_decode($response['raw_response'], true);
-        // ✅ ADD ISSET CHECK
-        if ($data && isset($data['success']) && $data['success'] && isset($data['data'])) {
-            $paymentMethods = $data['data'];
+        $data = $response['data'];
+        if ($data && isset($data['success']) && $data['success']) {
+            $paymentMethods = $data['data'] ?? [];
+            error_log("✅ Found " . count($paymentMethods) . " payment methods");
         } else {
             $paymentMethods = [];
-            error_log("Payment methods empty for user: " . $user['user_id']);
+            error_log("Payment methods empty: " . json_encode($data));
         }
     } else {
-        error_log("Payment API returned status: " . $response['status_code']);
+        error_log("❌ Payment API error - Status: " . $response['status_code']);
+        error_log("Response: " . $response['raw_response']);
+        $paymentMethods = [];
     }
     
     // Get rental history
-    $response = $apiClient->get('customer', '/rental-history', ["Authorization: Bearer {$token}"]);
+    $response = callGatewayAPI('/rental-history', $token);
     if ($response['status_code'] === 200) {
-        $data = json_decode($response['raw_response'], true);
-        // ✅ ADD ISSET CHECK
+        $data = $response['data'];
         if ($data && isset($data['success']) && $data['success'] && isset($data['data'])) {
             $rentalHistory = $data['data'];
         } else {
@@ -100,12 +131,35 @@ function getStatusBadge($status) {
 
 function getPaymentIcon($type) {
     $icons = [
-        'CreditCard' => 'fa-credit-card',
-        'DebitCard' => 'fa-credit-card',
-        'EWallet' => 'fa-wallet',
-        'BankTransfer' => 'fa-university'
+        'COD' => 'fa-money-bill-wave',
+        'VNPayQR' => 'fa-qrcode'
     ];
-    return $icons[$type] ?? 'fa-money-bill';
+    return $icons[$type] ?? 'fa-credit-card';
+}
+
+function getPaymentTypeName($type) {
+    $names = [
+        'COD' => 'Tiền mặt (COD)',
+        'VNPayQR' => 'VNPay QR Code'
+    ];
+    return $names[$type] ?? $type;
+}
+
+function getPaymentTypeColor($type) {
+    $colors = [
+        'COD' => 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+        'VNPayQR' => 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)'
+    ];
+    return $colors[$type] ?? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+}
+
+// Debug output
+error_log("=== PROFILE.PHP DEBUG ===");
+error_log("User ID: " . ($user['user_id'] ?? 'N/A'));
+error_log("Token exists: " . (!empty($token) ? 'YES' : 'NO'));
+error_log("Payment Methods Count: " . count($paymentMethods));
+if (!empty($paymentMethods)) {
+    error_log("Payment Methods: " . json_encode($paymentMethods));
 }
 ?>
 <!DOCTYPE html>
@@ -556,6 +610,42 @@ function getPaymentIcon($type) {
             background: #fef3c7;
             color: #92400e;
         }
+        .alert-info {
+    background: #dbeafe;
+    color: #1e40af;
+    padding: 12px 15px;
+    border-radius: 8px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 14px;
+}
+
+.alert-info i {
+    margin-top: 2px;
+}
+
+.help-text {
+    font-size: 13px;
+    color: #666;
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.help-text i {
+    color: #4F46E5;
+}
+
+/* Payment icon colors for COD & VNPayQR */
+.payment-icon.cod {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+}
+
+.payment-icon.vnpay {
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%) !important;
+}
     </style>
 </head>
 <body>
@@ -754,37 +844,55 @@ function getPaymentIcon($type) {
                     </div>
                     
                     <?php if (empty($paymentMethods)): ?>
+                        <!-- ✅ EMPTY STATE - Hiển thị khi chưa có payment method -->
                         <div class="empty-state">
                             <i class="fas fa-credit-card"></i>
                             <h3>Chưa có phương thức thanh toán</h3>
                             <p>Thêm phương thức thanh toán để thuê xe dễ dàng hơn</p>
                         </div>
                     <?php else: ?>
+                        <!-- ✅ PAYMENT CARDS - Hiển thị khi có payment methods -->
                         <?php foreach ($paymentMethods as $method): ?>
-                        <div class="payment-card <?= $method['is_default'] ? 'default' : '' ?>">
-                            <div class="payment-info">
-                                <div class="payment-icon">
-                                    <i class="fas <?= getPaymentIcon($method['type']) ?>"></i>
+                            <div class="payment-card <?= $method['is_default'] ? 'default' : '' ?>">
+                                <div class="payment-info">
+                                    <div class="payment-icon" style="background: <?= getPaymentTypeColor($method['type']) ?>;">
+                                        <i class="fas <?= getPaymentIcon($method['type']) ?>"></i>
+                                    </div>
+                                    <div class="payment-details">
+                                        <h4><?= getPaymentTypeName($method['type']) ?></h4>
+                                        <?php if ($method['type'] === 'VNPayQR'): ?>
+                                            <p>
+                                                <i class="fas fa-qrcode"></i> 
+                                                Thanh toán bằng QR Code VNPay
+                                            </p>
+                                        <?php elseif ($method['type'] === 'COD'): ?>
+                                            <p>
+                                                <i class="fas fa-hand-holding-usd"></i>
+                                                Thanh toán khi nhận xe
+                                            </p>
+                                        <?php endif; ?>
+                                        <?php if ($method['is_default']): ?>
+                                            <span class="status-badge status-verified">
+                                                <i class="fas fa-star"></i> Mặc định
+                                            </span>
+                                        <?php endif; ?>
+                                    </div>
                                 </div>
-                                <div class="payment-details">
-                                    <h4><?= htmlspecialchars($method['provider']) ?></h4>
-                                    <p><?= htmlspecialchars($method['account_number']) ?></p>
-                                    <?php if ($method['is_default']): ?>
-                                        <span class="status-badge status-verified">Mặc định</span>
+                                <div class="payment-actions">
+                                    <?php if (!$method['is_default']): ?>
+                                    <button class="btn-icon btn-edit" 
+                                            onclick="setDefaultPayment(<?= $method['method_id'] ?>)" 
+                                            title="Đặt làm mặc định">
+                                        <i class="fas fa-star"></i>
+                                    </button>
                                     <?php endif; ?>
+                                    <button class="btn-icon btn-delete" 
+                                            onclick="deletePayment(<?= $method['method_id'] ?>)" 
+                                            title="Xóa">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
                                 </div>
                             </div>
-                            <div class="payment-actions">
-                                <?php if (!$method['is_default']): ?>
-                                <button class="btn-icon btn-edit" onclick="setDefaultPayment(<?= $method['method_id'] ?>)" title="Đặt làm mặc định">
-                                    <i class="fas fa-star"></i>
-                                </button>
-                                <?php endif; ?>
-                                <button class="btn-icon btn-delete" onclick="deletePayment(<?= $method['method_id'] ?>)" title="Xóa">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </div>
                         <?php endforeach; ?>
                     <?php endif; ?>
                 </div>
@@ -866,42 +974,64 @@ function getPaymentIcon($type) {
                 <h2>Thêm phương thức thanh toán</h2>
                 <button class="btn-close" onclick="closeModal('paymentModal')">&times;</button>
             </div>
+            
+            <!-- Info Box -->
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle"></i>
+                <span>Chọn phương thức thanh toán phù hợp với bạn</span>
+            </div>
+            
             <form id="paymentForm" onsubmit="addPayment(event)">
+                <!-- Payment Type Selection -->
                 <div class="form-group">
-                    <label>Loại thanh toán</label>
-                    <select name="type" required onchange="updatePaymentFields(this.value)">
-                        <option value="">-- Chọn loại --</option>
-                        <option value="CreditCard">Thẻ tín dụng</option>
-                        <option value="DebitCard">Thẻ ghi nợ</option>
-                        <option value="EWallet">Ví điện tử</option>
-                        <option value="BankTransfer">Chuyển khoản ngân hàng</option>
+                    <label>Phương thức thanh toán</label>
+                    <select name="type" id="paymentType" required onchange="updatePaymentFields(this.value)">
+                        <option value="">-- Chọn phương thức --</option>
+                        <option value="COD">💵 Tiền mặt (COD)</option>
+                        <option value="VNPayQR">📱 VNPay QR Code</option>
                     </select>
+                    <p class="help-text">
+                        <i class="fas fa-lightbulb"></i>
+                        <span id="typeHelpText">Chọn cách bạn muốn thanh toán</span>
+                    </p>
                 </div>
                 
+                <!-- COD Info -->
+                <div class="form-group" id="codInfoGroup" style="display: none;">
+                    <div class="alert alert-warning">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <div>
+                            <strong>Thanh toán tiền mặt khi nhận xe</strong>
+                            <p style="margin: 5px 0 0 0; font-size: 13px;">
+                                Bạn sẽ thanh toán bằng tiền mặt trực tiếp cho nhân viên khi nhận xe
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- VNPayQR Info -->
+                <div class="form-group" id="vnpayInfoGroup" style="display: none;">
+                    <div class="alert alert-info">
+                        <i class="fas fa-qrcode"></i>
+                        <div>
+                            <strong>Thanh toán bằng VNPay QR Code</strong>
+                            <p style="margin: 5px 0 0 0; font-size: 13px;">
+                                Mã QR sẽ được tạo tự động khi bạn thanh toán. Chỉ cần quét mã để hoàn tất.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Set as Default -->
                 <div class="form-group">
-                    <label>Nhà cung cấp</label>
-                    <input type="text" name="provider" placeholder="VD: Visa, MoMo, Vietcombank" required>
-                </div>
-                
-                <div class="form-group">
-                    <label>Số tài khoản/Số thẻ</label>
-                    <input type="text" name="account_number" placeholder="VD: **** **** **** 1234" required>
-                </div>
-                
-                <div class="form-group" id="expiryDateGroup" style="display: none;">
-                    <label>Ngày hết hạn</label>
-                    <input type="date" name="expiry_date">
-                </div>
-                
-                <div class="form-group">
-                    <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                    <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; font-weight: normal;">
                         <input type="checkbox" name="is_default" value="1">
                         <span>Đặt làm phương thức mặc định</span>
                     </label>
                 </div>
                 
                 <button type="submit" class="btn-primary" style="width: 100%;">
-                    <i class="fas fa-plus"></i> Thêm phương thức
+                    <i class="fas fa-plus"></i> Thêm phương thức thanh toán
                 </button>
             </form>
         </div>
@@ -912,19 +1042,11 @@ function getPaymentIcon($type) {
         const API_BASE = '/TransportationRenting/gateway/api';
         const AUTH_TOKEN = '<?= $token ?>';
         
-        // ✅ DEBUG: Kiểm tra token khi trang load
         console.log('=== Profile Page Loaded ===');
-        console.log('Token exists:', AUTH_TOKEN ? 'YES' : 'NO');
-        console.log('Token length:', AUTH_TOKEN ? AUTH_TOKEN.length : 0);
-        console.log('Token preview:', AUTH_TOKEN ? AUTH_TOKEN.substring(0, 20) + '...' : 'EMPTY');
+        console.log('Token:', AUTH_TOKEN ? 'Present' : 'Missing');
+        console.log('Payment Methods:', <?= json_encode($paymentMethods) ?>);
         
-        // Test if token is valid JWT format
-        if (AUTH_TOKEN) {
-            const parts = AUTH_TOKEN.split('.');
-            console.log('Token parts:', parts.length === 3 ? 'VALID JWT FORMAT' : 'INVALID FORMAT');
-        }
-
-        // User dropdown (không đổi)
+        // User dropdown
         const userBtn = document.getElementById('userBtn');
         const userDropdown = document.getElementById('userDropdown');
 
@@ -937,7 +1059,7 @@ function getPaymentIcon($type) {
             userDropdown?.classList.remove('show');
         });
 
-        // Tab switching (không đổi)
+        // Tab switching
         function switchTab(tabName) {
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 btn.classList.remove('active');
@@ -950,56 +1072,29 @@ function getPaymentIcon($type) {
             document.getElementById(`tab-${tabName}`).classList.add('active');
         }
 
-        // ✅ UPDATE PROFILE - Sửa lại hoàn toàn
+        // Update profile
         async function updateProfile(event) {
             event.preventDefault();
             
             const formData = new FormData(event.target);
             const data = Object.fromEntries(formData);
             
-            console.log('=== UPDATE PROFILE REQUEST ===');
-            console.log('Data to send:', data);
-            console.log('Token being sent:', AUTH_TOKEN ? AUTH_TOKEN.substring(0, 20) + '...' : 'EMPTY');
-            
-            // Validate token before sending
             if (!AUTH_TOKEN || AUTH_TOKEN.trim() === '') {
                 showAlert('error', 'Không tìm thấy token xác thực. Vui lòng đăng nhập lại.');
-                console.error('AUTH_TOKEN is empty!');
                 return;
             }
             
             try {
-                const url = `${API_BASE}/profile`;
-                console.log('Sending PUT request to:', url);
-                
-                const response = await fetch(url, {
+                const response = await fetch(`${API_BASE}/profile`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${AUTH_TOKEN}` // ✅ Đảm bảo có Bearer
+                        'Authorization': `Bearer ${AUTH_TOKEN}`
                     },
                     body: JSON.stringify(data)
                 });
                 
-                console.log('Response status:', response.status);
-                console.log('Response headers:', [...response.headers.entries()]);
-                
-                // Đọc response text trước để debug
-                const responseText = await response.text();
-                console.log('Response body (raw):', responseText);
-                
-                // Parse JSON
-                let result;
-                try {
-                    result = JSON.parse(responseText);
-                } catch (e) {
-                    console.error('Failed to parse JSON:', e);
-                    console.error('Response was:', responseText);
-                    showAlert('error', 'Server trả về dữ liệu không hợp lệ');
-                    return;
-                }
-                
-                console.log('Response data (parsed):', result);
+                const result = await response.json();
                 
                 if (response.ok && result.success) {
                     showAlert('success', 'Cập nhật thông tin thành công!');
@@ -1009,11 +1104,11 @@ function getPaymentIcon($type) {
                 }
             } catch (error) {
                 console.error('Fetch error:', error);
-                showAlert('error', 'Không thể kết nối đến server: ' + error.message);
+                showAlert('error', 'Không thể kết nối đến server');
             }
         }
 
-        // Show alert (không đổi)
+        // Show alert
         function showAlert(type, message) {
             const alertContainer = document.getElementById('alert-container');
             const alertClass = type === 'success' ? 'alert-success' : 'alert-error';
@@ -1083,26 +1178,61 @@ function getPaymentIcon($type) {
             }
         }
 
-        // Update payment fields based on type
+        // ✅ UPDATE PAYMENT FIELDS - FOR COD & VNPayQR
         function updatePaymentFields(type) {
-            const expiryGroup = document.getElementById('expiryDateGroup');
+            const codInfoGroup = document.getElementById('codInfoGroup');
+            const vnpayInfoGroup = document.getElementById('vnpayInfoGroup');
+            const typeHelpText = document.getElementById('typeHelpText');
             
-            if (type === 'CreditCard' || type === 'DebitCard') {
-                expiryGroup.style.display = 'block';
-                expiryGroup.querySelector('input').required = true;
+            // Reset all fields
+            if (codInfoGroup) codInfoGroup.style.display = 'none';
+            if (vnpayInfoGroup) vnpayInfoGroup.style.display = 'none';
+            
+            if (type === 'VNPayQR') {
+                // Show VNPay info
+                if (vnpayInfoGroup) vnpayInfoGroup.style.display = 'block';
+                
+                if (typeHelpText) {
+                    typeHelpText.textContent = 'Thanh toán nhanh bằng QR Code (tự động tạo khi thanh toán)';
+                }
+                
+            } else if (type === 'COD') {
+                // Show COD info
+                if (codInfoGroup) codInfoGroup.style.display = 'block';
+                
+                if (typeHelpText) {
+                    typeHelpText.textContent = 'Thanh toán bằng tiền mặt khi nhận xe';
+                }
             } else {
-                expiryGroup.style.display = 'none';
-                expiryGroup.querySelector('input').required = false;
+                if (typeHelpText) {
+                    typeHelpText.textContent = 'Chọn cách bạn muốn thanh toán';
+                }
             }
         }
 
-        // Add payment method
+        // ✅ ADD PAYMENT METHOD - SIMPLIFIED
         async function addPayment(event) {
             event.preventDefault();
             
             const formData = new FormData(event.target);
-            const data = Object.fromEntries(formData);
-            data.is_default = formData.has('is_default');
+            const data = {
+                type: formData.get('type'),
+                is_default: formData.has('is_default')
+            };
+            
+            console.log('=== ADD PAYMENT METHOD ===');
+            console.log('Payment type:', data.type);
+            
+            // Validate type
+            if (!data.type) {
+                alert('Vui lòng chọn phương thức thanh toán');
+                return;
+            }
+            
+            // No additional data needed for both COD and VNPayQR
+            // QR code will be generated at checkout
+            
+            console.log('Final data to send:', data);
             
             try {
                 const response = await fetch(`${API_BASE}/payment-methods`, {
@@ -1114,20 +1244,24 @@ function getPaymentIcon($type) {
                     body: JSON.stringify(data)
                 });
                 
+                console.log('Response status:', response.status);
+                
                 const result = await response.json();
+                console.log('Response:', result);
                 
                 if (result.success) {
                     alert('Thêm phương thức thanh toán thành công!');
                     closeModal('paymentModal');
-                    setTimeout(() => location.reload(), 1000);
+                    setTimeout(() => location.reload(), 500);
                 } else {
                     alert(result.message || 'Có lỗi xảy ra');
                 }
             } catch (error) {
                 console.error('Error:', error);
-                alert('Không thể kết nối đến server');
+                alert('Không thể kết nối đến server: ' + error.message);
             }
         }
+
 
         // Delete payment method
         async function deletePayment(methodId) {
@@ -1182,22 +1316,17 @@ function getPaymentIcon($type) {
         }
 
         // Change password
-        // ✅ FIXED Change password function
         async function changePassword(event) {
             event.preventDefault();
             
             const formData = new FormData(event.target);
             const data = Object.fromEntries(formData);
             
-            console.log('=== CHANGE PASSWORD REQUEST ===');
-            
-            // Validate password match
             if (data.new_password !== data.confirm_password) {
                 showAlert('error', 'Mật khẩu mới không khớp!');
                 return;
             }
             
-            // Validate password length
             if (data.new_password.length < 6) {
                 showAlert('error', 'Mật khẩu mới phải có ít nhất 6 ký tự!');
                 return;
@@ -1216,16 +1345,12 @@ function getPaymentIcon($type) {
                     })
                 });
                 
-                console.log('Response status:', response.status);
-                
                 const result = await response.json();
-                console.log('Response:', result);
                 
                 if (result.success) {
                     showAlert('success', 'Đổi mật khẩu thành công!');
                     event.target.reset();
                     
-                    // Optional: Logout sau khi đổi mật khẩu
                     setTimeout(() => {
                         if (confirm('Mật khẩu đã được thay đổi. Bạn có muốn đăng nhập lại không?')) {
                             window.location.href = 'logout.php';
@@ -1236,7 +1361,7 @@ function getPaymentIcon($type) {
                 }
             } catch (error) {
                 console.error('Error:', error);
-                showAlert('error', 'Không thể kết nối đến server: ' + error.message);
+                showAlert('error', 'Không thể kết nối đến server');
             }
         }
 

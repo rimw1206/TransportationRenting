@@ -1,7 +1,7 @@
 <?php
 /**
  * services/customer/public/index.php
- * Customer Service Main Router
+ * Customer Service Main Router - UPDATED WITH SET-DEFAULT ROUTE
  */
 
 // Enable error reporting but don't display
@@ -198,6 +198,13 @@ try {
         exit;
     }
     
+    // ✅ NEW ROUTE: Set Default Payment Method
+    if (preg_match('#^/payment-methods/(\d+)/set-default$#', $uri, $matches) && $requestMethod === 'PUT') {
+        $_GET['method_id'] = $matches[1];
+        require_once __DIR__ . '/../api/payment-methods/set-default.php';
+        exit;
+    }
+    
     // ==================== RENTAL HISTORY ROUTES ====================
     if ($uri === '/rental-history' && $requestMethod === 'GET') {
         require_once __DIR__ . '/../api/rental-history/list.php';
@@ -220,6 +227,7 @@ try {
                 'POST /auth/refresh-token',
                 'POST /auth/verify-email',
                 'POST /auth/resend-verification',
+                'PUT /auth/change-password',
             ],
             'profile' => [
                 'GET /profile',
@@ -231,6 +239,12 @@ try {
                 'GET /users/{id}',
                 'PUT /users/{id}',
                 'DELETE /users/{id}',
+            ],
+            'payment_methods' => [
+                'GET /payment-methods',
+                'POST /payment-methods',
+                'DELETE /payment-methods/{id}',
+                'PUT /payment-methods/{id}/set-default',
             ]
         ]
     ]);

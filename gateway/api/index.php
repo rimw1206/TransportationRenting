@@ -1,7 +1,7 @@
 <?php
 /**
  * API Gateway - Main Router
- * Fixed version with correct paths
+ * FIXED VERSION - Correct path handling for payment-methods
  */
 
 // Fix paths - go up two levels from gateway/api/ to root
@@ -14,7 +14,7 @@ $requestMethod = $_SERVER['REQUEST_METHOD'];
 $requestUri = $_SERVER['REQUEST_URI'];
 $path = parse_url($requestUri, PHP_URL_PATH);
 
-// Remove gateway prefix ONLY
+// Remove gateway prefix ONLY (keep the rest)
 $prefix = '/TransportationRenting/gateway/api';
 if (strpos($path, $prefix) === 0) {
     $path = substr($path, strlen($prefix));
@@ -55,19 +55,15 @@ function isBrowserRequest()
 function isPublicRoute($path, $publicRoutes)
 {
     foreach ($publicRoutes as $publicRoute) {
-
-        // Public route must be matched on the ORIGINAL path, not stripped one
         if ($path === $publicRoute) {
             return true;
         }
-
         if (strpos($path, $publicRoute . '/') === 0) {
             return true;
         }
     }
     return false;
 }
-
 
 try {
     $targetService = null;
@@ -93,7 +89,8 @@ try {
         ApiResponse::error("Service not found for path: $path", 404);
     }
 
-    // Keep the full path including prefix
+    // ✅ CRITICAL FIX: KEEP THE FULL PATH - Don't strip anything more
+    // The path already has the correct format after removing gateway prefix
     $targetPath = $path;
 
     // Check authentication (skip if public route)
@@ -151,9 +148,10 @@ try {
         $headers[] = 'Authorization: ' . $_SERVER['REDIRECT_HTTP_AUTHORIZATION'];
     }
 
-    // Add debug header
+    // Add debug headers
     $headers[] = 'X-Gateway-Original-Path: ' . $path;
     $headers[] = 'X-Gateway-Target-Service: ' . $targetService;
+    $headers[] = 'X-Gateway-Forward-Path: ' . $targetPath;
 
     // Forward request
     $response = null;
@@ -195,3 +193,22 @@ try {
     ]);
     exit;
 }
+// Forward Authorization header
+$headers = [];
+if (!empty($_SERVER['HTTP_AUTHORIZATION'])) {
+    $headers[] = 'Authorization: ' . $_SERVER['HTTP_AUTHORIZATION'];
+    error_log("✅ Gateway forwarding Authorization: " . substr($_SERVER['HTTP_AUTHORIZATION'], 0, 30) . "...");
+} elseif (!empty($_SERVER['REDIRECT_HTTP_AUTHORIZATION'])) {
+    $headers[] = 'Authorization: ' . $_SERVER['REDIRECT_HTTP_AUTHORIZATION'];
+    error_log("✅ Gateway forwarding REDIRECT Authorization: " . substr($_SERVER['REDIRECT_HTTP_AUTHORIZATION'], 0, 30) . "...");
+} else {
+    error_log("❌ Gateway: No Authorization header found!");
+}
+
+// Add debug headers
+$headers[] = 'X-Gateway-Original-Path: ' . $path;
+$headers[] = 'X-Gateway-Target-Service: ' . $targetService;
+$headers[] = 'X-Gateway-Forward-Path: ' . $targetPath;
+
+error_log("Gateway forwarding to: {$serviceUrl}{$targetPath}");
+error_log("Headers: " . json_encode($headers));

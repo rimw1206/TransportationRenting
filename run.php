@@ -738,6 +738,7 @@ function setupRentalDatabase($config) {
                 pickup_location VARCHAR(100) NOT NULL,
                 dropoff_location VARCHAR(100) NOT NULL,
                 total_cost DECIMAL(10,2) NOT NULL,
+                promo_code VARCHAR(50) DEFAULT NULL COMMENT 'Mã khuyến mãi đã áp dụng',
                 status ENUM('Pending', 'Ongoing', 'Completed', 'Cancelled') DEFAULT 'Pending',
                 created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
                 INDEX idx_user_id (user_id),

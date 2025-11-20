@@ -1,6 +1,5 @@
 <?php
 require_once __DIR__ . '/../../../env-bootstrap.php';
-// services/rental/public/index.php
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
@@ -12,6 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 require_once __DIR__ . '/../services/RentalService.php';
+require_once __DIR__ . '/../classes/Rental.php';
 require_once __DIR__ . '/../../../shared/classes/ApiResponse.php';
 require_once __DIR__ . '/../../../gateway/middleware/auth.php';
 require_once __DIR__ . '/../classes/Promotion.php';
@@ -20,19 +20,92 @@ $requestUri = $_SERVER['REQUEST_URI'];
 $requestMethod = $_SERVER['REQUEST_METHOD'];
 $uri = parse_url($requestUri, PHP_URL_PATH);
 
-// Remove service prefix if exists
+// Remove service prefix
 $prefix = '/services/rental';
 if (strpos($uri, $prefix) === 0) {
     $uri = substr($uri, strlen($prefix));
     if ($uri === '') $uri = '/';
 }
 
-// ✅ GET QUERY PARAMS EARLY (TRƯỚC KHI DÙNG)
 $queryParams = $_GET;
 
 // Health check
 if ($uri === '/health') {
-    require_once __DIR__ . '/health.php';
+    echo json_encode([
+        'service' => 'rental-service',
+        'status' => 'ok',
+        'timestamp' => date('c')
+    ]);
+    exit;
+}
+
+// ===== CRITICAL: Handle /rentals/{id}/status BEFORE other routes =====
+if (preg_match('#^/rentals/(\d+)/status$#', $uri, $matches) && $requestMethod === 'PUT') {
+    error_log("=== RENTAL STATUS UPDATE ENDPOINT HIT ===");
+    error_log("Rental ID: " . $matches[1]);
+    
+    $requestBody = json_decode(file_get_contents('php://input'), true);
+    error_log("Request body: " . json_encode($requestBody));
+    
+    if (!$requestBody || !isset($requestBody['status'])) {
+        error_log("ERROR: status field missing");
+        ApiResponse::badRequest('status is required');
+    }
+    
+    $rentalId = (int)$matches[1];
+    $status = $requestBody['status'];
+    
+    error_log("Updating rental #{$rentalId} to status: {$status}");
+    
+    $validStatuses = ['Pending', 'Ongoing', 'Completed', 'Cancelled'];
+    if (!in_array($status, $validStatuses)) {
+        error_log("ERROR: Invalid status: {$status}");
+        ApiResponse::badRequest('Invalid status. Must be: ' . implode(', ', $validStatuses));
+    }
+    
+    try {
+        $rental = new Rental();
+        $result = $rental->updateStatus($rentalId, $status);
+        
+        error_log("Update successful: " . json_encode($result));
+        
+        ApiResponse::success([
+            'rental_id' => $rentalId,
+            'status' => $status,
+            'updated' => true
+        ], 'Rental status updated successfully');
+        
+    } catch (Exception $e) {
+        error_log("ERROR updating status: " . $e->getMessage());
+        ApiResponse::error($e->getMessage(), 500);
+    }
+    
+    exit;
+}
+
+// ===== Handle /rentals/{id}/cancel BEFORE other routes =====
+if (preg_match('#^/rentals/(\d+)/cancel$#', $uri, $matches) && $requestMethod === 'PUT') {
+    error_log("=== RENTAL CANCEL ENDPOINT HIT ===");
+    
+    $rentalId = (int)$matches[1];
+    error_log("Cancelling rental #{$rentalId}");
+    
+    try {
+        $rental = new Rental();
+        $result = $rental->cancel($rentalId);
+        
+        error_log("Cancel successful");
+        
+        ApiResponse::success([
+            'rental_id' => $rentalId,
+            'status' => 'Cancelled'
+        ], 'Rental cancelled successfully');
+        
+    } catch (Exception $e) {
+        error_log("ERROR cancelling: " . $e->getMessage());
+        ApiResponse::error($e->getMessage(), 500);
+    }
+    
     exit;
 }
 
@@ -41,7 +114,6 @@ if (strpos($uri, '/promotions') === 0) {
     $promotion = new Promotion();
     $promoSegments = array_values(array_filter(explode('/', str_replace('/promotions', '', $uri))));
     
-    // Get request body for POST/PUT
     $requestBody = null;
     if (in_array($requestMethod, ['POST', 'PUT', 'PATCH'])) {
         $body = file_get_contents('php://input');
@@ -52,7 +124,6 @@ if (strpos($uri, '/promotions') === 0) {
         switch ($requestMethod) {
             case 'GET':
                 if (empty($promoSegments)) {
-                    // GET /promotions - Get all promotions (admin only)
                     $auth = AuthMiddleware::authenticate();
                     if (!$auth['success'] || $auth['role'] !== 'admin') {
                         ApiResponse::forbidden('Admin access required');
@@ -63,12 +134,10 @@ if (strpos($uri, '/promotions') === 0) {
                     ApiResponse::success($promos, 'Promotions retrieved');
                     
                 } elseif ($promoSegments[0] === 'active') {
-                    // GET /promotions/active - Get active promotions (public)
                     $promos = $promotion->getActive();
                     ApiResponse::success($promos, 'Active promotions retrieved');
                     
                 } elseif ($promoSegments[0] === 'validate') {
-                    // GET /promotions/validate?code=XXX - Validate promo code (public)
                     if (empty($queryParams['code'])) {
                         ApiResponse::badRequest('Code parameter required');
                     }
@@ -86,7 +155,6 @@ if (strpos($uri, '/promotions') === 0) {
                     }
                     
                 } elseif (is_numeric($promoSegments[0])) {
-                    // GET /promotions/{id} - Get promotion by ID (admin)
                     $auth = AuthMiddleware::authenticate();
                     if (!$auth['success'] || $auth['role'] !== 'admin') {
                         ApiResponse::forbidden('Admin access required');
@@ -104,7 +172,6 @@ if (strpos($uri, '/promotions') === 0) {
                 break;
                 
             case 'POST':
-                // POST /promotions - Create promotion (admin only)
                 $auth = AuthMiddleware::authenticate();
                 if (!$auth['success'] || $auth['role'] !== 'admin') {
                     ApiResponse::forbidden('Admin access required');
@@ -167,16 +234,17 @@ if (strpos($uri, '/promotions') === 0) {
         ApiResponse::error($e->getMessage(), 500);
     }
     
-    exit; // Stop execution after handling promotion routes
+    exit;
 }
 
 // ===== RENTAL ROUTES =====
 $rentalService = new RentalService();
-
-// Parse path segments
 $segments = array_values(array_filter(explode('/', $uri)));
 
-// Get auth token
+if (!empty($segments) && $segments[0] === 'rentals') {
+    array_shift($segments);
+}
+
 $authHeader = $_SERVER['HTTP_AUTHORIZATION'] ?? '';
 $token = '';
 if (preg_match('/Bearer\s+(.+)/', $authHeader, $matches)) {
@@ -184,7 +252,6 @@ if (preg_match('/Bearer\s+(.+)/', $authHeader, $matches)) {
 }
 
 try {
-    // Get request body
     $requestBody = null;
     if (in_array($requestMethod, ['POST', 'PUT', 'PATCH'])) {
         $body = file_get_contents('php://input');
@@ -195,11 +262,9 @@ try {
         }
     }
     
-    // Route handling
     switch ($requestMethod) {
         case 'GET':
             if (empty($segments)) {
-                // GET /rentals - Get all rentals (admin only or with user filter)
                 $auth = AuthMiddleware::authenticate();
                 if (!$auth['success']) {
                     ApiResponse::unauthorized($auth['message']);
@@ -215,7 +280,6 @@ try {
                     'offset' => $queryParams['offset'] ?? null
                 ];
                 
-                // Non-admin users can only see their own rentals
                 if ($auth['role'] !== 'admin') {
                     $filters['user_id'] = $auth['user_id'];
                 }
@@ -224,7 +288,6 @@ try {
                 ApiResponse::success($result['data'], 'Rentals retrieved successfully');
                 
             } elseif ($segments[0] === 'my-stats') {
-                // GET /rentals/my-stats - Get user's statistics
                 $auth = AuthMiddleware::authenticate();
                 if (!$auth['success']) {
                     ApiResponse::unauthorized($auth['message']);
@@ -239,7 +302,6 @@ try {
                 }
                 
             } elseif ($segments[0] === 'check-availability') {
-                // GET /rentals/check-availability?vehicle_id=X&start_time=Y&end_time=Z
                 if (empty($queryParams['vehicle_id']) || empty($queryParams['start_time']) || empty($queryParams['end_time'])) {
                     ApiResponse::badRequest('Missing required parameters: vehicle_id, start_time, end_time');
                 }
@@ -257,7 +319,6 @@ try {
                 }
                 
             } elseif (is_numeric($segments[0])) {
-                // GET /rentals/{id} - Get rental details
                 $auth = AuthMiddleware::authenticate();
                 if (!$auth['success']) {
                     ApiResponse::unauthorized($auth['message']);
@@ -267,7 +328,6 @@ try {
                 $result = $rentalService->getRentalDetails($rentalId);
                 
                 if ($result['success']) {
-                    // Check ownership
                     if ($auth['role'] !== 'admin' && $result['data']['rental']['user_id'] != $auth['user_id']) {
                         ApiResponse::forbidden('You can only view your own rentals');
                     }
@@ -284,7 +344,6 @@ try {
             
         case 'POST':
             if (empty($segments)) {
-                // POST /rentals - Create rental
                 $auth = AuthMiddleware::authenticate();
                 if (!$auth['success']) {
                     ApiResponse::unauthorized($auth['message']);
@@ -294,7 +353,6 @@ try {
                     ApiResponse::badRequest('Request body is required');
                 }
                 
-                // Set user_id from auth
                 $requestBody['user_id'] = $auth['user_id'];
                 
                 $result = $rentalService->createRental($requestBody, $token);
@@ -312,25 +370,8 @@ try {
             
         case 'PUT':
         case 'PATCH':
-            if (is_numeric($segments[0]) && isset($segments[1]) && $segments[1] === 'cancel') {
-                // PUT /rentals/{id}/cancel - Cancel rental
-                $auth = AuthMiddleware::authenticate();
-                if (!$auth['success']) {
-                    ApiResponse::unauthorized($auth['message']);
-                }
-                
-                $rentalId = (int)$segments[0];
-                $result = $rentalService->cancelRental($rentalId, $auth['user_id']);
-                
-                if ($result['success']) {
-                    ApiResponse::success(null, $result['message']);
-                } else {
-                    ApiResponse::badRequest($result['message']);
-                }
-                
-            } else {
-                ApiResponse::notFound('Invalid endpoint');
-            }
+            // This shouldn't be reached because /status and /cancel are handled above
+            ApiResponse::notFound('Invalid endpoint');
             break;
             
         case 'DELETE':

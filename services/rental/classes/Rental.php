@@ -92,15 +92,16 @@ class Rental {
     /**
      * Create new rental
      */
-    public function create($data) {
+public function create($data) {
         try {
             $db = DatabaseManager::getConnection($this->serviceName);
             
+            // Thêm 'promo_code' vào câu lệnh SQL
             $stmt = $db->prepare("
                 INSERT INTO Rentals (
                     user_id, vehicle_id, start_time, end_time,
-                    pickup_location, dropoff_location, total_cost, status
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                    pickup_location, dropoff_location, total_cost, status, promo_code
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
             ");
             
             $stmt->execute([
@@ -111,7 +112,8 @@ class Rental {
                 $data['pickup_location'],
                 $data['dropoff_location'],
                 $data['total_cost'],
-                $data['status'] ?? 'Pending'
+                $data['status'] ?? 'Pending',
+                $data['promo_code'] ?? null // ✅ Thêm tham số promo_code (null nếu không có)
             ]);
             
             return [
@@ -136,7 +138,7 @@ class Rental {
             
             $allowedFields = [
                 'start_time', 'end_time', 'pickup_location', 
-                'dropoff_location', 'total_cost', 'status'
+                'dropoff_location', 'total_cost', 'status', 'promo_code'
             ];
             
             foreach ($allowedFields as $field) {

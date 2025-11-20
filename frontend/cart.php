@@ -1,5 +1,5 @@
 <?php
-// public/cart.php - SHOPPING CART PAGE
+// public/cart.php - INDIVIDUAL PAYMENT METHOD PER CART ITEM (COMPLETE VERSION)
 session_start();
 
 if (!isset($_SESSION['user'])) {
@@ -22,9 +22,9 @@ $apiClient->setServiceUrl('vehicle', 'http://localhost:8002');
 $cartItems = [];
 $totalAmount = 0;
 
-foreach ($_SESSION['cart'] as $cartItem) {
+foreach ($_SESSION['cart'] as $index => $cartItem) {
     try {
-        $response = $apiClient->get('vehicle', '/' . $cartItem['catalog_id']);
+        $response = $apiClient->get('vehicle', '/catalogs/' . $cartItem['catalog_id']);
         if ($response['status_code'] === 200) {
             $data = json_decode($response['raw_response'], true);
             if ($data['success']) {
@@ -39,6 +39,7 @@ foreach ($_SESSION['cart'] as $cartItem) {
                 $itemTotal = $days * $vehicle['daily_rate'] * $cartItem['quantity'];
                 
                 $cartItems[] = [
+                    'index' => $index,
                     'cart_item' => $cartItem,
                     'vehicle' => $vehicle,
                     'days' => $days,
@@ -73,34 +74,19 @@ function getVehicleTypeName($type) {
             padding: 0 20px;
         }
         
-        .cart-grid {
-            display: grid;
-            grid-template-columns: 1fr 380px;
-            gap: 30px;
-        }
-        
-        @media (max-width: 968px) {
-            .cart-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        .cart-items {
+        .cart-item {
             background: white;
             border-radius: 16px;
-            padding: 30px;
+            padding: 25px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
         }
         
-        .cart-item {
-            display: flex;
+        .cart-item-grid {
+            display: grid;
+            grid-template-columns: 120px 1fr;
             gap: 20px;
-            padding: 20px 0;
-            border-bottom: 1px solid #f0f0f0;
-        }
-        
-        .cart-item:last-child {
-            border-bottom: none;
+            margin-bottom: 20px;
         }
         
         .cart-item-image {
@@ -127,6 +113,7 @@ function getVehicleTypeName($type) {
             color: #666;
             font-size: 14px;
             margin-bottom: 10px;
+            flex-wrap: wrap;
         }
         
         .cart-item-price {
@@ -157,12 +144,96 @@ function getVehicleTypeName($type) {
             background: #fcc;
         }
         
+        /* Payment Method Selection per Item */
+        .item-payment-section {
+            border-top: 2px solid #f0f0f0;
+            padding-top: 15px;
+            margin-top: 15px;
+        }
+        
+        .item-payment-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .payment-methods-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 10px;
+        }
+        
+        .payment-method-option {
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .payment-method-option:hover {
+            border-color: #4F46E5;
+            background: #f5f7ff;
+        }
+        
+        .payment-method-option.selected {
+            border-color: #4F46E5;
+            background: #f5f7ff;
+            box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.1);
+        }
+        
+        .payment-method-option input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        
+        .payment-method-icon {
+            width: 35px;
+            height: 35px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 16px;
+        }
+        
+        .payment-method-icon.cod {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+        
+        .payment-method-icon.vnpay {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+        }
+        
+        .payment-method-info {
+            flex: 1;
+        }
+        
+        .payment-method-name {
+            font-weight: 600;
+            font-size: 13px;
+            color: #333;
+        }
+        
+        .payment-method-desc {
+            font-size: 11px;
+            color: #666;
+        }
+        
         .cart-summary {
             background: white;
             border-radius: 16px;
             padding: 30px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            height: fit-content;
             position: sticky;
             top: 100px;
         }
@@ -215,6 +286,8 @@ function getVehicleTypeName($type) {
         .empty-cart {
             text-align: center;
             padding: 60px 20px;
+            background: white;
+            border-radius: 16px;
         }
         
         .empty-cart i {
@@ -237,6 +310,19 @@ function getVehicleTypeName($type) {
         .continue-shopping:hover {
             background: #4338CA;
         }
+        
+        .promo-tag {
+            background: #e0e7ff;
+            color: #4338ca;
+            padding: 5px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
         .promo-tag:hover {
             background: #4F46E5;
             color: white;
@@ -248,88 +334,31 @@ function getVehicleTypeName($type) {
             flex-wrap: wrap;
             gap: 5px;
         }
-        /* Payment Method Styles */
-        .payment-option {
-            padding: 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            margin-bottom: 12px;
-            cursor: pointer;
-            transition: all 0.3s;
+        
+        .alert-info {
+            background: #dbeafe;
+            color: #1e40af;
+            padding: 12px 15px;
+            border-radius: 8px;
             display: flex;
-            align-items: center;
-            gap: 12px;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 14px;
+            margin-bottom: 15px;
         }
-
-        .payment-option:hover {
-            border-color: #4F46E5;
-            background: #f5f7ff;
-        }
-
-        .payment-option.selected {
-            border-color: #4F46E5;
-            background: #f5f7ff;
-            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
-        }
-
-        .payment-option input[type="radio"] {
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-        }
-
-        .payment-icon {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 18px;
-        }
-
-        .payment-details {
-            flex: 1;
-        }
-
-        .payment-details .name {
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 4px;
-        }
-
-        .payment-details .number {
+        
+        .validation-warning {
+            background: #fef3c7;
+            color: #92400e;
+            padding: 10px 15px;
+            border-radius: 8px;
             font-size: 13px;
-            color: #666;
+            margin-top: 10px;
+            display: none;
         }
-
-        .payment-badge {
-            background: #d1fae5;
-            color: #065f46;
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: 600;
-        }
-
-        .no-payment-methods {
-            text-align: center;
-            padding: 30px 15px;
-            background: #f8f9fa;
-            border-radius: 12px;
-        }
-
-        .no-payment-methods i {
-            font-size: 48px;
-            color: #ccc;
-            margin-bottom: 15px;
-        }
-
-        .no-payment-methods p {
-            color: #666;
-            margin-bottom: 15px;
+        
+        .validation-warning.show {
+            display: block;
         }
     </style>
 </head>
@@ -358,7 +387,6 @@ function getVehicleTypeName($type) {
             </div>
             
             <div class="nav-actions">
-                <!-- Cart Button -->
                 <a href="cart.php" class="nav-icon-btn" title="Giỏ hàng" style="position: relative; text-decoration: none; color: inherit;">
                     <i class="fas fa-shopping-cart"></i>
                     <?php if (isset($_SESSION['cart']) && count($_SESSION['cart']) > 0): ?>
@@ -366,13 +394,11 @@ function getVehicleTypeName($type) {
                     <?php endif; ?>
                 </a>
                 
-                <!-- Notification Button -->
                 <button class="nav-icon-btn" title="Thông báo">
                     <i class="fas fa-bell"></i>
                     <span class="badge">3</span>
                 </button>
                 
-                <!-- User Menu -->
                 <div class="user-menu">
                     <button class="user-btn" id="userBtn">
                         <img src="https://ui-avatars.com/api/?name=<?= urlencode($user['name']) ?>&background=4F46E5&color=fff" alt="Avatar">
@@ -383,12 +409,12 @@ function getVehicleTypeName($type) {
                         <a href="profile.php">
                             <i class="fas fa-user"></i> Tài khoản
                         </a>
-                        <a href="my-rentals.php">
+                        <a href="order-tracking.php">
                             <i class="fas fa-history"></i> Lịch sử thuê
                         </a>
                         <?php if (($user['role'] ?? 'user') === 'admin'): ?>
                         <div class="dropdown-divider"></div>
-                        <a href="admin/dashboard.php">
+                        <a href="admin/rentals.php">
                             <i class="fas fa-cog"></i> Quản trị
                         </a>
                         <?php endif; ?>
@@ -409,50 +435,73 @@ function getVehicleTypeName($type) {
         </h1>
 
         <?php if (empty($cartItems)): ?>
-            <div class="cart-items">
-                <div class="empty-cart">
-                    <i class="fas fa-shopping-cart"></i>
-                    <h2>Giỏ hàng trống</h2>
-                    <p>Bạn chưa thêm xe nào vào giỏ hàng</p>
-                    <a href="vehicles.php" class="continue-shopping">
-                        <i class="fas fa-arrow-left"></i> Tiếp tục thuê xe
-                    </a>
-                </div>
+            <div class="empty-cart">
+                <i class="fas fa-shopping-cart"></i>
+                <h2>Giỏ hàng trống</h2>
+                <p>Bạn chưa thêm xe nào vào giỏ hàng</p>
+                <a href="vehicles.php" class="continue-shopping">
+                    <i class="fas fa-arrow-left"></i> Tiếp tục thuê xe
+                </a>
             </div>
         <?php else: ?>
-            <div class="cart-grid">
+            <div class="alert-info">
+                <i class="fas fa-info-circle"></i>
+                <span><strong>Linh hoạt thanh toán!</strong> Bạn có thể chọn phương thức thanh toán riêng cho từng xe trong giỏ hàng</span>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 380px; gap: 30px;">
                 <!-- Cart Items -->
-                <div class="cart-items">
+                <div>
                     <?php foreach ($cartItems as $item): ?>
-                    <div class="cart-item" data-catalog-id="<?= $item['cart_item']['catalog_id'] ?>">
-                        <img src="https://images.unsplash.com/photo-1590362891991-f776e747a588?w=400" 
-                             alt="<?= htmlspecialchars($item['vehicle']['brand'] . ' ' . $item['vehicle']['model']) ?>"
-                             class="cart-item-image">
-                        
-                        <div class="cart-item-info">
-                            <div class="cart-item-title">
-                                <?= htmlspecialchars($item['vehicle']['brand'] . ' ' . $item['vehicle']['model']) ?>
-                            </div>
+                    <div class="cart-item" data-item-index="<?= $item['index'] ?>">
+                        <div class="cart-item-grid">
+                            <img src="https://images.unsplash.com/photo-1590362891991-f776e747a588?w=400" 
+                                 alt="<?= htmlspecialchars($item['vehicle']['brand'] . ' ' . $item['vehicle']['model']) ?>"
+                                 class="cart-item-image">
                             
-                            <div class="cart-item-details">
-                                <span><i class="fas fa-tag"></i> <?= getVehicleTypeName($item['vehicle']['type']) ?></span>
-                                <span><i class="fas fa-calendar"></i> <?= $item['days'] ?> ngày</span>
-                                <span><i class="fas fa-car"></i> x<?= $item['cart_item']['quantity'] ?></span>
-                            </div>
-                            
-                            <div style="font-size: 13px; color: #888;">
-                                Từ: <?= date('d/m/Y H:i', strtotime($item['cart_item']['start_time'])) ?><br>
-                                Đến: <?= date('d/m/Y H:i', strtotime($item['cart_item']['end_time'])) ?><br>
-                                Nhận tại: <?= htmlspecialchars($item['cart_item']['pickup_location']) ?>
-                            </div>
-                            
-                            <div class="cart-item-price">
-                                <div class="item-price">
-                                    <?= number_format($item['item_total']) ?>đ
+                            <div class="cart-item-info">
+                                <div class="cart-item-title">
+                                    <?= htmlspecialchars($item['vehicle']['brand'] . ' ' . $item['vehicle']['model']) ?>
                                 </div>
-                                <button class="remove-btn" onclick="removeFromCart(<?= $item['cart_item']['catalog_id'] ?>)">
-                                    <i class="fas fa-trash"></i> Xóa
-                                </button>
+                                
+                                <div class="cart-item-details">
+                                    <span><i class="fas fa-tag"></i> <?= getVehicleTypeName($item['vehicle']['type']) ?></span>
+                                    <span><i class="fas fa-calendar"></i> <?= $item['days'] ?> ngày</span>
+                                    <span><i class="fas fa-car"></i> x<?= $item['cart_item']['quantity'] ?></span>
+                                </div>
+                                
+                                <div style="font-size: 13px; color: #888; margin-top: 8px;">
+                                    <div>Từ: <?= date('d/m/Y H:i', strtotime($item['cart_item']['start_time'])) ?></div>
+                                    <div>Đến: <?= date('d/m/Y H:i', strtotime($item['cart_item']['end_time'])) ?></div>
+                                    <div>Nhận tại: <?= htmlspecialchars($item['cart_item']['pickup_location']) ?></div>
+                                </div>
+                                
+                                <div class="cart-item-price">
+                                    <div class="item-price">
+                                        <?= number_format($item['item_total']) ?>đ
+                                    </div>
+                                    <button class="remove-btn" onclick="removeFromCart(<?= $item['cart_item']['catalog_id'] ?>)">
+                                        <i class="fas fa-trash"></i> Xóa
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Payment Method Selection for This Item -->
+                        <div class="item-payment-section">
+                            <div class="item-payment-title">
+                                <i class="fas fa-credit-card"></i>
+                                Phương thức thanh toán cho xe này
+                            </div>
+                            
+                            <div class="payment-methods-grid" id="payment-methods-<?= $item['index'] ?>">
+                                <div style="grid-column: 1/-1; text-align: center; padding: 15px; color: #999;">
+                                    <i class="fas fa-spinner fa-spin"></i> Đang tải...
+                                </div>
+                            </div>
+                            
+                            <div class="validation-warning" id="warning-<?= $item['index'] ?>">
+                                <i class="fas fa-exclamation-triangle"></i> Vui lòng chọn phương thức thanh toán
                             </div>
                         </div>
                     </div>
@@ -470,14 +519,14 @@ function getVehicleTypeName($type) {
                     
                     <!-- Promo Code Section -->
                     <div style="margin: 20px 0;">
-                        <div class="promo-input-group">
+                        <div style="display: flex; gap: 10px;">
                             <input type="text" 
                                    id="promoCode" 
                                    placeholder="Nhập mã khuyến mãi"
                                    style="flex: 1; padding: 12px; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 14px;">
                             <button onclick="applyPromoCode()" 
                                     id="applyPromoBtn"
-                                    style="padding: 12px 20px; background: #4F46E5; color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: 600; margin-left: 10px;">
+                                    style="padding: 12px 20px; background: #4F46E5; color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: 600;">
                                 Áp dụng
                             </button>
                         </div>
@@ -513,7 +562,7 @@ function getVehicleTypeName($type) {
                         <span id="finalTotal"><?= number_format($totalAmount) ?>đ</span>
                     </div>
                     
-                    <button class="checkout-btn" onclick="proceedCheckout()">
+                    <button class="checkout-btn" onclick="proceedCheckout()" id="checkoutBtn">
                         <i class="fas fa-check-circle"></i> Tiến hành đặt xe
                     </button>
                     
@@ -537,35 +586,6 @@ function getVehicleTypeName($type) {
                                 NEW10 (-10%)
                             </button>
                         </div>
-                    </div>
-                    <!-- Payment Method Section -->
-                    <div style="margin: 25px 0; padding-top: 20px; border-top: 1px solid #e0e0e0;">
-                        <div style="font-size: 16px; font-weight: 700; margin-bottom: 15px; color: #333;">
-                            <i class="fas fa-credit-card"></i> Phương thức thanh toán
-                        </div>
-                        
-                        <div id="paymentMethodsContainer">
-                            <!-- Payment methods sẽ được load ở đây -->
-                            <div style="text-align: center; padding: 20px; color: #999;">
-                                <i class="fas fa-spinner fa-spin"></i> Đang tải...
-                            </div>
-                        </div>
-                        
-                        <!-- Add New Payment Button -->
-                        <button onclick="showAddPaymentModal()" style="
-                            width: 100%;
-                            padding: 12px;
-                            background: white;
-                            color: #4F46E5;
-                            border: 2px dashed #4F46E5;
-                            border-radius: 10px;
-                            cursor: pointer;
-                            font-weight: 600;
-                            margin-top: 10px;
-                            transition: all 0.3s;
-                        " onmouseover="this.style.background='#f5f7ff'" onmouseout="this.style.background='white'">
-                            <i class="fas fa-plus"></i> Thêm phương thức mới
-                        </button>
                     </div>
                 </div>
             </div>
@@ -609,51 +629,109 @@ function getVehicleTypeName($type) {
             }
         }
 
-        // Proceed to checkout
-        async function proceedCheckout() {
-            if (!confirm('Xác nhận đặt tất cả xe trong giỏ hàng?')) return;
-            
-            const btn = event.target;
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang xử lý...';
-            
+        // Payment Method Management
+        const API_BASE = '/TransportationRenting/gateway/api';
+        const AUTH_TOKEN = '<?= $_SESSION["token"] ?? "" ?>';
+        const cartItemPaymentMethods = {}; // Store selected payment for each item
+
+        // Load payment methods for all items
+        async function loadPaymentMethods() {
             try {
-                const response = await fetch('api/cart-checkout.php', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'}
+                const response = await fetch(`${API_BASE}/payment-methods`, {
+                    headers: {
+                        'Authorization': `Bearer ${AUTH_TOKEN}`
+                    }
                 });
                 
                 const result = await response.json();
                 
-                if (result.success) {
-                    alert('Đặt xe thành công!');
-                    window.location.href = 'my-rentals.php';
+                if (result.success && result.data && result.data.length > 0) {
+                    const methods = result.data;
+                    
+                    // Render payment methods for each cart item
+                    <?php foreach ($cartItems as $item): ?>
+                    renderPaymentMethods(<?= $item['index'] ?>, methods);
+                    <?php endforeach; ?>
                 } else {
-                    alert(result.message || 'Có lỗi xảy ra');
-                    btn.disabled = false;
-                    btn.innerHTML = '<i class="fas fa-check-circle"></i> Tiến hành đặt xe';
+                    console.warn('No payment methods available');
+                    <?php foreach ($cartItems as $item): ?>
+                    document.getElementById('payment-methods-<?= $item['index'] ?>').innerHTML = `
+                        <div style="grid-column: 1/-1; text-align: center; padding: 15px; background: #fee2e2; border-radius: 8px; color: #991b1b;">
+                            <i class="fas fa-exclamation-circle"></i> Chưa có phương thức thanh toán. 
+                            <a href="profile.php#payment" style="color: #991b1b; text-decoration: underline;">Thêm ngay</a>
+                        </div>
+                    `;
+                    <?php endforeach; ?>
                 }
             } catch (error) {
-                alert('Lỗi kết nối');
-                btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-check-circle"></i> Tiến hành đặt xe';
+                console.error('Error loading payment methods:', error);
             }
         }
 
-        // Promo code handling
-        // ===== THAY THẾ TOÀN BỘ PHẦN PROMO CODE TRONG <SCRIPT> =====
+        // Render payment methods for specific item
+        function renderPaymentMethods(itemIndex, methods) {
+            const container = document.getElementById(`payment-methods-${itemIndex}`);
+            const defaultMethod = methods.find(m => m.is_default);
+            
+            // Auto-select default method
+            if (defaultMethod) {
+                cartItemPaymentMethods[itemIndex] = defaultMethod.method_id;
+            }
+            
+            container.innerHTML = methods.map(method => `
+                <div class="payment-method-option ${method.is_default ? 'selected' : ''}" 
+                    onclick="selectPaymentForItem(${itemIndex}, ${method.method_id}, event)">
+                    <input type="radio" 
+                        name="payment_${itemIndex}" 
+                        value="${method.method_id}" 
+                        ${method.is_default ? 'checked' : ''}
+                        onchange="selectPaymentForItem(${itemIndex}, ${method.method_id}, event)">
+                    <div class="payment-method-icon ${method.type.toLowerCase()}">
+                        <i class="fas ${method.type === 'COD' ? 'fa-money-bill-wave' : 'fa-qrcode'}"></i>
+                    </div>
+                    <div class="payment-method-info">
+                        <div class="payment-method-name">${escapeHtml(method.type === 'COD' ? 'COD' : 'VNPay QR')}</div>
+                        <div class="payment-method-desc">${escapeHtml(method.type === 'COD' ? 'Tiền mặt' : 'QR Code')}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
 
-        // Promo Code System
+        // Select payment method for specific item
+        function selectPaymentForItem(itemIndex, methodId, event) {
+            event.stopPropagation();
+            
+            cartItemPaymentMethods[itemIndex] = methodId;
+            
+            // Update UI
+            const container = document.getElementById(`payment-methods-${itemIndex}`);
+            container.querySelectorAll('.payment-method-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            event.currentTarget.classList.add('selected');
+            
+            // Hide warning
+            document.getElementById(`warning-${itemIndex}`).classList.remove('show');
+            
+            console.log(`✅ Item ${itemIndex} → Payment Method ${methodId}`);
+            console.log('Current selections:', cartItemPaymentMethods);
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Promo code handling
         let appliedPromo = null;
         const originalTotal = <?= $totalAmount ?>;
 
-        // Quick apply promo
         function quickApplyPromo(code) {
             document.getElementById('promoCode').value = code;
             applyPromoCode();
         }
 
-        // Apply promo code
         async function applyPromoCode() {
             const promoCode = document.getElementById('promoCode').value.trim().toUpperCase();
             
@@ -668,32 +746,18 @@ function getVehicleTypeName($type) {
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
             
             try {
-                console.log('🔍 Validating promo code:', promoCode);
-                
                 const response = await fetch('api/promo-validate.php', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
+                    headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({ code: promoCode })
                 });
                 
-                console.log('📡 Response status:', response.status);
-                console.log('📡 Response ok:', response.ok);
-                
-                // Get response text first
                 const text = await response.text();
-                console.log('📄 Raw response:', text);
-                
-                // Try to parse JSON
                 let result;
                 try {
                     result = JSON.parse(text);
-                    console.log('✅ Parsed result:', result);
                 } catch (e) {
-                    console.error('❌ JSON parse error:', e);
-                    console.error('Response was:', text);
-                    throw new Error('Server trả về dữ liệu không hợp lệ: ' + text.substring(0, 100));
+                    throw new Error('Server trả về dữ liệu không hợp lệ');
                 }
                 
                 if (result.success) {
@@ -702,20 +766,14 @@ function getVehicleTypeName($type) {
                         discount: parseFloat(result.discount)
                     };
                     
-                    console.log('✅ Promo applied:', appliedPromo);
-                    
                     updateCartTotals();
                     showAppliedPromo();
                     showPromoMessage(`Đã áp dụng mã ${promoCode} (-${result.discount}%)`, 'success');
-                    
-                    // Clear input
                     document.getElementById('promoCode').value = '';
                 } else {
-                    console.warn('⚠️ Promo validation failed:', result.message);
                     showPromoMessage(result.message || 'Mã không hợp lệ', 'error');
                 }
             } catch (error) {
-                console.error('❌ Fetch error:', error);
                 showPromoMessage('Lỗi kết nối: ' + error.message, 'error');
             } finally {
                 btn.disabled = false;
@@ -723,7 +781,6 @@ function getVehicleTypeName($type) {
             }
         }
 
-        // Remove promo code
         function removePromoCode() {
             appliedPromo = null;
             updateCartTotals();
@@ -731,7 +788,6 @@ function getVehicleTypeName($type) {
             showPromoMessage('Đã xóa mã khuyến mãi', 'info');
         }
 
-        // Update cart totals with promo
         function updateCartTotals() {
             const subtotal = originalTotal;
             let discount = 0;
@@ -741,26 +797,16 @@ function getVehicleTypeName($type) {
                 discount = Math.round(subtotal * appliedPromo.discount / 100);
                 finalTotal = subtotal - discount;
                 
-                console.log('💰 Cart totals:', {
-                    subtotal: subtotal,
-                    discount: discount,
-                    finalTotal: finalTotal,
-                    discountPercent: appliedPromo.discount
-                });
-                
-                // Show discount row
                 document.getElementById('discountRow').style.display = 'flex';
                 document.getElementById('discountPercent').textContent = appliedPromo.discount;
                 document.getElementById('discountAmount').textContent = '-' + discount.toLocaleString('vi-VN') + 'đ';
             } else {
-                // Hide discount row
                 document.getElementById('discountRow').style.display = 'none';
             }
             
             document.getElementById('finalTotal').textContent = finalTotal.toLocaleString('vi-VN') + 'đ';
         }
 
-        // Show applied promo badge
         function showAppliedPromo() {
             const badge = document.getElementById('appliedPromo');
             badge.style.display = 'block';
@@ -768,12 +814,10 @@ function getVehicleTypeName($type) {
             document.getElementById('appliedPromoPercent').textContent = appliedPromo.discount;
         }
 
-        // Hide applied promo badge
         function hideAppliedPromo() {
             document.getElementById('appliedPromo').style.display = 'none';
         }
 
-        // Show promo message
         function showPromoMessage(message, type) {
             const msgDiv = document.getElementById('promoMessage');
             const colors = {
@@ -791,195 +835,61 @@ function getVehicleTypeName($type) {
             }, 5000);
         }
 
-        // Update checkout to include promo
+        // ✅ CHECKOUT with individual payment methods
         async function proceedCheckout() {
-            if (!confirm('Xác nhận đặt tất cả xe trong giỏ hàng?')) return;
+            // Validate all items have payment method selected
+            const cartIndexes = <?= json_encode(array_column($cartItems, 'index')) ?>;
+            let allValid = true;
+            let invalidItems = [];
             
-            const btn = event.target;
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang xử lý...';
-            
-            try {
-                console.log('🛒 Proceeding to checkout with promo:', appliedPromo);
-                
-                const response = await fetch('api/cart-checkout.php', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({
-                        promo_code: appliedPromo ? appliedPromo.code : null
-                    })
-                });
-                
-                const result = await response.json();
-                console.log('📦 Checkout result:', result);
-                
-                if (result.success) {
-                    // Show success with discount info if applicable
-                    let successMsg = 'Đặt xe thành công!';
-                    if (result.data && result.data.promo_applied) {
-                        successMsg += `\n\nĐã áp dụng mã ${result.data.promo_applied.code}`;
-                        successMsg += `\nTiết kiệm: ${result.data.total_discount.toLocaleString('vi-VN')}đ`;
-                    }
-                    
-                    alert(successMsg);
-                    window.location.href = 'my-rentals.php';
-                } else {
-                    alert(result.message || 'Có lỗi xảy ra');
-                    btn.disabled = false;
-                    btn.innerHTML = '<i class="fas fa-check-circle"></i> Tiến hành đặt xe';
+            for (const index of cartIndexes) {
+                if (!cartItemPaymentMethods[index]) {
+                    document.getElementById(`warning-${index}`).classList.add('show');
+                    allValid = false;
+                    invalidItems.push(index + 1);
                 }
-            } catch (error) {
-                console.error('❌ Checkout error:', error);
-                alert('Lỗi kết nối');
-                btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-check-circle"></i> Tiến hành đặt xe';
             }
-        }
-
-        // Auto-apply pending promo from sessionStorage
-        window.addEventListener('DOMContentLoaded', () => {
-            const pendingPromo = sessionStorage.getItem('pendingPromo');
             
-            if (pendingPromo) {
-                console.log('🎁 Auto-applying pending promo:', pendingPromo);
-                document.getElementById('promoCode').value = pendingPromo;
-                sessionStorage.removeItem('pendingPromo');
-                
-                // Apply after a short delay
-                setTimeout(() => {
-                    applyPromoCode();
-                }, 500);
-            }
-        });
-        // ===== KẾT THÚC PHẦN PROMO CODE TRONG <SCRIPT> =====
-        // Load payment methods
-        let selectedPaymentMethod = null;
-        const API_BASE = '/TransportationRenting/gateway/api';
-        const AUTH_TOKEN = '<?= $_SESSION["token"] ?? "" ?>';
-
-        // Load payment methods
-        async function loadPaymentMethods() {
-            try {
-                const response = await fetch(`${API_BASE}/payment-methods`, {
-                    headers: {
-                        'Authorization': `Bearer ${AUTH_TOKEN}`
-                    }
-                });
-                
-                const result = await response.json();
-                console.log('Payment methods:', result);
-                
-                const container = document.getElementById('paymentMethodsContainer');
-                
-                if (result.success && result.data && result.data.length > 0) {
-                    const methods = result.data;
-                    
-                    // Auto-select default method
-                    const defaultMethod = methods.find(m => m.is_default);
-                    if (defaultMethod) {
-                        selectedPaymentMethod = defaultMethod.method_id;
-                    }
-                    
-                    container.innerHTML = methods.map(method => `
-                        <div class="payment-option ${method.is_default ? 'selected' : ''}" 
-                            onclick="selectPaymentMethod(${method.method_id})">
-                            <input type="radio" 
-                                name="payment_method" 
-                                value="${method.method_id}" 
-                                ${method.is_default ? 'checked' : ''}
-                                onchange="selectPaymentMethod(${method.method_id})">
-                            <div class="payment-icon">
-                                <i class="fas ${getPaymentIcon(method.type)}"></i>
-                            </div>
-                            <div class="payment-details">
-                                <div class="name">${escapeHtml(method.provider)}</div>
-                                <div class="number">${escapeHtml(method.account_number)}</div>
-                            </div>
-                            ${method.is_default ? '<span class="payment-badge">Mặc định</span>' : ''}
-                        </div>
-                    `).join('');
-                } else {
-                    container.innerHTML = `
-                        <div class="no-payment-methods">
-                            <i class="fas fa-credit-card"></i>
-                            <p>Chưa có phương thức thanh toán</p>
-                        </div>
-                    `;
+            if (!allValid) {
+                alert(`❌ Vui lòng chọn phương thức thanh toán cho xe #${invalidItems.join(', #')}!`);
+                // Scroll to first invalid item
+                const firstInvalid = cartIndexes.find(idx => !cartItemPaymentMethods[idx]);
+                if (firstInvalid !== undefined) {
+                    document.querySelector(`[data-item-index="${firstInvalid}"]`).scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'center' 
+                    });
                 }
-            } catch (error) {
-                console.error('Error loading payment methods:', error);
-                document.getElementById('paymentMethodsContainer').innerHTML = `
-                    <div style="color: #DC2626; text-align: center; padding: 15px;">
-                        <i class="fas fa-exclamation-circle"></i> Không thể tải phương thức thanh toán
-                    </div>
-                `;
-            }
-        }
-
-        // Select payment method
-        function selectPaymentMethod(methodId) {
-            selectedPaymentMethod = methodId;
-            
-            // Update UI
-            document.querySelectorAll('.payment-option').forEach(option => {
-                option.classList.remove('selected');
-            });
-            event.currentTarget.classList.add('selected');
-            
-            console.log('Selected payment method:', methodId);
-        }
-
-        // Get payment icon
-        function getPaymentIcon(type) {
-            const icons = {
-                'CreditCard': 'fa-credit-card',
-                'DebitCard': 'fa-credit-card',
-                'EWallet': 'fa-wallet',
-                'BankTransfer': 'fa-university'
-            };
-            return icons[type] || 'fa-money-bill';
-        }
-
-        // Escape HTML
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-
-        // Show add payment modal
-        function showAddPaymentModal() {
-            alert('Chức năng thêm phương thức thanh toán.\n\nVui lòng vào trang Tài khoản → Thanh toán để thêm.');
-            // Hoặc redirect
-            // window.location.href = 'profile.php#payment';
-        }
-
-        // Update checkout to include payment method
-        async function proceedCheckout() {
-            // Validate payment method
-            if (!selectedPaymentMethod) {
-                alert('Vui lòng chọn phương thức thanh toán!');
                 return;
             }
             
-            if (!confirm('Xác nhận đặt tất cả xe trong giỏ hàng?')) return;
+            // Count unique payment methods
+            const uniqueMethods = new Set(Object.values(cartItemPaymentMethods));
+            const confirmMsg = uniqueMethods.size > 1 
+                ? `Bạn đang sử dụng ${uniqueMethods.size} phương thức thanh toán khác nhau.\nXác nhận đặt tất cả xe?`
+                : 'Xác nhận đặt tất cả xe trong giỏ hàng?';
             
-            const btn = event.target;
+            if (!confirm(confirmMsg)) {
+                return;
+            }
+            
+            const btn = document.getElementById('checkoutBtn');
+            const originalHTML = btn.innerHTML;
             btn.disabled = true;
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang xử lý...';
             
             try {
-                console.log('🛒 Checkout with:', {
+                console.log('🛒 Checkout with individual payment methods:', {
                     promo: appliedPromo,
-                    payment_method: selectedPaymentMethod
+                    item_payments: cartItemPaymentMethods
                 });
                 
-                const response = await fetch('api/cart-checkout.php', {
+                const response = await fetch('api/cart-checkout-individual.php', {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({
                         promo_code: appliedPromo ? appliedPromo.code : null,
-                        payment_method_id: selectedPaymentMethod
+                        item_payment_methods: cartItemPaymentMethods
                     })
                 });
                 
@@ -990,14 +900,19 @@ function getVehicleTypeName($type) {
                     let successMsg = '✅ Đặt xe thành công!';
                     
                     if (result.data) {
+                        successMsg += `\n\n📊 Tổng số đơn: ${result.data.rentals.length}`;
+                        
                         if (result.data.promo_applied) {
-                            successMsg += `\n\n🎁 Đã áp dụng mã ${result.data.promo_applied.code}`;
+                            successMsg += `\n🎁 Mã KM: ${result.data.promo_applied.code}`;
                             successMsg += `\n💰 Tiết kiệm: ${result.data.total_discount.toLocaleString('vi-VN')}đ`;
                         }
                         
-                        if (result.data.total_final) {
-                            successMsg += `\n\n📊 Tổng thanh toán: ${result.data.total_final.toLocaleString('vi-VN')}đ`;
-                        }
+                        successMsg += `\n\n💵 Tổng thanh toán: ${result.data.total_final.toLocaleString('vi-VN')}đ`;
+                        successMsg += `\n\n💳 Mỗi xe đã được gán phương thức thanh toán riêng`;
+                    }
+                    
+                    if (result.warnings && result.warnings.length > 0) {
+                        successMsg += '\n\n⚠️ Lưu ý:\n' + result.warnings.join('\n');
                     }
                     
                     alert(successMsg);
@@ -1005,13 +920,13 @@ function getVehicleTypeName($type) {
                 } else {
                     alert('❌ ' + (result.message || 'Có lỗi xảy ra'));
                     btn.disabled = false;
-                    btn.innerHTML = '<i class="fas fa-check-circle"></i> Tiến hành đặt xe';
+                    btn.innerHTML = originalHTML;
                 }
             } catch (error) {
                 console.error('❌ Checkout error:', error);
-                alert('❌ Lỗi kết nối');
+                alert('❌ Lỗi kết nối: ' + error.message);
                 btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-check-circle"></i> Tiến hành đặt xe';
+                btn.innerHTML = originalHTML;
             }
         }
 

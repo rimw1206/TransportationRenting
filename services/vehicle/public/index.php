@@ -75,7 +75,73 @@ if ($uri === '/health' || (isset($segments[0]) && $segments[0] === 'health')) {
     }
     exit;
 }
+// ===== UNIT ENDPOINTS =====
 
+// Get unit by ID (GET /units/{id})
+if (preg_match('#^/units/(\d+)$#', $uri, $matches) && $requestMethod === 'GET') {
+    $unitId = (int)$matches[1];
+    
+    try {
+        $vehicle = new Vehicle();
+        $unit = $vehicle->getUnitById($unitId);
+        
+        if (!$unit) {
+            ApiResponse::notFound('Vehicle unit not found');
+        }
+        
+        ApiResponse::success($unit, 'Vehicle unit retrieved successfully');
+    } catch (Exception $e) {
+        error_log("Get unit error: " . $e->getMessage());
+        ApiResponse::error('Failed to get vehicle unit', 500);
+    }
+    exit;
+}
+
+// Check unit availability (GET /units/{id}/available?start=...&end=...)
+if (preg_match('#^/units/(\d+)/available$#', $uri, $matches) && $requestMethod === 'GET') {
+    $unitId = (int)$matches[1];
+    $startTime = $_GET['start'] ?? null;
+    $endTime = $_GET['end'] ?? null;
+    
+    if (!$startTime || !$endTime) {
+        ApiResponse::badRequest('start and end time are required');
+    }
+    
+    try {
+        $vehicle = new Vehicle();
+        $unit = $vehicle->getUnitById($unitId);
+        
+        if (!$unit) {
+            ApiResponse::notFound('Vehicle unit not found');
+        }
+        
+        $isAvailable = $vehicle->isUnitAvailable($unitId, $startTime, $endTime);
+        
+        ApiResponse::success([
+            'unit_id' => $unitId,
+            'available' => $isAvailable,
+            'start_time' => $startTime,
+            'end_time' => $endTime,
+            'unit' => $unit
+        ], 'Availability checked');
+        
+    } catch (Exception $e) {
+        error_log("Check unit availability error: " . $e->getMessage());
+        ApiResponse::error('Failed to check availability', 500);
+    }
+    exit;
+}
+if (preg_match('#^/catalogs/(\d+)$#', $uri, $matches) && $requestMethod === 'GET') {
+    $_GET['catalog_id'] = $matches[1];
+    require_once __DIR__ . '/get-catalog.php';
+    exit;
+}
+
+// Get available units
+if (preg_match('#^/units/available$#', $uri) && $requestMethod === 'GET') {
+    require_once __DIR__ . '/get-available-units.php';
+    exit;
+}
 // Initialize service
 $vehicleService = new VehicleService();
 

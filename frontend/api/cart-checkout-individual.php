@@ -1,8 +1,8 @@
 <?php
 /**
  * ================================================
- * frontend/api/cart-checkout.php - COMPLETE FIX
- * Handles catalog_id → unit_id allocation
+ * frontend/api/cart-checkout-individual.php
+ * Handles checkout with INDIVIDUAL payment method per item
  * ================================================
  */
 
@@ -32,17 +32,17 @@ $token = $_SESSION['token'];
 // Get request data
 $data = json_decode(file_get_contents('php://input'), true);
 $promoCode = $data['promo_code'] ?? null;
-$paymentMethodId = $data['payment_method_id'] ?? null;
+$itemPaymentMethods = $data['item_payment_methods'] ?? [];
 
-error_log("=== CART CHECKOUT START ===");
+error_log("=== CART CHECKOUT INDIVIDUAL START ===");
 error_log("User ID: " . $user['user_id']);
 error_log("Promo Code: " . ($promoCode ?? 'none'));
-error_log("Payment Method ID: " . ($paymentMethodId ?? 'none'));
 error_log("Cart Items: " . count($_SESSION['cart']));
+error_log("Item Payment Methods: " . json_encode($itemPaymentMethods));
 
-if (!$paymentMethodId) {
+if (empty($itemPaymentMethods)) {
     http_response_code(400);
-    echo json_encode(['success' => false, 'message' => 'Vui lòng chọn phương thức thanh toán']);
+    echo json_encode(['success' => false, 'message' => 'Vui lòng chọn phương thức thanh toán cho tất cả các xe']);
     exit;
 }
 
@@ -84,6 +84,14 @@ try {
     foreach ($_SESSION['cart'] as $index => $cartItem) {
         error_log("Processing cart item #$index: catalog_id=" . $cartItem['catalog_id']);
         
+        // Check if payment method is selected for this item
+        if (!isset($itemPaymentMethods[$index])) {
+            throw new Exception("Vui lòng chọn phương thức thanh toán cho xe #" . ($index + 1));
+        }
+        
+        $paymentMethodId = $itemPaymentMethods[$index];
+        error_log("Item $index → Payment Method: $paymentMethodId");
+        
         // Get catalog details for pricing
         $catalogResponse = $apiClient->get('vehicle', '/catalogs/' . $cartItem['catalog_id']);
         
@@ -119,7 +127,6 @@ try {
         $itemFinalCost = $itemTotal - $itemDiscount;
         
         // ===== ALLOCATE AVAILABLE UNITS =====
-        // Get available units for this catalog at pickup location
         $unitsResponse = $apiClient->get('vehicle', 
             '/units/available?catalog_id=' . $cartItem['catalog_id'] . 
             '&location=' . urlencode($cartItem['pickup_location']) .
@@ -128,7 +135,6 @@ try {
         );
         
         error_log("Units availability response: " . $unitsResponse['status_code']);
-        error_log("Units response body: " . $unitsResponse['raw_response']);
         
         if ($unitsResponse['status_code'] !== 200) {
             throw new Exception("Không thể kiểm tra xe có sẵn tại " . $cartItem['pickup_location']);
@@ -155,7 +161,7 @@ try {
             $unit = $availableUnits[$i];
             
             $rentalPayload = [
-                'vehicle_id' => $unit['unit_id'],  // Use unit_id as vehicle_id
+                'vehicle_id' => $unit['unit_id'],
                 'start_time' => $cartItem['start_time'],
                 'end_time' => $cartItem['end_time'],
                 'pickup_location' => $cartItem['pickup_location'],
@@ -166,13 +172,11 @@ try {
             
             error_log("Creating rental with unit #" . $unit['unit_id'] . ": " . json_encode($rentalPayload));
             
-            // POST to /rentals (không có /rentals/create)
             $rentalResponse = $apiClient->post('rental', '/rentals', $rentalPayload, [
                 'Authorization: Bearer ' . $token
             ]);
             
             error_log("Rental API response: status=" . $rentalResponse['status_code']);
-            error_log("Rental response body: " . $rentalResponse['raw_response']);
             
             if ($rentalResponse['status_code'] === 201 || $rentalResponse['status_code'] === 200) {
                 $rentalResult = json_decode($rentalResponse['raw_response'], true);
@@ -183,9 +187,10 @@ try {
                         'unit_id' => $unit['unit_id'],
                         'license_plate' => $unit['license_plate'],
                         'vehicle' => $catalog['brand'] . ' ' . $catalog['model'],
-                        'cost' => $rentalPayload['total_cost']
+                        'cost' => $rentalPayload['total_cost'],
+                        'payment_method_id' => $paymentMethodId // Store payment method for this rental
                     ];
-                    error_log("✅ Rental created: ID=" . $rentalResult['data']['rental_id'] . ", Unit=" . $unit['license_plate']);
+                    error_log("✅ Rental created: ID=" . $rentalResult['data']['rental_id'] . ", Unit=" . $unit['license_plate'] . ", Payment Method=" . $paymentMethodId);
                 } else {
                     $errorMsg = isset($rentalResult['message']) ? $rentalResult['message'] : 'Unknown error';
                     throw new Exception("Tạo đơn thuê thất bại: " . $errorMsg);
@@ -207,8 +212,8 @@ try {
     
     $totalFinal = $totalAmount - $totalDiscount;
     
-    // ===== 3. PROCESS PAYMENT FOR ALL RENTALS =====
-    error_log("Processing payments for " . count($createdRentals) . " rentals");
+    // ===== 3. PROCESS PAYMENT FOR EACH RENTAL WITH ITS PAYMENT METHOD =====
+    error_log("Processing payments for " . count($createdRentals) . " rentals with individual payment methods");
     
     $paymentResults = [];
     $paymentErrors = [];
@@ -217,10 +222,10 @@ try {
         $paymentPayload = [
             'rental_id' => $rental['rental_id'],
             'amount' => $rental['cost'],
-            'payment_method_id' => $paymentMethodId
+            'payment_method_id' => $rental['payment_method_id'] // Use individual payment method
         ];
         
-        error_log("Creating payment for rental " . $rental['rental_id']);
+        error_log("Creating payment for rental " . $rental['rental_id'] . " with payment method " . $rental['payment_method_id']);
         
         $paymentResponse = $apiClient->post('payment', '/payments/process', $paymentPayload, [
             'Authorization: Bearer ' . $token
@@ -235,10 +240,11 @@ try {
                     'transaction_id' => $paymentResult['data']['transaction_id'],
                     'transaction_code' => $paymentResult['data']['transaction_code'],
                     'payment_method' => $paymentResult['data']['payment_method'],
+                    'payment_method_id' => $rental['payment_method_id'],
                     'status' => $paymentResult['data']['status'],
                     'qr_code_url' => $paymentResult['data']['qr_code_url'] ?? null
                 ];
-                error_log("✅ Payment created: " . $paymentResult['data']['transaction_id']);
+                error_log("✅ Payment created: " . $paymentResult['data']['transaction_id'] . " (Method: " . $rental['payment_method_id'] . ")");
             } else {
                 $paymentErrors[] = "Rental {$rental['rental_id']}: Payment failed";
             }
@@ -249,12 +255,13 @@ try {
     
     // ===== 4. CLEAR CART =====
     $_SESSION['cart'] = [];
+    $_SESSION['cart_payment_methods'] = [];
     error_log("Cart cleared");
     
     // ===== 5. RETURN SUCCESS RESPONSE =====
     $response = [
         'success' => true,
-        'message' => 'Đặt xe thành công!',
+        'message' => 'Đặt xe thành công với phương thức thanh toán riêng cho từng xe!',
         'data' => [
             'rentals' => $createdRentals,
             'payments' => $paymentResults,
@@ -262,8 +269,7 @@ try {
             'promo_applied' => $promoApplied,
             'total_amount' => $totalAmount,
             'total_discount' => $totalDiscount,
-            'total_final' => $totalFinal,
-            'payment_method_id' => $paymentMethodId
+            'total_final' => $totalFinal
         ]
     ];
     
@@ -271,11 +277,11 @@ try {
         $response['warnings'] = $paymentErrors;
     }
     
-    error_log("=== CHECKOUT SUCCESS ===");
+    error_log("=== CHECKOUT SUCCESS (INDIVIDUAL PAYMENTS) ===");
     echo json_encode($response);
     
 } catch (Exception $e) {
-    error_log('=== CART CHECKOUT ERROR ===');
+    error_log('=== CART CHECKOUT INDIVIDUAL ERROR ===');
     error_log('Error: ' . $e->getMessage());
     
     http_response_code(500);

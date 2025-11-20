@@ -1,14 +1,23 @@
 <?php
-// services/rental/services/RentalService.php
+/**
+ * ================================================
+ * services/rental/services/RentalService.php
+ * CRITICAL FIX - validateUser() using /profile
+ * ================================================
+ */
+
 require_once __DIR__ . '/../classes/Rental.php';
+require_once __DIR__ . '/../classes/Promotion.php';
 require_once __DIR__ . '/../../../shared/classes/ApiClient.php';
 
 class RentalService {
     private $rental;
     private $apiClient;
+    private $promotion; 
 
     public function __construct() {
         $this->rental = new Rental();
+        $this->promotion = new Promotion();
         $this->apiClient = new ApiClient();
         
         // Configure service URLs
@@ -17,21 +26,42 @@ class RentalService {
     }
 
     /**
-     * Validate user exists via Customer API
+     * ✅ FIXED: Validate user via /profile instead of /users/{id}
      */
     private function validateUser($userId, $token = null) {
         try {
-            $headers = $token ? ['Authorization: Bearer ' . $token] : [];
-            $response = $this->apiClient->get('customer', "/users/{$userId}", $headers);
+            if (!$token) {
+                error_log("RentalService::validateUser - No token provided");
+                return false;
+            }
+            
+            $headers = ['Authorization: Bearer ' . $token];
+            
+            // ✅ USE /profile ENDPOINT (accessible by user themselves)
+            $response = $this->apiClient->get('customer', '/profile', $headers);
+            
+            error_log("RentalService::validateUser - Response status: " . $response['status_code']);
             
             if ($response['status_code'] === 200) {
                 $data = json_decode($response['raw_response'], true);
-                return $data['success'] ?? false;
+                
+                if ($data && isset($data['success']) && $data['success']) {
+                    if (isset($data['data']['user_id'])) {
+                        $profileUserId = (int)$data['data']['user_id'];
+                        $requestUserId = (int)$userId;
+                        
+                        error_log("RentalService::validateUser - Profile user_id: {$profileUserId}, Request user_id: {$requestUserId}");
+                        
+                        return $profileUserId === $requestUserId;
+                    }
+                }
             }
             
+            error_log("RentalService::validateUser - Validation failed");
             return false;
+            
         } catch (Exception $e) {
-            error_log("validateUser error: " . $e->getMessage());
+            error_log("RentalService::validateUser error: " . $e->getMessage());
             return false;
         }
     }
@@ -39,23 +69,77 @@ class RentalService {
     /**
      * Validate vehicle exists and is available via Vehicle API
      */
-    private function validateVehicle($vehicleId) {
+    private function validateVehicle($unitId, $startTime, $endTime) {
         try {
-            $response = $this->apiClient->get('vehicle', "/{$vehicleId}");
+            // Get unit details
+            $response = $this->apiClient->get('vehicle', "/units/{$unitId}");
             
-            if ($response['status_code'] === 200) {
-                $data = json_decode($response['raw_response'], true);
-                if ($data['success']) {
-                    $vehicle = $data['data']['vehicle'] ?? null;
-                    return [
-                        'exists' => true,
-                        'available' => $vehicle['status'] === 'Available',
-                        'vehicle' => $vehicle
-                    ];
+            error_log("validateVehicle - GET /units/{$unitId} status: " . $response['status_code']);
+            
+            if ($response['status_code'] !== 200) {
+                error_log("validateVehicle - Unit not found");
+                return ['exists' => false, 'available' => false];
+            }
+            
+            $data = json_decode($response['raw_response'], true);
+            
+            if (!$data || !$data['success']) {
+                error_log("validateVehicle - Invalid response");
+                return ['exists' => false, 'available' => false];
+            }
+            
+            $unit = $data['data'];
+            
+            // Check basic status
+            if ($unit['status'] !== 'Available') {
+                error_log("validateVehicle - Unit status: " . $unit['status']);
+                return [
+                    'exists' => true, 
+                    'available' => false,
+                    'reason' => 'Unit is currently ' . $unit['status']
+                ];
+            }
+            
+            // Check if catalog is active
+            if (!$unit['catalog']['is_active']) {
+                error_log("validateVehicle - Catalog inactive");
+                return [
+                    'exists' => true,
+                    'available' => false,
+                    'reason' => 'Vehicle model is no longer available'
+                ];
+            }
+            
+            // Double-check availability for time range
+            $availResponse = $this->apiClient->get('vehicle', 
+                "/units/{$unitId}/available?start=" . urlencode($startTime) . 
+                "&end=" . urlencode($endTime)
+            );
+            
+            if ($availResponse['status_code'] === 200) {
+                $availData = json_decode($availResponse['raw_response'], true);
+                
+                if ($availData && $availData['success']) {
+                    $isAvailable = $availData['data']['available'] ?? false;
+                    
+                    if (!$isAvailable) {
+                        error_log("validateVehicle - Unit not available for time range");
+                        return [
+                            'exists' => true,
+                            'available' => false,
+                            'reason' => 'Unit is already booked for this time period'
+                        ];
+                    }
                 }
             }
             
-            return ['exists' => false, 'available' => false];
+            error_log("validateVehicle - Unit is available");
+            return [
+                'exists' => true,
+                'available' => true,
+                'vehicle' => $unit
+            ];
+            
         } catch (Exception $e) {
             error_log("validateVehicle error: " . $e->getMessage());
             return ['exists' => false, 'available' => false];
@@ -107,70 +191,63 @@ class RentalService {
             $required = ['user_id', 'vehicle_id', 'start_time', 'end_time', 'pickup_location'];
             foreach ($required as $field) {
                 if (empty($data[$field])) {
-                    return [
-                        'success' => false,
-                        'message' => "Field '{$field}' is required"
-                    ];
+                    return ['success' => false, 'message' => "Field '{$field}' is required"];
                 }
             }
             
             // Validate user
             if (!$this->validateUser($data['user_id'], $token)) {
-                return [
-                    'success' => false,
-                    'message' => 'Invalid user'
-                ];
+                return ['success' => false, 'message' => 'User validation failed'];
             }
             
-            // Validate vehicle
-            $vehicleValidation = $this->validateVehicle($data['vehicle_id']);
-            if (!$vehicleValidation['exists']) {
-                return [
-                    'success' => false,
-                    'message' => 'Vehicle not found'
-                ];
-            }
-            
-            if (!$vehicleValidation['available']) {
-                return [
-                    'success' => false,
-                    'message' => 'Vehicle is not available'
-                ];
-            }
-            
-            $vehicle = $vehicleValidation['vehicle'];
-            
-            // Validate dates
+            // Validate dates first
             $startTime = new DateTime($data['start_time']);
             $endTime = new DateTime($data['end_time']);
             $now = new DateTime();
             
             if ($startTime < $now) {
-                return [
-                    'success' => false,
-                    'message' => 'Start time must be in the future'
-                ];
+                return ['success' => false, 'message' => 'Start time must be in the future'];
             }
             
             if ($endTime <= $startTime) {
-                return [
-                    'success' => false,
-                    'message' => 'End time must be after start time'
-                ];
+                return ['success' => false, 'message' => 'End time must be after start time'];
             }
             
-            // Check availability
-            if (!$this->rental->checkAvailability($data['vehicle_id'], $data['start_time'], $data['end_time'])) {
-                return [
-                    'success' => false,
-                    'message' => 'Vehicle is not available for selected dates'
-                ];
+            // ✅ Validate vehicle with time range
+            $vehicleValidation = $this->validateVehicle(
+                $data['vehicle_id'], 
+                $data['start_time'], 
+                $data['end_time']
+            );
+            
+            if (!$vehicleValidation['exists']) {
+                return ['success' => false, 'message' => 'Vehicle unit not found'];
             }
             
-            // Calculate cost
-            $costInfo = $this->calculateCost($vehicle, $data['start_time'], $data['end_time']);
+            if (!$vehicleValidation['available']) {
+                $reason = $vehicleValidation['reason'] ?? 'Vehicle is not available';
+                return ['success' => false, 'message' => $reason];
+            }
             
-            // Set dropoff location if not provided
+            $vehicle = $vehicleValidation['vehicle'];
+            
+            // Calculate cost from vehicle data
+            $days = max(1, $endTime->diff($startTime)->days);
+            $dailyRate = $vehicle['catalog']['daily_rate'];
+            $calculatedCost = $days * $dailyRate;
+            
+            // Use provided total_cost if available (from checkout calculation)
+            $finalCost = isset($data['total_cost']) ? $data['total_cost'] : $calculatedCost;
+            
+            // Handle promo code
+            $promoCode = null;
+            if (!empty($data['promo_code'])) {
+                $promoCheck = $this->promotion->validate($data['promo_code']);
+                if ($promoCheck['valid']) {
+                    $promoCode = $data['promo_code'];
+                }
+            }
+            
             if (empty($data['dropoff_location'])) {
                 $data['dropoff_location'] = $data['pickup_location'];
             }
@@ -183,13 +260,14 @@ class RentalService {
                 'end_time' => $data['end_time'],
                 'pickup_location' => $data['pickup_location'],
                 'dropoff_location' => $data['dropoff_location'],
-                'total_cost' => $costInfo['total_cost'],
+                'total_cost' => $finalCost,
+                'promo_code' => $promoCode,
                 'status' => 'Pending'
             ];
             
             $result = $this->rental->create($rentalData);
             
-            // Update vehicle status to Rented
+            // Update vehicle status
             $this->updateVehicleStatus($data['vehicle_id'], 'Rented');
             
             return [
@@ -197,15 +275,15 @@ class RentalService {
                 'message' => 'Rental created successfully',
                 'data' => [
                     'rental_id' => $result['rental_id'],
-                    'cost_breakdown' => $costInfo
+                    'vehicle' => $vehicle['catalog']['brand'] . ' ' . $vehicle['catalog']['model'],
+                    'license_plate' => $vehicle['license_plate'],
+                    'promo_applied' => $promoCode
                 ]
             ];
             
         } catch (Exception $e) {
-            return [
-                'success' => false,
-                'message' => $e->getMessage()
-            ];
+            error_log("RentalService::createRental error: " . $e->getMessage());
+            return ['success' => false, 'message' => $e->getMessage()];
         }
     }
 

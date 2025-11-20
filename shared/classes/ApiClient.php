@@ -67,7 +67,7 @@ class ApiClient
     /**
      * Make HTTP request with retry logic
      */
-    private function request($service, $path, $method, $data = null, $headers = [])
+    public function request($service, $path, $method, $data = null, $headers = [])
     {
         $serviceUrl = $this->serviceUrls[$service] ?? null;
         

@@ -15,34 +15,46 @@ require_once __DIR__ . '/../shared/classes/ApiClient.php';
 $apiClient = new ApiClient();
 $apiClient->setServiceUrl('vehicle', 'http://localhost:8002');
 
-// Fetch statistics từ Vehicle Service
-$vehicleStats = ['total_vehicles' => 0, 'available' => 0];
+// ✅ FIX: Fetch ALL vehicles (không filter theo availability)
+$allVehicles = [];
 try {
-    $statsResponse = $apiClient->get('vehicle', '/stats');
-    
-    if ($statsResponse['status_code'] === 200) {
-        $statsData = json_decode($statsResponse['raw_response'], true);
-        if ($statsData && isset($statsData['success']) && $statsData['success']) {
-            $vehicleStats = $statsData['data'];
-        }
-    }
-} catch (Exception $e) {
-    error_log('Error fetching vehicle stats: ' . $e->getMessage());
-}
-
-// Fetch featured vehicles
-$featuredVehicles = [];
-try {
-    $vehiclesResponse = $apiClient->get('vehicle', '/available?limit=8');
+    $vehiclesResponse = $apiClient->get('vehicle', '/vehicles/all');
     
     if ($vehiclesResponse['status_code'] === 200) {
         $vehiclesData = json_decode($vehiclesResponse['raw_response'], true);
         if ($vehiclesData && isset($vehiclesData['success']) && $vehiclesData['success']) {
-            $featuredVehicles = $vehiclesData['data'];
+            $allVehicles = $vehiclesData['data'];
         }
     }
 } catch (Exception $e) {
     error_log('Error fetching vehicles: ' . $e->getMessage());
+}
+
+// ✅ FIX: Calculate statistics from ALL vehicles
+$vehicleStats = [
+    'total_vehicles' => 0,
+    'total_units' => 0,
+    'cars' => 0,
+    'motorbikes' => 0,
+    'bicycles' => 0,
+    'scooters' => 0
+];
+
+foreach ($allVehicles as $vehicle) {
+    $vehicleStats['total_vehicles']++;
+    $vehicleStats['total_units'] += $vehicle['total_units'] ?? 0;
+    
+    // Count by type
+    $type = strtolower($vehicle['type']);
+    if ($type === 'car') {
+        $vehicleStats['cars'] += $vehicle['total_units'] ?? 0;
+    } elseif ($type === 'motorbike') {
+        $vehicleStats['motorbikes'] += $vehicle['total_units'] ?? 0;
+    } elseif ($type === 'bicycle') {
+        $vehicleStats['bicycles'] += $vehicle['total_units'] ?? 0;
+    } elseif ($type === 'electric_scooter') {
+        $vehicleStats['scooters'] += $vehicle['total_units'] ?? 0;
+    }
 }
 
 function getVehicleTypeName($type) {
@@ -196,28 +208,28 @@ function getVehicleRating($vehicle) {
                     <i class="fas fa-car"></i>
                 </div>
                 <div class="stat-info">
-                    <h3><?= number_format($vehicleStats['available'] ?? 0) ?></h3>
-                    <p>Xe có sẵn</p>
+                    <h3><?= number_format($vehicleStats['total_vehicles']) ?></h3>
+                    <p>Loại xe</p>
                 </div>
             </div>
             
             <div class="stat-card">
                 <div class="stat-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
-                    <i class="fas fa-calendar-check"></i>
+                    <i class="fas fa-warehouse"></i>
                 </div>
                 <div class="stat-info">
-                    <h3><?= number_format($vehicleStats['total_vehicles'] ?? 0) ?></h3>
-                    <p>Tổng xe</p>
+                    <h3><?= number_format($vehicleStats['total_units']) ?></h3>
+                    <p>Tổng xe trong kho</p>
                 </div>
             </div>
             
             <div class="stat-card">
                 <div class="stat-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
-                    <i class="fas fa-car-side"></i>
+                    <i class="fas fa-clock"></i>
                 </div>
                 <div class="stat-info">
-                    <h3><?= number_format($vehicleStats['rented'] ?? 0) ?></h3>
-                    <p>Đang thuê</p>
+                    <h3>24/7</h3>
+                    <p>Đặt xe mọi lúc</p>
                 </div>
             </div>
             
@@ -226,8 +238,8 @@ function getVehicleRating($vehicle) {
                     <i class="fas fa-shield-alt"></i>
                 </div>
                 <div class="stat-info">
-                    <h3>24/7</h3>
-                    <p>Hỗ trợ</p>
+                    <h3>100%</h3>
+                    <p>Bảo hiểm</p>
                 </div>
             </div>
         </section>
@@ -242,7 +254,7 @@ function getVehicleRating($vehicle) {
                         <i class="fas fa-car"></i>
                     </div>
                     <h3>Ô tô</h3>
-                    <p><?= number_format($vehicleStats['cars'] ?? 0) ?> xe có sẵn</p>
+                    <p><?= number_format($vehicleStats['cars']) ?> xe</p>
                 </a>
                 
                 <a href="vehicles.php?type=Motorbike" class="category-card">
@@ -250,7 +262,7 @@ function getVehicleRating($vehicle) {
                         <i class="fas fa-motorcycle"></i>
                     </div>
                     <h3>Xe máy</h3>
-                    <p><?= number_format($vehicleStats['motorbikes'] ?? 0) ?> xe có sẵn</p>
+                    <p><?= number_format($vehicleStats['motorbikes']) ?> xe</p>
                 </a>
                 
                 <a href="vehicles.php?type=Bicycle" class="category-card">
@@ -258,7 +270,7 @@ function getVehicleRating($vehicle) {
                         <i class="fas fa-bicycle"></i>
                     </div>
                     <h3>Xe đạp</h3>
-                    <p><?= number_format($vehicleStats['bicycles'] ?? 0) ?> xe có sẵn</p>
+                    <p><?= number_format($vehicleStats['bicycles']) ?> xe</p>
                 </a>
                 
                 <a href="vehicles.php?type=Electric_Scooter" class="category-card">
@@ -266,7 +278,7 @@ function getVehicleRating($vehicle) {
                         <i class="fas fa-moped"></i>
                     </div>
                     <h3>Xe điện</h3>
-                    <p><?= number_format($vehicleStats['scooters'] ?? 0) ?> xe có sẵn</p>
+                    <p><?= number_format($vehicleStats['scooters']) ?> xe</p>
                 </a>
             </div>
         </section>
@@ -274,20 +286,20 @@ function getVehicleRating($vehicle) {
         <!-- Featured Vehicles -->
         <section class="vehicles-section">
             <div class="section-header">
-                <h2><i class="fas fa-fire"></i> Xe nổi bật (<?= count($featuredVehicles) ?>)</h2>
+                <h2><i class="fas fa-fire"></i> Các loại xe (<?= count($allVehicles) ?>)</h2>
                 <a href="vehicles.php" class="view-all-link">
                     Xem tất cả <i class="fas fa-arrow-right"></i>
                 </a>
             </div>
             
-            <?php if (empty($featuredVehicles)): ?>
+            <?php if (empty($allVehicles)): ?>
                 <div class="no-data">
                     <i class="fas fa-car-side"></i>
-                    <p>Chưa có xe nào khả dụng.</p>
+                    <p>Chưa có xe nào trong hệ thống.</p>
                 </div>
             <?php else: ?>
                 <div class="vehicles-grid">
-                    <?php foreach ($featuredVehicles as $vehicle): ?>
+                    <?php foreach ($allVehicles as $vehicle): ?>
                     <div class="vehicle-card">
                         <div class="vehicle-image">
                             <img src="<?= getVehicleImage($vehicle) ?>" alt="<?= htmlspecialchars($vehicle['brand'] . ' ' . $vehicle['model']) ?>">
@@ -305,7 +317,7 @@ function getVehicleRating($vehicle) {
                             
                             <div class="vehicle-features">
                                 <span><i class="fas fa-calendar"></i> <?= $vehicle['year'] ?></span>
-                                <span><i class="fas fa-car"></i> <?= $vehicle['available_count'] ?> xe</span>
+                                <span><i class="fas fa-warehouse"></i> <?= $vehicle['total_units'] ?? 0 ?> xe trong kho</span>
                             </div>
                             
                             <div class="vehicle-footer">
@@ -314,7 +326,7 @@ function getVehicleRating($vehicle) {
                                     <span class="price-amount"><?= number_format($vehicle['daily_rate']) ?>đ</span>
                                 </div>
                                 <button class="btn-rent" onclick="rentVehicle(<?= $vehicle['catalog_id'] ?>)">
-                                    <i class="fas fa-calendar-check"></i> Thuê ngay
+                                    <i class="fas fa-calendar-check"></i> Đặt xe
                                 </button>
                             </div>
                         </div>
@@ -372,8 +384,8 @@ function getVehicleRating($vehicle) {
                     <div class="feature-icon">
                         <i class="fas fa-clock"></i>
                     </div>
-                    <h3>Giao xe nhanh 30 phút</h3>
-                    <p>Đặt xe online, nhận xe nhanh</p>
+                    <h3>Đặt xe mọi lúc</h3>
+                    <p>Hệ thống hoạt động 24/7</p>
                 </div>
                 
                 <div class="feature-item">
@@ -409,7 +421,7 @@ function getVehicleRating($vehicle) {
             userDropdown?.classList.remove('show');
         });
         
-        // Rent vehicle
+        // Rent vehicle - redirect to details page where user selects time
         function rentVehicle(catalogId) {
             window.location.href = `vehicle-details.php?id=${catalogId}`;
         }

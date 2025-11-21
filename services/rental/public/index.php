@@ -1,4 +1,11 @@
 <?php
+/**
+ * ================================================
+ * services/rental/public/index.php
+ * ✅ FIXED: Cancel endpoint no longer updates vehicle status
+ * ================================================
+ */
+
 require_once __DIR__ . '/../../../env-bootstrap.php';
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
@@ -39,35 +46,27 @@ if ($uri === '/health') {
     exit;
 }
 
-// ===== CRITICAL: Handle /rentals/{id}/status BEFORE other routes =====
+// ===== Handle /rentals/{id}/status BEFORE other routes =====
 if (preg_match('#^/rentals/(\d+)/status$#', $uri, $matches) && $requestMethod === 'PUT') {
     error_log("=== RENTAL STATUS UPDATE ENDPOINT HIT ===");
-    error_log("Rental ID: " . $matches[1]);
     
+    $rentalId = (int)$matches[1];
     $requestBody = json_decode(file_get_contents('php://input'), true);
-    error_log("Request body: " . json_encode($requestBody));
     
     if (!$requestBody || !isset($requestBody['status'])) {
-        error_log("ERROR: status field missing");
         ApiResponse::badRequest('status is required');
     }
     
-    $rentalId = (int)$matches[1];
     $status = $requestBody['status'];
-    
-    error_log("Updating rental #{$rentalId} to status: {$status}");
-    
     $validStatuses = ['Pending', 'Ongoing', 'Completed', 'Cancelled'];
+    
     if (!in_array($status, $validStatuses)) {
-        error_log("ERROR: Invalid status: {$status}");
         ApiResponse::badRequest('Invalid status. Must be: ' . implode(', ', $validStatuses));
     }
     
     try {
         $rental = new Rental();
         $result = $rental->updateStatus($rentalId, $status);
-        
-        error_log("Update successful: " . json_encode($result));
         
         ApiResponse::success([
             'rental_id' => $rentalId,
@@ -83,22 +82,37 @@ if (preg_match('#^/rentals/(\d+)/status$#', $uri, $matches) && $requestMethod ==
     exit;
 }
 
-// ===== Handle /rentals/{id}/cancel BEFORE other routes =====
+// ===== Handle /rentals/{id}/cancel - NO VEHICLE STATUS UPDATE =====
 if (preg_match('#^/rentals/(\d+)/cancel$#', $uri, $matches) && $requestMethod === 'PUT') {
     error_log("=== RENTAL CANCEL ENDPOINT HIT ===");
     
     $rentalId = (int)$matches[1];
-    error_log("Cancelling rental #{$rentalId}");
     
     try {
         $rental = new Rental();
+        $rentalInfo = $rental->getById($rentalId);
+        
+        if (!$rentalInfo) {
+            ApiResponse::notFound('Rental not found');
+        }
+        
+        if ($rentalInfo['status'] === 'Completed') {
+            ApiResponse::badRequest('Cannot cancel completed rental');
+        }
+        
+        if ($rentalInfo['status'] === 'Cancelled') {
+            ApiResponse::badRequest('Rental already cancelled');
+        }
+        
+        // ✅ Just cancel the rental - NO vehicle status update
         $result = $rental->cancel($rentalId);
         
-        error_log("Cancel successful");
+        error_log("✅ Rental #{$rentalId} cancelled (vehicle status unchanged)");
         
         ApiResponse::success([
             'rental_id' => $rentalId,
-            'status' => 'Cancelled'
+            'status' => 'Cancelled',
+            'note' => 'Rental cancelled. Vehicle status remains unchanged.'
         ], 'Rental cancelled successfully');
         
     } catch (Exception $e) {
@@ -370,7 +384,6 @@ try {
             
         case 'PUT':
         case 'PATCH':
-            // This shouldn't be reached because /status and /cancel are handled above
             ApiResponse::notFound('Invalid endpoint');
             break;
             

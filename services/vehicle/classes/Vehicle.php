@@ -200,12 +200,12 @@ class Vehicle {
         
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-/**
+    /**
      * Get available units for catalog at location/time
      */
     public function getAvailableUnits($catalogId, $location, $startTime = null, $endTime = null) {
         try {
-            // Base query - get units at location
+            // Base query - get units at location with catalog info
             $sql = "
                 SELECT 
                     u.unit_id,
@@ -233,30 +233,40 @@ class Vehicle {
             
             $params = [$catalogId, $location];
             
-            // If time range provided, exclude units that are rented during that period
+            // ✅ CRITICAL: If time range provided, exclude units with ACTIVE (non-cancelled) rentals
             if ($startTime && $endTime) {
+                error_log("Checking rental conflicts for time range: {$startTime} to {$endTime}");
+                
                 $sql .= "
                     AND u.unit_id NOT IN (
                         SELECT vehicle_id 
                         FROM rental_service_db.Rentals
-                        WHERE vehicle_id = u.unit_id
-                            AND status IN ('Pending', 'Ongoing')
-                            AND (
-                                (start_time <= ? AND end_time >= ?)
-                                OR (start_time >= ? AND start_time <= ?)
-                                OR (end_time >= ? AND end_time <= ?)
-                            )
+                        WHERE status IN ('Pending', 'Ongoing')
+                        AND (
+                            -- New rental overlaps with existing rental
+                            (start_time < ? AND end_time > ?)
+                            OR (start_time >= ? AND start_time < ?)
+                            OR (end_time > ? AND end_time <= ?)
+                            OR (start_time >= ? AND end_time <= ?)
+                        )
                     )
                 ";
-                $params[] = $endTime;
-                $params[] = $startTime;
-                $params[] = $startTime;
-                $params[] = $endTime;
-                $params[] = $startTime;
-                $params[] = $endTime;
+                
+                // Add time parameters for overlap checks
+                $params[] = $endTime;    // Existing ends after new starts
+                $params[] = $startTime;  // Existing starts before new ends
+                $params[] = $startTime;  // New starts during existing
+                $params[] = $endTime;    // New starts during existing
+                $params[] = $startTime;  // New ends during existing
+                $params[] = $endTime;    // New ends during existing
+                $params[] = $startTime;  // New completely contains existing
+                $params[] = $endTime;    // New completely contains existing
             }
             
             $sql .= " ORDER BY u.condition_rating DESC, u.odo_km ASC";
+            
+            error_log("SQL: " . $sql);
+            error_log("Params: " . json_encode($params));
             
             $stmt = $this->db->prepare($sql);
             $stmt->execute($params);
@@ -284,11 +294,14 @@ class Vehicle {
                 ];
             }
             
+            error_log("Final available units count: " . count($units));
+            
             return $units;
             
         } catch (PDOException $e) {
             error_log('Get available units error: ' . $e->getMessage());
-            throw new Exception('Database error');
+            error_log('Stack trace: ' . $e->getTraceAsString());
+            throw new Exception('Database error: ' . $e->getMessage());
         }
     }
     /**

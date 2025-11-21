@@ -3822,3 +3822,3138 @@ Stack trace:
 [20-Nov-2025 01:55:21 Europe/Berlin] Vehicle API Request: GET /units/9
 [20-Nov-2025 01:55:21 Europe/Berlin] Vehicle API Request: GET /units/9
 [20-Nov-2025 01:55:21 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 01:55:52 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 01:55:52 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 01:55:52 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 01:55:52 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 01:55:52 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 01:55:52 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 01:55:52 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 01:55:52 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 01:55:52 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 01:55:52 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 01:55:52 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 01:55:52 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 01:55:52 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 01:56:23 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 01:56:23 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 01:56:23 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 01:56:23 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 01:56:23 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 01:56:23 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 01:56:23 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 01:56:23 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 01:56:23 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 01:56:23 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 01:56:23 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 01:56:23 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 01:56:23 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 01:56:54 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 01:56:54 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 01:56:54 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 01:56:54 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 01:56:54 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 01:56:54 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 01:56:54 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 01:56:54 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 01:56:54 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 01:56:54 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 01:56:54 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 01:56:54 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 01:56:54 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 01:57:25 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 01:57:25 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 01:57:25 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 01:57:25 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 01:57:25 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 01:57:25 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 01:57:25 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 01:57:25 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 01:57:25 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 01:57:25 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 01:57:25 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 01:57:25 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 01:57:25 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 01:57:56 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 01:57:56 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 01:57:56 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 01:57:56 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 01:57:56 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 01:57:56 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 01:57:56 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 01:57:56 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 01:57:56 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 01:57:56 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 01:57:56 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 01:57:56 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 01:57:56 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 01:58:27 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 01:58:27 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 01:58:27 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 01:58:27 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 01:58:27 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 01:58:27 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 01:58:27 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 01:58:27 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 01:58:27 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 01:58:27 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 01:58:27 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 01:58:27 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 01:58:27 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 01:58:58 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 01:58:58 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 01:58:58 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 01:58:58 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 01:58:58 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 01:58:58 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 01:58:58 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 01:58:58 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 01:58:58 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 01:58:58 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 01:58:58 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 01:58:58 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 01:58:58 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 01:59:29 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 01:59:29 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 01:59:29 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 01:59:29 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 01:59:29 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 01:59:29 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 01:59:29 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 01:59:29 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 01:59:29 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 01:59:29 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 01:59:29 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 01:59:29 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 01:59:29 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 02:00:00 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 02:00:00 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 02:00:00 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 02:00:00 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 02:00:00 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 02:00:00 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 02:00:00 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 02:00:00 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 02:00:00 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 02:00:00 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 02:00:00 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 02:00:00 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 02:00:00 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 02:00:31 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 02:00:31 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 02:00:31 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 02:00:31 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 02:00:31 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 02:00:31 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 02:00:31 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 02:00:31 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 02:00:31 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 02:00:31 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 02:00:31 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 02:00:31 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 02:00:31 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 02:01:02 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 02:01:02 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 02:01:02 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 02:01:02 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 02:01:02 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 02:01:02 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 02:01:02 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 02:01:02 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 02:01:02 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 02:01:02 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 02:01:02 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 02:01:02 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 02:01:02 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 02:01:33 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 02:01:33 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 02:01:33 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 02:01:33 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 02:01:33 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 02:01:33 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 02:01:33 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 02:01:33 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 02:01:33 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 02:01:33 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 02:01:33 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 02:01:33 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 02:01:33 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 02:02:04 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 02:02:04 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 02:02:04 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 02:02:04 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 02:02:04 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 02:02:04 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 02:02:04 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 02:02:04 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 02:02:04 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 02:02:04 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 02:02:04 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 02:02:04 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 02:02:04 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 02:02:36 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 02:02:36 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 02:02:36 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 02:02:36 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 02:02:36 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 02:02:36 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 02:02:36 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 02:02:36 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 02:02:36 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 02:02:36 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 02:02:36 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 02:02:36 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 02:02:36 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 02:03:07 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 02:03:07 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 02:03:07 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 02:03:07 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 02:03:07 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 02:03:07 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 02:03:07 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 02:03:07 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 02:03:07 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 02:03:07 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 02:03:07 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 02:03:07 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 02:03:07 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 02:03:38 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 02:03:38 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 02:03:38 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 02:03:38 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 02:03:38 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 02:03:38 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 02:03:38 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 02:03:38 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 02:03:38 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 02:03:38 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 02:03:38 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 02:03:38 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 02:03:39 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 02:04:10 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 02:04:10 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 02:04:10 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 02:04:10 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 02:04:10 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 02:04:10 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 02:04:10 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 02:04:10 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 02:04:10 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 02:04:10 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 02:04:10 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 02:04:10 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 02:04:10 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 02:04:41 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 02:04:41 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 02:04:41 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 02:04:41 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 02:04:41 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 02:04:41 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 02:04:41 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 02:04:41 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 02:04:41 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 02:04:41 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 02:04:41 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 02:04:41 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 02:04:41 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 02:05:13 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 02:05:13 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 02:05:13 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 02:05:13 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 02:05:13 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 02:05:13 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 02:05:13 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 02:05:13 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 02:05:13 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 02:05:13 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 02:05:13 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 02:05:13 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 02:05:13 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 02:05:44 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 02:05:44 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 02:05:44 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 02:05:44 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 02:05:44 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 02:05:44 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 02:05:44 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 02:05:44 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 02:05:44 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 02:05:44 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 02:05:44 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 02:05:44 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 02:05:44 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 02:06:16 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 02:06:16 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 02:06:16 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 02:06:16 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 02:06:16 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 02:06:16 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 02:06:16 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 02:06:16 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 02:06:16 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 02:06:16 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 02:06:16 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 02:06:16 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 02:06:16 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 02:06:47 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 02:06:47 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 02:06:47 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 02:06:47 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 02:06:47 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 02:06:47 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 02:06:47 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 02:06:47 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 02:06:47 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 02:06:47 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 02:06:47 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 02:06:47 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 02:06:47 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 02:09:02 Europe/Berlin] Vehicle API Request: GET /stats
+[20-Nov-2025 02:09:02 Europe/Berlin] Vehicle API Request: GET /available
+[20-Nov-2025 02:09:02 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
+[20-Nov-2025 02:09:04 Europe/Berlin] Vehicle API Request: GET /catalogs/5
+[20-Nov-2025 02:09:13 Europe/Berlin] Vehicle API Request: GET /units/available
+[20-Nov-2025 02:09:18 Europe/Berlin] Vehicle API Request: GET /stats
+[20-Nov-2025 02:09:18 Europe/Berlin] Vehicle API Request: GET /available
+[20-Nov-2025 02:09:18 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
+[20-Nov-2025 02:24:53 Europe/Berlin] Vehicle API Request: GET /stats
+[20-Nov-2025 02:24:53 Europe/Berlin] Vehicle API Request: GET /available
+[20-Nov-2025 02:24:53 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
+[20-Nov-2025 02:24:54 Europe/Berlin] Vehicle API Request: GET /available
+[20-Nov-2025 02:24:54 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"12","offset":"0"}
+[20-Nov-2025 02:24:57 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 02:24:57 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 02:24:57 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 02:24:57 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 02:24:57 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 02:24:57 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 02:24:57 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 02:24:57 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 02:24:57 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 02:24:58 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 02:24:58 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 02:24:58 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 02:24:58 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 02:25:04 Europe/Berlin] Vehicle API Request: GET /10
+[20-Nov-2025 02:25:04 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 02:25:08 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 02:25:08 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 02:25:08 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 02:25:08 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 02:25:09 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 02:25:09 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 02:25:09 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 02:25:09 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 02:25:09 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 02:25:09 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 02:25:09 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 02:25:09 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 02:25:09 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 02:25:10 Europe/Berlin] Vehicle API Request: GET /stats
+[20-Nov-2025 02:25:10 Europe/Berlin] Vehicle API Request: GET /available
+[20-Nov-2025 02:25:10 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
+[20-Nov-2025 02:25:16 Europe/Berlin] Vehicle API Request: GET /stats
+[20-Nov-2025 02:25:16 Europe/Berlin] Vehicle API Request: GET /available
+[20-Nov-2025 02:25:16 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
+[20-Nov-2025 02:25:32 Europe/Berlin] Vehicle API Request: GET /available
+[20-Nov-2025 02:25:32 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"12","offset":"0"}
+[20-Nov-2025 02:25:33 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 02:25:33 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 02:25:33 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 02:25:33 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 02:25:33 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 02:25:33 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 02:25:33 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 02:25:33 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 02:25:33 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 02:25:33 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 02:25:33 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 02:25:33 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 02:25:34 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 02:25:41 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 02:25:41 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 02:25:41 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 02:25:41 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 02:25:41 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 02:25:46 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 02:25:47 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 02:25:47 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 02:25:47 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 02:25:47 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 02:25:47 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 02:25:47 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 02:25:47 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 02:25:49 Europe/Berlin] Vehicle API Request: GET /stats
+[20-Nov-2025 02:25:49 Europe/Berlin] Vehicle API Request: GET /available
+[20-Nov-2025 02:25:49 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
+[20-Nov-2025 02:25:51 Europe/Berlin] Vehicle API Request: GET /catalogs/4
+[20-Nov-2025 02:25:59 Europe/Berlin] Vehicle API Request: GET /units/available
+[20-Nov-2025 02:26:03 Europe/Berlin] Vehicle API Request: GET /stats
+[20-Nov-2025 02:26:03 Europe/Berlin] Vehicle API Request: GET /available
+[20-Nov-2025 02:26:03 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
+[20-Nov-2025 02:26:07 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 02:26:07 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 02:26:07 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 02:26:07 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 02:26:07 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 02:26:07 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 02:26:07 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 02:26:08 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 02:26:08 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 02:26:08 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 02:26:08 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 02:26:08 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 02:26:08 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 04:37:42 Europe/Berlin] Vehicle API Request: GET /stats
+[20-Nov-2025 04:37:42 Europe/Berlin] Vehicle API Request: GET /available
+[20-Nov-2025 04:37:42 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
+[20-Nov-2025 04:37:45 Europe/Berlin] Vehicle API Request: GET /available
+[20-Nov-2025 04:37:45 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"12","offset":"0"}
+[20-Nov-2025 04:37:53 Europe/Berlin] Vehicle API Request: GET /catalogs/5
+[20-Nov-2025 04:38:00 Europe/Berlin] Vehicle API Request: GET /units/available
+[20-Nov-2025 04:38:00 Europe/Berlin] === GET AVAILABLE UNITS ===
+[20-Nov-2025 04:38:00 Europe/Berlin] Catalog ID: 5
+[20-Nov-2025 04:38:00 Europe/Berlin] Location: Quận 1, TP.HCM
+[20-Nov-2025 04:38:00 Europe/Berlin] Start: 2025-11-20T10:37
+[20-Nov-2025 04:38:00 Europe/Berlin] End: 2025-11-22T10:37
+[20-Nov-2025 04:38:00 Europe/Berlin] Checking rental conflicts for time range: 2025-11-20T10:37 to 2025-11-22T10:37
+[20-Nov-2025 04:38:00 Europe/Berlin] SQL: 
+            SELECT 
+                u.unit_id,
+                u.catalog_id,
+                u.license_plate,
+                u.status,
+                u.condition_rating,
+                u.odo_km,
+                u.fuel_level,
+                u.current_location,
+                u.parking_spot,
+                c.brand,
+                c.model,
+                c.type,
+                c.year,
+                c.color,
+                c.daily_rate
+            FROM VehicleUnits u
+            JOIN VehicleCatalog c ON u.catalog_id = c.catalog_id
+            WHERE u.catalog_id = ?
+                AND u.current_location = ?
+                AND u.status = 'Available'
+                AND c.is_active = TRUE
+        
+                AND u.unit_id NOT IN (
+                    SELECT vehicle_id 
+                    FROM rental_service_db.Rentals
+                    WHERE status IN ('Pending', 'Ongoing')
+                    AND (
+                        -- New rental starts during existing rental
+                        (? >= start_time AND ? < end_time)
+                        OR
+                        -- New rental ends during existing rental
+                        (? > start_time AND ? <= end_time)
+                        OR
+                        -- New rental completely contains existing rental
+                        (? <= start_time AND ? >= end_time)
+                    )
+                )
+             ORDER BY u.condition_rating DESC, u.odo_km ASC
+[20-Nov-2025 04:38:00 Europe/Berlin] Params: ["5","Qu\u1eadn 1, TP.HCM","2025-11-20T10:37","2025-11-20T10:37","2025-11-22T10:37","2025-11-22T10:37","2025-11-20T10:37","2025-11-22T10:37"]
+[20-Nov-2025 04:38:00 Europe/Berlin] Final available units count: 1
+[20-Nov-2025 04:38:00 Europe/Berlin] Found 1 available units
+[20-Nov-2025 04:38:03 Europe/Berlin] Vehicle API Request: GET /stats
+[20-Nov-2025 04:38:03 Europe/Berlin] Vehicle API Request: GET /available
+[20-Nov-2025 04:38:03 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"8","offset":0}
+[20-Nov-2025 04:40:57 Europe/Berlin] Vehicle API Request: GET /stats
+[20-Nov-2025 04:40:57 Europe/Berlin] Vehicle API Request: GET /vehicles/all
+[20-Nov-2025 04:40:57 Europe/Berlin] PHP Warning:  Undefined variable $vehicleService in C:\xampp\htdocs\TransportationRenting\services\vehicle\public\index.php on line 82
+[20-Nov-2025 04:40:57 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to a member function getAllVehicles() on null in C:\xampp\htdocs\TransportationRenting\services\vehicle\public\index.php:82
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\TransportationRenting\services\vehicle\public\index.php on line 82
+[20-Nov-2025 04:40:59 Europe/Berlin] Vehicle API Request: GET /stats
+[20-Nov-2025 04:40:59 Europe/Berlin] Vehicle API Request: GET /vehicles/all
+[20-Nov-2025 04:40:59 Europe/Berlin] PHP Warning:  Undefined variable $vehicleService in C:\xampp\htdocs\TransportationRenting\services\vehicle\public\index.php on line 82
+[20-Nov-2025 04:40:59 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to a member function getAllVehicles() on null in C:\xampp\htdocs\TransportationRenting\services\vehicle\public\index.php:82
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\TransportationRenting\services\vehicle\public\index.php on line 82
+[20-Nov-2025 04:40:59 Europe/Berlin] Vehicle API Request: GET /stats
+[20-Nov-2025 04:40:59 Europe/Berlin] Vehicle API Request: GET /vehicles/all
+[20-Nov-2025 04:40:59 Europe/Berlin] PHP Warning:  Undefined variable $vehicleService in C:\xampp\htdocs\TransportationRenting\services\vehicle\public\index.php on line 82
+[20-Nov-2025 04:40:59 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to a member function getAllVehicles() on null in C:\xampp\htdocs\TransportationRenting\services\vehicle\public\index.php:82
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\TransportationRenting\services\vehicle\public\index.php on line 82
+[20-Nov-2025 04:41:00 Europe/Berlin] Vehicle API Request: GET /stats
+[20-Nov-2025 04:41:00 Europe/Berlin] Vehicle API Request: GET /vehicles/all
+[20-Nov-2025 04:41:00 Europe/Berlin] PHP Warning:  Undefined variable $vehicleService in C:\xampp\htdocs\TransportationRenting\services\vehicle\public\index.php on line 82
+[20-Nov-2025 04:41:00 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to a member function getAllVehicles() on null in C:\xampp\htdocs\TransportationRenting\services\vehicle\public\index.php:82
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\TransportationRenting\services\vehicle\public\index.php on line 82
+[20-Nov-2025 04:41:00 Europe/Berlin] Vehicle API Request: GET /stats
+[20-Nov-2025 04:41:00 Europe/Berlin] Vehicle API Request: GET /vehicles/all
+[20-Nov-2025 04:41:00 Europe/Berlin] PHP Warning:  Undefined variable $vehicleService in C:\xampp\htdocs\TransportationRenting\services\vehicle\public\index.php on line 82
+[20-Nov-2025 04:41:00 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to a member function getAllVehicles() on null in C:\xampp\htdocs\TransportationRenting\services\vehicle\public\index.php:82
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\TransportationRenting\services\vehicle\public\index.php on line 82
+[20-Nov-2025 04:41:00 Europe/Berlin] Vehicle API Request: GET /stats
+[20-Nov-2025 04:41:01 Europe/Berlin] Vehicle API Request: GET /vehicles/all
+[20-Nov-2025 04:41:01 Europe/Berlin] PHP Warning:  Undefined variable $vehicleService in C:\xampp\htdocs\TransportationRenting\services\vehicle\public\index.php on line 82
+[20-Nov-2025 04:41:01 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to a member function getAllVehicles() on null in C:\xampp\htdocs\TransportationRenting\services\vehicle\public\index.php:82
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\TransportationRenting\services\vehicle\public\index.php on line 82
+[20-Nov-2025 04:41:09 Europe/Berlin] Vehicle API Request: GET /available
+[20-Nov-2025 04:41:09 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"12","offset":"0"}
+[20-Nov-2025 04:41:10 Europe/Berlin] Vehicle API Request: GET /stats
+[20-Nov-2025 04:41:10 Europe/Berlin] Vehicle API Request: GET /vehicles/all
+[20-Nov-2025 04:41:10 Europe/Berlin] PHP Warning:  Undefined variable $vehicleService in C:\xampp\htdocs\TransportationRenting\services\vehicle\public\index.php on line 82
+[20-Nov-2025 04:41:10 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to a member function getAllVehicles() on null in C:\xampp\htdocs\TransportationRenting\services\vehicle\public\index.php:82
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\TransportationRenting\services\vehicle\public\index.php on line 82
+[20-Nov-2025 04:41:26 Europe/Berlin] Vehicle API Request: GET /stats
+[20-Nov-2025 04:41:26 Europe/Berlin] Vehicle API Request: GET /vehicles/all
+[20-Nov-2025 04:41:26 Europe/Berlin] PHP Warning:  Undefined variable $vehicleService in C:\xampp\htdocs\TransportationRenting\services\vehicle\public\index.php on line 82
+[20-Nov-2025 04:41:26 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to a member function getAllVehicles() on null in C:\xampp\htdocs\TransportationRenting\services\vehicle\public\index.php:82
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\TransportationRenting\services\vehicle\public\index.php on line 82
+[20-Nov-2025 04:41:35 Europe/Berlin] Vehicle API Request: GET /stats
+[20-Nov-2025 04:41:35 Europe/Berlin] Vehicle API Request: GET /all
+[20-Nov-2025 04:41:35 Europe/Berlin] Vehicle API Request: GET /stats
+[20-Nov-2025 04:41:35 Europe/Berlin] Vehicle API Request: GET /all
+[20-Nov-2025 04:41:35 Europe/Berlin] Vehicle API Request: GET /stats
+[20-Nov-2025 04:41:35 Europe/Berlin] Vehicle API Request: GET /all
+[20-Nov-2025 04:42:12 Europe/Berlin] Vehicle API Request: GET /health
+[20-Nov-2025 04:42:18 Europe/Berlin] Vehicle API Request: GET /vehicles/all
+[20-Nov-2025 04:42:18 Europe/Berlin] PHP Warning:  Undefined variable $vehicleService in C:\xampp\htdocs\TransportationRenting\services\vehicle\public\index.php on line 82
+[20-Nov-2025 04:42:18 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to a member function getAllVehicles() on null in C:\xampp\htdocs\TransportationRenting\services\vehicle\public\index.php:82
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\TransportationRenting\services\vehicle\public\index.php on line 82
+[20-Nov-2025 04:42:29 Europe/Berlin] Vehicle API Request: GET /all
+[20-Nov-2025 04:43:36 Europe/Berlin] Vehicle API Request: GET /all
+[20-Nov-2025 04:43:37 Europe/Berlin] Vehicle API Request: GET /all
+[20-Nov-2025 04:43:42 Europe/Berlin] Vehicle API Request: GET /vehicles/all
+[20-Nov-2025 04:43:44 Europe/Berlin] Vehicle API Request: GET /stats
+[20-Nov-2025 04:43:44 Europe/Berlin] Vehicle API Request: GET /vehicles/all
+[20-Nov-2025 04:43:53 Europe/Berlin] Vehicle API Request: GET /catalogs/6
+[20-Nov-2025 04:43:59 Europe/Berlin] Vehicle API Request: GET /stats
+[20-Nov-2025 04:43:59 Europe/Berlin] Vehicle API Request: GET /vehicles/all
+[20-Nov-2025 04:43:59 Europe/Berlin] Vehicle API Request: GET /available
+[20-Nov-2025 04:43:59 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"12","offset":"0"}
+[20-Nov-2025 04:44:00 Europe/Berlin] Vehicle API Request: GET /catalogs/5
+[20-Nov-2025 04:44:01 Europe/Berlin] Vehicle API Request: GET /stats
+[20-Nov-2025 04:44:01 Europe/Berlin] Vehicle API Request: GET /vehicles/all
+[20-Nov-2025 04:44:04 Europe/Berlin] Vehicle API Request: GET /catalogs/5
+[20-Nov-2025 04:44:05 Europe/Berlin] Vehicle API Request: GET /stats
+[20-Nov-2025 04:44:05 Europe/Berlin] Vehicle API Request: GET /vehicles/all
+[20-Nov-2025 04:44:08 Europe/Berlin] Vehicle API Request: GET /available
+[20-Nov-2025 04:44:08 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"12","offset":"0"}
+[20-Nov-2025 04:44:09 Europe/Berlin] Vehicle API Request: GET /stats
+[20-Nov-2025 04:44:09 Europe/Berlin] Vehicle API Request: GET /vehicles/all
+[20-Nov-2025 04:44:42 Europe/Berlin] Vehicle API Request: GET /catalogs/1
+[20-Nov-2025 04:46:21 Europe/Berlin] Vehicle API Request: GET /stats
+[20-Nov-2025 04:46:21 Europe/Berlin] Vehicle API Request: GET /vehicles/all
+[20-Nov-2025 04:46:32 Europe/Berlin] Vehicle API Request: GET /available
+[20-Nov-2025 04:46:32 Europe/Berlin] Getting available vehicles with filters: {"type":"Car","brand":null,"search":null,"min_price":null,"max_price":null,"limit":"12","offset":"0"}
+[20-Nov-2025 04:46:34 Europe/Berlin] Vehicle API Request: GET /stats
+[20-Nov-2025 04:46:34 Europe/Berlin] Vehicle API Request: GET /vehicles/all
+[20-Nov-2025 04:46:47 Europe/Berlin] Vehicle API Request: GET /available
+[20-Nov-2025 04:46:47 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"12","offset":"0"}
+[20-Nov-2025 04:46:49 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 04:46:49 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 04:46:49 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 04:46:49 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 04:46:49 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 04:46:49 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 04:46:49 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 04:46:49 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 04:46:49 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 04:46:49 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 04:46:49 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 04:46:49 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 04:46:49 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 04:46:53 Europe/Berlin] Vehicle API Request: GET /available
+[20-Nov-2025 04:46:53 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"12","offset":"0"}
+[20-Nov-2025 04:46:54 Europe/Berlin] Vehicle API Request: GET /stats
+[20-Nov-2025 04:46:54 Europe/Berlin] Vehicle API Request: GET /vehicles/all
+[20-Nov-2025 04:47:01 Europe/Berlin] Vehicle API Request: GET /stats
+[20-Nov-2025 04:47:01 Europe/Berlin] Vehicle API Request: GET /vehicles/all
+[20-Nov-2025 04:47:05 Europe/Berlin] Vehicle API Request: GET /available
+[20-Nov-2025 04:47:05 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"12","offset":"0"}
+[20-Nov-2025 04:51:25 Europe/Berlin] Vehicle API Request: GET /stats
+[20-Nov-2025 04:51:25 Europe/Berlin] Vehicle API Request: GET /vehicles/all
+[20-Nov-2025 05:11:05 Europe/Berlin] Vehicle API Request: GET /stats
+[20-Nov-2025 05:11:05 Europe/Berlin] Vehicle API Request: GET /vehicles/all
+[20-Nov-2025 05:11:14 Europe/Berlin] Vehicle API Request: GET /available
+[20-Nov-2025 05:11:14 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"12","offset":"0"}
+[20-Nov-2025 05:11:16 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 05:11:16 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 05:11:16 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 05:11:17 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 05:11:17 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 05:11:17 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 05:11:17 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 05:11:17 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 05:11:17 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 05:11:17 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 05:11:17 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 05:11:17 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 05:11:17 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 05:11:24 Europe/Berlin] Vehicle API Request: GET /10
+[20-Nov-2025 05:11:31 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 05:11:31 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 05:11:31 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 05:11:32 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 05:11:32 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 05:11:32 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 05:11:32 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 05:11:32 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 05:11:32 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 05:11:32 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 05:11:32 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 05:11:32 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 05:11:32 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 05:11:35 Europe/Berlin] Vehicle API Request: GET /10
+[20-Nov-2025 05:11:35 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 05:11:37 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 05:11:38 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 05:11:38 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 05:11:38 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 05:11:38 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 05:11:38 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 05:11:38 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 05:11:38 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 05:11:38 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 05:11:38 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 05:11:38 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 05:11:38 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 05:11:38 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 05:12:10 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 05:12:10 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 05:12:10 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 05:12:10 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 05:12:10 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 05:12:10 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 05:12:10 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 05:12:10 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 05:12:10 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 05:12:10 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 05:12:10 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 05:12:10 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 05:12:10 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 05:12:42 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 05:12:42 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 05:12:42 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 05:12:42 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 05:12:42 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 05:12:42 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 05:12:42 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 05:12:42 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 05:12:42 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 05:12:42 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 05:12:42 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 05:12:42 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 05:12:42 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 05:13:13 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 05:13:13 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 05:13:13 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 05:13:13 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 05:13:13 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 05:13:13 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 05:13:13 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 05:13:13 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 05:13:13 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 05:13:13 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 05:13:13 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 05:13:13 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 05:13:13 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 05:13:44 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 05:13:44 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 05:13:44 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 05:13:44 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 05:13:44 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 05:13:44 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 05:13:44 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 05:13:44 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 05:13:44 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 05:13:44 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 05:13:44 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 05:13:44 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 05:13:44 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 05:14:15 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 05:14:15 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 05:14:15 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 05:14:15 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 05:14:15 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 05:14:15 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 05:14:15 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 05:14:15 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 05:14:15 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 05:14:15 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 05:14:15 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 05:14:15 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 05:14:15 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 05:14:46 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 05:14:46 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 05:14:46 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 05:14:46 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 05:14:46 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 05:14:46 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 05:14:46 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 05:14:46 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 05:14:46 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 05:14:46 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 05:14:46 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 05:14:46 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 05:14:46 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 05:15:17 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 05:15:17 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 05:15:17 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 05:15:17 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 05:15:17 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 05:15:17 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 05:15:17 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 05:15:17 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 05:15:17 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 05:15:17 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 05:15:17 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 05:15:17 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 05:15:17 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 05:15:46 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 05:15:46 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 05:15:46 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 05:15:46 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 05:15:46 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 05:15:46 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 05:15:46 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 05:15:46 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 05:15:46 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 05:15:46 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 05:15:46 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 05:15:47 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 05:15:47 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 05:15:54 Europe/Berlin] Vehicle API Request: GET /10
+[20-Nov-2025 05:15:56 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 05:15:56 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 05:15:56 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 05:15:57 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 05:15:57 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 05:15:57 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 05:15:57 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 05:15:57 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 05:15:57 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 05:15:57 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 05:15:57 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 05:15:57 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 05:15:57 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 05:15:59 Europe/Berlin] Vehicle API Request: GET /stats
+[20-Nov-2025 05:15:59 Europe/Berlin] Vehicle API Request: GET /vehicles/all
+[20-Nov-2025 05:16:14 Europe/Berlin] Vehicle API Request: GET /stats
+[20-Nov-2025 05:16:15 Europe/Berlin] Vehicle API Request: GET /vehicles/all
+[20-Nov-2025 05:16:30 Europe/Berlin] Vehicle API Request: GET /stats
+[20-Nov-2025 05:16:30 Europe/Berlin] Vehicle API Request: GET /vehicles/all
+[20-Nov-2025 05:16:34 Europe/Berlin] Vehicle API Request: GET /available
+[20-Nov-2025 05:16:34 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"12","offset":"0"}
+[20-Nov-2025 05:16:35 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 05:16:35 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 05:16:35 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 05:16:36 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 05:16:36 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 05:16:36 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 05:16:36 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 05:16:36 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 05:16:36 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 05:16:36 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 05:16:36 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 05:16:36 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 05:16:36 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 05:17:06 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 05:17:07 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 05:17:07 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 05:17:07 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 05:17:07 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 05:17:07 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 05:17:07 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 05:17:07 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 05:17:07 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 05:17:07 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 05:17:07 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 05:17:08 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 05:17:08 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 05:17:08 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 05:17:08 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 05:17:08 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 05:17:08 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 05:17:08 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 05:17:08 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 05:17:09 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 05:17:09 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 05:17:09 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 05:17:09 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 05:17:09 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 05:17:09 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 05:17:09 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 05:17:14 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 05:17:14 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 05:17:14 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 05:17:14 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 05:17:14 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 05:17:14 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 05:17:15 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 05:17:15 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 05:17:15 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 05:17:15 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 05:17:15 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 05:17:15 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 05:17:15 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 05:17:21 Europe/Berlin] Vehicle API Request: GET /11
+[20-Nov-2025 05:17:31 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 05:17:31 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 05:17:32 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 05:17:32 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 05:17:32 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 05:17:32 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 05:17:32 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 05:17:32 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 05:17:32 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 05:17:32 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 05:17:32 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 05:17:32 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 05:17:32 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 05:17:44 Europe/Berlin] Vehicle API Request: GET /10
+[20-Nov-2025 05:17:44 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 05:17:47 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 05:17:47 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 05:17:47 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 05:17:47 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 05:17:47 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 05:17:47 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 05:17:47 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 05:17:47 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 05:17:47 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 05:17:47 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 05:17:47 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 05:17:47 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 05:17:48 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 05:18:00 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 05:18:00 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 05:18:00 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 05:18:00 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 05:18:00 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 05:18:02 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 05:18:02 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 05:18:02 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 05:18:02 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 05:18:02 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 05:18:02 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 05:18:02 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 05:18:02 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 05:18:03 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 05:18:03 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 05:18:03 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 05:18:03 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 05:18:03 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 05:18:03 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 05:18:03 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 05:18:03 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 05:18:03 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 05:18:03 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 05:18:03 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 05:18:03 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 05:18:04 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 05:18:04 Europe/Berlin] Vehicle API Request: GET /stats
+[20-Nov-2025 05:18:04 Europe/Berlin] Vehicle API Request: GET /vehicles/all
+[20-Nov-2025 05:18:08 Europe/Berlin] Vehicle API Request: GET /available
+[20-Nov-2025 05:18:08 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"12","offset":"0"}
+[20-Nov-2025 05:18:09 Europe/Berlin] Vehicle API Request: GET /catalogs/5
+[20-Nov-2025 05:18:13 Europe/Berlin] Vehicle API Request: GET /stats
+[20-Nov-2025 05:18:13 Europe/Berlin] Vehicle API Request: GET /vehicles/all
+[20-Nov-2025 10:27:22 Europe/Berlin] Vehicle API Request: GET /vehicles/all
+[20-Nov-2025 10:27:28 Europe/Berlin] Vehicle API Request: GET /catalogs/10
+[20-Nov-2025 10:27:30 Europe/Berlin] Vehicle API Request: GET /available
+[20-Nov-2025 10:27:30 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"12","offset":"0"}
+[20-Nov-2025 10:27:32 Europe/Berlin] Vehicle API Request: GET /vehicles/all
+[20-Nov-2025 10:27:33 Europe/Berlin] Vehicle API Request: GET /available
+[20-Nov-2025 10:27:33 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"12","offset":"0"}
+[20-Nov-2025 10:27:33 Europe/Berlin] Vehicle API Request: GET /vehicles/all
+[20-Nov-2025 10:27:34 Europe/Berlin] Vehicle API Request: GET /available
+[20-Nov-2025 10:27:34 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"12","offset":"0"}
+[20-Nov-2025 10:27:37 Europe/Berlin] Vehicle API Request: GET /vehicles/all
+[20-Nov-2025 10:27:38 Europe/Berlin] Vehicle API Request: GET /available
+[20-Nov-2025 10:27:38 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"12","offset":"0"}
+[20-Nov-2025 10:27:39 Europe/Berlin] Vehicle API Request: GET /vehicles/all
+[20-Nov-2025 10:29:06 Europe/Berlin] Vehicle API Request: GET /catalogs/1
+[20-Nov-2025 10:40:13 Europe/Berlin] Vehicle API Request: GET /vehicles/all
+[20-Nov-2025 10:40:16 Europe/Berlin] Vehicle API Request: GET /catalogs/9
+[20-Nov-2025 10:40:17 Europe/Berlin] Vehicle API Request: GET /vehicles/all
+[20-Nov-2025 10:40:21 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 10:40:22 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 10:40:22 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 10:40:22 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 10:40:22 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 10:40:22 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 10:40:22 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 10:40:22 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 10:40:22 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 10:40:22 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 10:40:23 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 10:40:23 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 10:40:23 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 10:40:33 Europe/Berlin] Vehicle API Request: GET /vehicles/all
+[20-Nov-2025 10:45:12 Europe/Berlin] Vehicle API Request: GET /available
+[20-Nov-2025 10:45:12 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"12","offset":"0"}
+[20-Nov-2025 10:45:13 Europe/Berlin] Vehicle API Request: GET /vehicles/all
+[20-Nov-2025 10:45:15 Europe/Berlin] Vehicle API Request: GET /catalogs/9
+[20-Nov-2025 10:45:18 Europe/Berlin] Vehicle API Request: GET /vehicles/all
+[20-Nov-2025 10:45:23 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 10:45:23 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 10:45:23 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 10:45:23 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 10:45:23 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 10:45:23 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 10:45:23 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 10:45:24 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 10:45:24 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 10:45:24 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 10:45:24 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 10:45:24 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 10:45:24 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 10:45:27 Europe/Berlin] Vehicle API Request: GET /10
+[20-Nov-2025 10:45:33 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 10:45:33 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 10:45:34 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 10:45:34 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 10:45:34 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 10:45:34 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 10:45:34 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 10:45:34 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 10:45:34 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 10:45:34 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 10:45:34 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 10:45:34 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 10:45:34 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 10:45:36 Europe/Berlin] Vehicle API Request: GET /vehicles/all
+[20-Nov-2025 10:45:37 Europe/Berlin] Vehicle API Request: GET /available
+[20-Nov-2025 10:45:37 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"12","offset":"0"}
+[20-Nov-2025 10:45:38 Europe/Berlin] Vehicle API Request: GET /catalogs/5
+[20-Nov-2025 10:45:45 Europe/Berlin] Vehicle API Request: GET /units/available
+[20-Nov-2025 10:45:45 Europe/Berlin] === GET AVAILABLE UNITS ===
+[20-Nov-2025 10:45:45 Europe/Berlin] Catalog ID: 5
+[20-Nov-2025 10:45:45 Europe/Berlin] Location: Quận 1, TP.HCM
+[20-Nov-2025 10:45:45 Europe/Berlin] Start: 2025-11-20T16:45
+[20-Nov-2025 10:45:45 Europe/Berlin] End: 2025-11-21T16:45
+[20-Nov-2025 10:45:45 Europe/Berlin] Checking rental conflicts for time range: 2025-11-20T16:45 to 2025-11-21T16:45
+[20-Nov-2025 10:45:45 Europe/Berlin] SQL: 
+            SELECT 
+                u.unit_id,
+                u.catalog_id,
+                u.license_plate,
+                u.status,
+                u.condition_rating,
+                u.odo_km,
+                u.fuel_level,
+                u.current_location,
+                u.parking_spot,
+                c.brand,
+                c.model,
+                c.type,
+                c.year,
+                c.color,
+                c.daily_rate
+            FROM VehicleUnits u
+            JOIN VehicleCatalog c ON u.catalog_id = c.catalog_id
+            WHERE u.catalog_id = ?
+                AND u.current_location = ?
+                AND u.status = 'Available'
+                AND c.is_active = TRUE
+        
+                AND u.unit_id NOT IN (
+                    SELECT vehicle_id 
+                    FROM rental_service_db.Rentals
+                    WHERE status IN ('Pending', 'Ongoing')
+                    AND (
+                        -- New rental starts during existing rental
+                        (? >= start_time AND ? < end_time)
+                        OR
+                        -- New rental ends during existing rental
+                        (? > start_time AND ? <= end_time)
+                        OR
+                        -- New rental completely contains existing rental
+                        (? <= start_time AND ? >= end_time)
+                    )
+                )
+             ORDER BY u.condition_rating DESC, u.odo_km ASC
+[20-Nov-2025 10:45:45 Europe/Berlin] Params: ["5","Qu\u1eadn 1, TP.HCM","2025-11-20T16:45","2025-11-20T16:45","2025-11-21T16:45","2025-11-21T16:45","2025-11-20T16:45","2025-11-21T16:45"]
+[20-Nov-2025 10:45:45 Europe/Berlin] Final available units count: 1
+[20-Nov-2025 10:45:45 Europe/Berlin] Found 1 available units
+[20-Nov-2025 10:45:46 Europe/Berlin] Vehicle API Request: GET /units/available
+[20-Nov-2025 10:45:46 Europe/Berlin] === GET AVAILABLE UNITS ===
+[20-Nov-2025 10:45:46 Europe/Berlin] Catalog ID: 5
+[20-Nov-2025 10:45:46 Europe/Berlin] Location: Quận 1, TP.HCM
+[20-Nov-2025 10:45:46 Europe/Berlin] Start: 2025-11-20T16:45
+[20-Nov-2025 10:45:46 Europe/Berlin] End: 2025-11-21T16:45
+[20-Nov-2025 10:45:46 Europe/Berlin] Checking rental conflicts for time range: 2025-11-20T16:45 to 2025-11-21T16:45
+[20-Nov-2025 10:45:46 Europe/Berlin] SQL: 
+            SELECT 
+                u.unit_id,
+                u.catalog_id,
+                u.license_plate,
+                u.status,
+                u.condition_rating,
+                u.odo_km,
+                u.fuel_level,
+                u.current_location,
+                u.parking_spot,
+                c.brand,
+                c.model,
+                c.type,
+                c.year,
+                c.color,
+                c.daily_rate
+            FROM VehicleUnits u
+            JOIN VehicleCatalog c ON u.catalog_id = c.catalog_id
+            WHERE u.catalog_id = ?
+                AND u.current_location = ?
+                AND u.status = 'Available'
+                AND c.is_active = TRUE
+        
+                AND u.unit_id NOT IN (
+                    SELECT vehicle_id 
+                    FROM rental_service_db.Rentals
+                    WHERE status IN ('Pending', 'Ongoing')
+                    AND (
+                        -- New rental starts during existing rental
+                        (? >= start_time AND ? < end_time)
+                        OR
+                        -- New rental ends during existing rental
+                        (? > start_time AND ? <= end_time)
+                        OR
+                        -- New rental completely contains existing rental
+                        (? <= start_time AND ? >= end_time)
+                    )
+                )
+             ORDER BY u.condition_rating DESC, u.odo_km ASC
+[20-Nov-2025 10:45:46 Europe/Berlin] Params: ["5","Qu\u1eadn 1, TP.HCM","2025-11-20T16:45","2025-11-20T16:45","2025-11-21T16:45","2025-11-21T16:45","2025-11-20T16:45","2025-11-21T16:45"]
+[20-Nov-2025 10:45:46 Europe/Berlin] Final available units count: 1
+[20-Nov-2025 10:45:46 Europe/Berlin] Found 1 available units
+[20-Nov-2025 10:45:46 Europe/Berlin] Vehicle API Request: GET /catalogs/5
+[20-Nov-2025 10:45:47 Europe/Berlin] Vehicle API Request: GET /catalogs/5
+[20-Nov-2025 10:46:25 Europe/Berlin] Vehicle API Request: GET /available
+[20-Nov-2025 10:46:25 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"12","offset":"0"}
+[20-Nov-2025 10:46:26 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 10:46:26 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 10:46:26 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 10:46:26 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 10:46:26 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 10:46:26 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 10:46:26 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 10:46:26 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 10:46:26 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 10:46:27 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 10:46:27 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 10:46:27 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 10:46:27 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 10:46:29 Europe/Berlin] Vehicle API Request: GET /catalogs/5
+[20-Nov-2025 10:46:32 Europe/Berlin] Vehicle API Request: GET /vehicles/all
+[20-Nov-2025 10:49:36 Europe/Berlin] Vehicle API Request: GET /catalogs/9
+[20-Nov-2025 10:49:38 Europe/Berlin] Vehicle API Request: GET /vehicles/all
+[20-Nov-2025 10:49:39 Europe/Berlin] Vehicle API Request: GET /available
+[20-Nov-2025 10:49:39 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"12","offset":"0"}
+[20-Nov-2025 10:49:40 Europe/Berlin] Vehicle API Request: GET /catalogs/5
+[20-Nov-2025 10:49:47 Europe/Berlin] Vehicle API Request: GET /units/available
+[20-Nov-2025 10:49:47 Europe/Berlin] === GET AVAILABLE UNITS ===
+[20-Nov-2025 10:49:47 Europe/Berlin] Catalog ID: 5
+[20-Nov-2025 10:49:47 Europe/Berlin] Location: Quận 1, TP.HCM
+[20-Nov-2025 10:49:47 Europe/Berlin] Start: 2025-11-20T16:49
+[20-Nov-2025 10:49:47 Europe/Berlin] End: 2025-11-21T16:49
+[20-Nov-2025 10:49:47 Europe/Berlin] Checking rental conflicts for time range: 2025-11-20T16:49 to 2025-11-21T16:49
+[20-Nov-2025 10:49:47 Europe/Berlin] SQL: 
+            SELECT 
+                u.unit_id,
+                u.catalog_id,
+                u.license_plate,
+                u.status,
+                u.condition_rating,
+                u.odo_km,
+                u.fuel_level,
+                u.current_location,
+                u.parking_spot,
+                c.brand,
+                c.model,
+                c.type,
+                c.year,
+                c.color,
+                c.daily_rate
+            FROM VehicleUnits u
+            JOIN VehicleCatalog c ON u.catalog_id = c.catalog_id
+            WHERE u.catalog_id = ?
+                AND u.current_location = ?
+                AND u.status = 'Available'
+                AND c.is_active = TRUE
+        
+                AND u.unit_id NOT IN (
+                    SELECT vehicle_id 
+                    FROM rental_service_db.Rentals
+                    WHERE status IN ('Pending', 'Ongoing')
+                    AND (
+                        -- New rental starts during existing rental
+                        (? >= start_time AND ? < end_time)
+                        OR
+                        -- New rental ends during existing rental
+                        (? > start_time AND ? <= end_time)
+                        OR
+                        -- New rental completely contains existing rental
+                        (? <= start_time AND ? >= end_time)
+                    )
+                )
+             ORDER BY u.condition_rating DESC, u.odo_km ASC
+[20-Nov-2025 10:49:47 Europe/Berlin] Params: ["5","Qu\u1eadn 1, TP.HCM","2025-11-20T16:49","2025-11-20T16:49","2025-11-21T16:49","2025-11-21T16:49","2025-11-20T16:49","2025-11-21T16:49"]
+[20-Nov-2025 10:49:47 Europe/Berlin] Final available units count: 1
+[20-Nov-2025 10:49:47 Europe/Berlin] Found 1 available units
+[20-Nov-2025 10:49:48 Europe/Berlin] Vehicle API Request: GET /units/available
+[20-Nov-2025 10:49:48 Europe/Berlin] === GET AVAILABLE UNITS ===
+[20-Nov-2025 10:49:48 Europe/Berlin] Catalog ID: 5
+[20-Nov-2025 10:49:48 Europe/Berlin] Location: Quận 1, TP.HCM
+[20-Nov-2025 10:49:48 Europe/Berlin] Start: 2025-11-20T16:49
+[20-Nov-2025 10:49:48 Europe/Berlin] End: 2025-11-21T16:49
+[20-Nov-2025 10:49:48 Europe/Berlin] Checking rental conflicts for time range: 2025-11-20T16:49 to 2025-11-21T16:49
+[20-Nov-2025 10:49:48 Europe/Berlin] SQL: 
+            SELECT 
+                u.unit_id,
+                u.catalog_id,
+                u.license_plate,
+                u.status,
+                u.condition_rating,
+                u.odo_km,
+                u.fuel_level,
+                u.current_location,
+                u.parking_spot,
+                c.brand,
+                c.model,
+                c.type,
+                c.year,
+                c.color,
+                c.daily_rate
+            FROM VehicleUnits u
+            JOIN VehicleCatalog c ON u.catalog_id = c.catalog_id
+            WHERE u.catalog_id = ?
+                AND u.current_location = ?
+                AND u.status = 'Available'
+                AND c.is_active = TRUE
+        
+                AND u.unit_id NOT IN (
+                    SELECT vehicle_id 
+                    FROM rental_service_db.Rentals
+                    WHERE status IN ('Pending', 'Ongoing')
+                    AND (
+                        -- New rental starts during existing rental
+                        (? >= start_time AND ? < end_time)
+                        OR
+                        -- New rental ends during existing rental
+                        (? > start_time AND ? <= end_time)
+                        OR
+                        -- New rental completely contains existing rental
+                        (? <= start_time AND ? >= end_time)
+                    )
+                )
+             ORDER BY u.condition_rating DESC, u.odo_km ASC
+[20-Nov-2025 10:49:48 Europe/Berlin] Params: ["5","Qu\u1eadn 1, TP.HCM","2025-11-20T16:49","2025-11-20T16:49","2025-11-21T16:49","2025-11-21T16:49","2025-11-20T16:49","2025-11-21T16:49"]
+[20-Nov-2025 10:49:48 Europe/Berlin] Final available units count: 1
+[20-Nov-2025 10:49:48 Europe/Berlin] Found 1 available units
+[20-Nov-2025 10:49:48 Europe/Berlin] Vehicle API Request: GET /catalogs/5
+[20-Nov-2025 10:49:49 Europe/Berlin] Vehicle API Request: GET /catalogs/5
+[20-Nov-2025 10:50:47 Europe/Berlin] Vehicle API Request: GET /vehicles/all
+[20-Nov-2025 10:50:48 Europe/Berlin] Vehicle API Request: GET /vehicles/all
+[20-Nov-2025 10:50:50 Europe/Berlin] Vehicle API Request: GET /available
+[20-Nov-2025 10:50:50 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"12","offset":"0"}
+[20-Nov-2025 10:50:54 Europe/Berlin] Vehicle API Request: GET /catalogs/5
+[20-Nov-2025 10:51:01 Europe/Berlin] Vehicle API Request: GET /units/available
+[20-Nov-2025 10:51:01 Europe/Berlin] === GET AVAILABLE UNITS ===
+[20-Nov-2025 10:51:01 Europe/Berlin] Catalog ID: 5
+[20-Nov-2025 10:51:01 Europe/Berlin] Location: Quận 1, TP.HCM
+[20-Nov-2025 10:51:01 Europe/Berlin] Start: 2025-11-20T16:50
+[20-Nov-2025 10:51:01 Europe/Berlin] End: 2025-11-21T16:50
+[20-Nov-2025 10:51:01 Europe/Berlin] Checking rental conflicts for time range: 2025-11-20T16:50 to 2025-11-21T16:50
+[20-Nov-2025 10:51:01 Europe/Berlin] SQL: 
+            SELECT 
+                u.unit_id,
+                u.catalog_id,
+                u.license_plate,
+                u.status,
+                u.condition_rating,
+                u.odo_km,
+                u.fuel_level,
+                u.current_location,
+                u.parking_spot,
+                c.brand,
+                c.model,
+                c.type,
+                c.year,
+                c.color,
+                c.daily_rate
+            FROM VehicleUnits u
+            JOIN VehicleCatalog c ON u.catalog_id = c.catalog_id
+            WHERE u.catalog_id = ?
+                AND u.current_location = ?
+                AND u.status = 'Available'
+                AND c.is_active = TRUE
+        
+                AND u.unit_id NOT IN (
+                    SELECT vehicle_id 
+                    FROM rental_service_db.Rentals
+                    WHERE status IN ('Pending', 'Ongoing')
+                    AND (
+                        -- New rental starts during existing rental
+                        (? >= start_time AND ? < end_time)
+                        OR
+                        -- New rental ends during existing rental
+                        (? > start_time AND ? <= end_time)
+                        OR
+                        -- New rental completely contains existing rental
+                        (? <= start_time AND ? >= end_time)
+                    )
+                )
+             ORDER BY u.condition_rating DESC, u.odo_km ASC
+[20-Nov-2025 10:51:01 Europe/Berlin] Params: ["5","Qu\u1eadn 1, TP.HCM","2025-11-20T16:50","2025-11-20T16:50","2025-11-21T16:50","2025-11-21T16:50","2025-11-20T16:50","2025-11-21T16:50"]
+[20-Nov-2025 10:51:01 Europe/Berlin] Final available units count: 1
+[20-Nov-2025 10:51:01 Europe/Berlin] Found 1 available units
+[20-Nov-2025 10:51:02 Europe/Berlin] Vehicle API Request: GET /units/available
+[20-Nov-2025 10:51:02 Europe/Berlin] === GET AVAILABLE UNITS ===
+[20-Nov-2025 10:51:02 Europe/Berlin] Catalog ID: 5
+[20-Nov-2025 10:51:02 Europe/Berlin] Location: Quận 1, TP.HCM
+[20-Nov-2025 10:51:02 Europe/Berlin] Start: 2025-11-20T16:50
+[20-Nov-2025 10:51:02 Europe/Berlin] End: 2025-11-21T16:50
+[20-Nov-2025 10:51:02 Europe/Berlin] Checking rental conflicts for time range: 2025-11-20T16:50 to 2025-11-21T16:50
+[20-Nov-2025 10:51:02 Europe/Berlin] SQL: 
+            SELECT 
+                u.unit_id,
+                u.catalog_id,
+                u.license_plate,
+                u.status,
+                u.condition_rating,
+                u.odo_km,
+                u.fuel_level,
+                u.current_location,
+                u.parking_spot,
+                c.brand,
+                c.model,
+                c.type,
+                c.year,
+                c.color,
+                c.daily_rate
+            FROM VehicleUnits u
+            JOIN VehicleCatalog c ON u.catalog_id = c.catalog_id
+            WHERE u.catalog_id = ?
+                AND u.current_location = ?
+                AND u.status = 'Available'
+                AND c.is_active = TRUE
+        
+                AND u.unit_id NOT IN (
+                    SELECT vehicle_id 
+                    FROM rental_service_db.Rentals
+                    WHERE status IN ('Pending', 'Ongoing')
+                    AND (
+                        -- New rental starts during existing rental
+                        (? >= start_time AND ? < end_time)
+                        OR
+                        -- New rental ends during existing rental
+                        (? > start_time AND ? <= end_time)
+                        OR
+                        -- New rental completely contains existing rental
+                        (? <= start_time AND ? >= end_time)
+                    )
+                )
+             ORDER BY u.condition_rating DESC, u.odo_km ASC
+[20-Nov-2025 10:51:02 Europe/Berlin] Params: ["5","Qu\u1eadn 1, TP.HCM","2025-11-20T16:50","2025-11-20T16:50","2025-11-21T16:50","2025-11-21T16:50","2025-11-20T16:50","2025-11-21T16:50"]
+[20-Nov-2025 10:51:02 Europe/Berlin] Final available units count: 1
+[20-Nov-2025 10:51:02 Europe/Berlin] Found 1 available units
+[20-Nov-2025 10:51:02 Europe/Berlin] Vehicle API Request: GET /catalogs/5
+[20-Nov-2025 10:51:03 Europe/Berlin] Vehicle API Request: GET /catalogs/5
+[20-Nov-2025 10:51:07 Europe/Berlin] Vehicle API Request: GET /available
+[20-Nov-2025 10:51:07 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"12","offset":"0"}
+[20-Nov-2025 10:51:08 Europe/Berlin] Vehicle API Request: GET /catalogs/2
+[20-Nov-2025 10:51:16 Europe/Berlin] Vehicle API Request: GET /units/available
+[20-Nov-2025 10:51:16 Europe/Berlin] === GET AVAILABLE UNITS ===
+[20-Nov-2025 10:51:16 Europe/Berlin] Catalog ID: 2
+[20-Nov-2025 10:51:16 Europe/Berlin] Location: Quận 1, TP.HCM
+[20-Nov-2025 10:51:16 Europe/Berlin] Start: 2025-11-20T16:51
+[20-Nov-2025 10:51:16 Europe/Berlin] End: 2025-11-21T16:51
+[20-Nov-2025 10:51:16 Europe/Berlin] Checking rental conflicts for time range: 2025-11-20T16:51 to 2025-11-21T16:51
+[20-Nov-2025 10:51:16 Europe/Berlin] SQL: 
+            SELECT 
+                u.unit_id,
+                u.catalog_id,
+                u.license_plate,
+                u.status,
+                u.condition_rating,
+                u.odo_km,
+                u.fuel_level,
+                u.current_location,
+                u.parking_spot,
+                c.brand,
+                c.model,
+                c.type,
+                c.year,
+                c.color,
+                c.daily_rate
+            FROM VehicleUnits u
+            JOIN VehicleCatalog c ON u.catalog_id = c.catalog_id
+            WHERE u.catalog_id = ?
+                AND u.current_location = ?
+                AND u.status = 'Available'
+                AND c.is_active = TRUE
+        
+                AND u.unit_id NOT IN (
+                    SELECT vehicle_id 
+                    FROM rental_service_db.Rentals
+                    WHERE status IN ('Pending', 'Ongoing')
+                    AND (
+                        -- New rental starts during existing rental
+                        (? >= start_time AND ? < end_time)
+                        OR
+                        -- New rental ends during existing rental
+                        (? > start_time AND ? <= end_time)
+                        OR
+                        -- New rental completely contains existing rental
+                        (? <= start_time AND ? >= end_time)
+                    )
+                )
+             ORDER BY u.condition_rating DESC, u.odo_km ASC
+[20-Nov-2025 10:51:16 Europe/Berlin] Params: ["2","Qu\u1eadn 1, TP.HCM","2025-11-20T16:51","2025-11-20T16:51","2025-11-21T16:51","2025-11-21T16:51","2025-11-20T16:51","2025-11-21T16:51"]
+[20-Nov-2025 10:51:16 Europe/Berlin] Final available units count: 0
+[20-Nov-2025 10:51:16 Europe/Berlin] Found 0 available units
+[20-Nov-2025 10:51:19 Europe/Berlin] Vehicle API Request: GET /units/available
+[20-Nov-2025 10:51:19 Europe/Berlin] === GET AVAILABLE UNITS ===
+[20-Nov-2025 10:51:19 Europe/Berlin] Catalog ID: 2
+[20-Nov-2025 10:51:19 Europe/Berlin] Location: Quận 3, TP.HCM
+[20-Nov-2025 10:51:19 Europe/Berlin] Start: 2025-11-20T16:51
+[20-Nov-2025 10:51:19 Europe/Berlin] End: 2025-11-21T16:51
+[20-Nov-2025 10:51:19 Europe/Berlin] Checking rental conflicts for time range: 2025-11-20T16:51 to 2025-11-21T16:51
+[20-Nov-2025 10:51:19 Europe/Berlin] SQL: 
+            SELECT 
+                u.unit_id,
+                u.catalog_id,
+                u.license_plate,
+                u.status,
+                u.condition_rating,
+                u.odo_km,
+                u.fuel_level,
+                u.current_location,
+                u.parking_spot,
+                c.brand,
+                c.model,
+                c.type,
+                c.year,
+                c.color,
+                c.daily_rate
+            FROM VehicleUnits u
+            JOIN VehicleCatalog c ON u.catalog_id = c.catalog_id
+            WHERE u.catalog_id = ?
+                AND u.current_location = ?
+                AND u.status = 'Available'
+                AND c.is_active = TRUE
+        
+                AND u.unit_id NOT IN (
+                    SELECT vehicle_id 
+                    FROM rental_service_db.Rentals
+                    WHERE status IN ('Pending', 'Ongoing')
+                    AND (
+                        -- New rental starts during existing rental
+                        (? >= start_time AND ? < end_time)
+                        OR
+                        -- New rental ends during existing rental
+                        (? > start_time AND ? <= end_time)
+                        OR
+                        -- New rental completely contains existing rental
+                        (? <= start_time AND ? >= end_time)
+                    )
+                )
+             ORDER BY u.condition_rating DESC, u.odo_km ASC
+[20-Nov-2025 10:51:19 Europe/Berlin] Params: ["2","Qu\u1eadn 3, TP.HCM","2025-11-20T16:51","2025-11-20T16:51","2025-11-21T16:51","2025-11-21T16:51","2025-11-20T16:51","2025-11-21T16:51"]
+[20-Nov-2025 10:51:19 Europe/Berlin] Final available units count: 1
+[20-Nov-2025 10:51:19 Europe/Berlin] Found 1 available units
+[20-Nov-2025 10:51:20 Europe/Berlin] Vehicle API Request: GET /units/available
+[20-Nov-2025 10:51:20 Europe/Berlin] === GET AVAILABLE UNITS ===
+[20-Nov-2025 10:51:20 Europe/Berlin] Catalog ID: 2
+[20-Nov-2025 10:51:20 Europe/Berlin] Location: Quận 3, TP.HCM
+[20-Nov-2025 10:51:20 Europe/Berlin] Start: 2025-11-20T16:51
+[20-Nov-2025 10:51:20 Europe/Berlin] End: 2025-11-21T16:51
+[20-Nov-2025 10:51:20 Europe/Berlin] Checking rental conflicts for time range: 2025-11-20T16:51 to 2025-11-21T16:51
+[20-Nov-2025 10:51:20 Europe/Berlin] SQL: 
+            SELECT 
+                u.unit_id,
+                u.catalog_id,
+                u.license_plate,
+                u.status,
+                u.condition_rating,
+                u.odo_km,
+                u.fuel_level,
+                u.current_location,
+                u.parking_spot,
+                c.brand,
+                c.model,
+                c.type,
+                c.year,
+                c.color,
+                c.daily_rate
+            FROM VehicleUnits u
+            JOIN VehicleCatalog c ON u.catalog_id = c.catalog_id
+            WHERE u.catalog_id = ?
+                AND u.current_location = ?
+                AND u.status = 'Available'
+                AND c.is_active = TRUE
+        
+                AND u.unit_id NOT IN (
+                    SELECT vehicle_id 
+                    FROM rental_service_db.Rentals
+                    WHERE status IN ('Pending', 'Ongoing')
+                    AND (
+                        -- New rental starts during existing rental
+                        (? >= start_time AND ? < end_time)
+                        OR
+                        -- New rental ends during existing rental
+                        (? > start_time AND ? <= end_time)
+                        OR
+                        -- New rental completely contains existing rental
+                        (? <= start_time AND ? >= end_time)
+                    )
+                )
+             ORDER BY u.condition_rating DESC, u.odo_km ASC
+[20-Nov-2025 10:51:20 Europe/Berlin] Params: ["2","Qu\u1eadn 3, TP.HCM","2025-11-20T16:51","2025-11-20T16:51","2025-11-21T16:51","2025-11-21T16:51","2025-11-20T16:51","2025-11-21T16:51"]
+[20-Nov-2025 10:51:20 Europe/Berlin] Final available units count: 1
+[20-Nov-2025 10:51:20 Europe/Berlin] Found 1 available units
+[20-Nov-2025 10:51:20 Europe/Berlin] Vehicle API Request: GET /catalogs/2
+[20-Nov-2025 10:51:21 Europe/Berlin] Vehicle API Request: GET /catalogs/5
+[20-Nov-2025 10:51:21 Europe/Berlin] Vehicle API Request: GET /catalogs/2
+[20-Nov-2025 10:51:31 Europe/Berlin] Vehicle API Request: GET /catalogs/5
+[20-Nov-2025 10:51:31 Europe/Berlin] Vehicle API Request: GET /units/available
+[20-Nov-2025 10:51:31 Europe/Berlin] === GET AVAILABLE UNITS ===
+[20-Nov-2025 10:51:31 Europe/Berlin] Catalog ID: 5
+[20-Nov-2025 10:51:31 Europe/Berlin] Location: Quận 1, TP.HCM
+[20-Nov-2025 10:51:31 Europe/Berlin] Start: 2025-11-20T16:50
+[20-Nov-2025 10:51:31 Europe/Berlin] End: 2025-11-21T16:50
+[20-Nov-2025 10:51:31 Europe/Berlin] Checking rental conflicts for time range: 2025-11-20T16:50 to 2025-11-21T16:50
+[20-Nov-2025 10:51:31 Europe/Berlin] SQL: 
+            SELECT 
+                u.unit_id,
+                u.catalog_id,
+                u.license_plate,
+                u.status,
+                u.condition_rating,
+                u.odo_km,
+                u.fuel_level,
+                u.current_location,
+                u.parking_spot,
+                c.brand,
+                c.model,
+                c.type,
+                c.year,
+                c.color,
+                c.daily_rate
+            FROM VehicleUnits u
+            JOIN VehicleCatalog c ON u.catalog_id = c.catalog_id
+            WHERE u.catalog_id = ?
+                AND u.current_location = ?
+                AND u.status = 'Available'
+                AND c.is_active = TRUE
+        
+                AND u.unit_id NOT IN (
+                    SELECT vehicle_id 
+                    FROM rental_service_db.Rentals
+                    WHERE status IN ('Pending', 'Ongoing')
+                    AND (
+                        -- New rental starts during existing rental
+                        (? >= start_time AND ? < end_time)
+                        OR
+                        -- New rental ends during existing rental
+                        (? > start_time AND ? <= end_time)
+                        OR
+                        -- New rental completely contains existing rental
+                        (? <= start_time AND ? >= end_time)
+                    )
+                )
+             ORDER BY u.condition_rating DESC, u.odo_km ASC
+[20-Nov-2025 10:51:31 Europe/Berlin] Params: ["5","Qu\u1eadn 1, TP.HCM","2025-11-20T16:50","2025-11-20T16:50","2025-11-21T16:50","2025-11-21T16:50","2025-11-20T16:50","2025-11-21T16:50"]
+[20-Nov-2025 10:51:31 Europe/Berlin] Final available units count: 1
+[20-Nov-2025 10:51:31 Europe/Berlin] Found 1 available units
+[20-Nov-2025 10:51:32 Europe/Berlin] Vehicle API Request: GET /units/6
+[20-Nov-2025 10:51:32 Europe/Berlin] Vehicle API Request: GET /units/6/available
+[20-Nov-2025 10:51:32 Europe/Berlin] Vehicle API Request: PUT /6/status
+[20-Nov-2025 10:51:32 Europe/Berlin] Vehicle API Request: GET /catalogs/2
+[20-Nov-2025 10:51:32 Europe/Berlin] Vehicle API Request: GET /units/available
+[20-Nov-2025 10:51:32 Europe/Berlin] === GET AVAILABLE UNITS ===
+[20-Nov-2025 10:51:32 Europe/Berlin] Catalog ID: 2
+[20-Nov-2025 10:51:32 Europe/Berlin] Location: Quận 3, TP.HCM
+[20-Nov-2025 10:51:32 Europe/Berlin] Start: 2025-11-20T16:51
+[20-Nov-2025 10:51:32 Europe/Berlin] End: 2025-11-21T16:51
+[20-Nov-2025 10:51:32 Europe/Berlin] Checking rental conflicts for time range: 2025-11-20T16:51 to 2025-11-21T16:51
+[20-Nov-2025 10:51:32 Europe/Berlin] SQL: 
+            SELECT 
+                u.unit_id,
+                u.catalog_id,
+                u.license_plate,
+                u.status,
+                u.condition_rating,
+                u.odo_km,
+                u.fuel_level,
+                u.current_location,
+                u.parking_spot,
+                c.brand,
+                c.model,
+                c.type,
+                c.year,
+                c.color,
+                c.daily_rate
+            FROM VehicleUnits u
+            JOIN VehicleCatalog c ON u.catalog_id = c.catalog_id
+            WHERE u.catalog_id = ?
+                AND u.current_location = ?
+                AND u.status = 'Available'
+                AND c.is_active = TRUE
+        
+                AND u.unit_id NOT IN (
+                    SELECT vehicle_id 
+                    FROM rental_service_db.Rentals
+                    WHERE status IN ('Pending', 'Ongoing')
+                    AND (
+                        -- New rental starts during existing rental
+                        (? >= start_time AND ? < end_time)
+                        OR
+                        -- New rental ends during existing rental
+                        (? > start_time AND ? <= end_time)
+                        OR
+                        -- New rental completely contains existing rental
+                        (? <= start_time AND ? >= end_time)
+                    )
+                )
+             ORDER BY u.condition_rating DESC, u.odo_km ASC
+[20-Nov-2025 10:51:32 Europe/Berlin] Params: ["2","Qu\u1eadn 3, TP.HCM","2025-11-20T16:51","2025-11-20T16:51","2025-11-21T16:51","2025-11-21T16:51","2025-11-20T16:51","2025-11-21T16:51"]
+[20-Nov-2025 10:51:32 Europe/Berlin] Final available units count: 1
+[20-Nov-2025 10:51:32 Europe/Berlin] Found 1 available units
+[20-Nov-2025 10:51:32 Europe/Berlin] Vehicle API Request: GET /units/3
+[20-Nov-2025 10:51:32 Europe/Berlin] Vehicle API Request: GET /units/3/available
+[20-Nov-2025 10:51:32 Europe/Berlin] Vehicle API Request: PUT /3/status
+[20-Nov-2025 10:51:32 Europe/Berlin] Vehicle API Request: GET /6
+[20-Nov-2025 10:51:32 Europe/Berlin] Vehicle API Request: GET /3
+[20-Nov-2025 10:51:34 Europe/Berlin] Vehicle API Request: GET /units/6
+[20-Nov-2025 10:51:34 Europe/Berlin] Vehicle API Request: GET /units/3
+[20-Nov-2025 10:51:34 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 10:51:34 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 10:51:34 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 10:51:34 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 10:51:34 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 10:51:35 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 10:51:35 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 10:51:35 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 10:51:35 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 10:51:35 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 10:51:35 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 10:51:35 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 10:51:35 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 10:52:06 Europe/Berlin] Vehicle API Request: GET /units/6
+[20-Nov-2025 10:52:06 Europe/Berlin] Vehicle API Request: GET /units/3
+[20-Nov-2025 10:52:06 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 10:52:06 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 10:52:06 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 10:52:06 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 10:52:06 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 10:52:06 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 10:52:07 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 10:52:07 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 10:52:07 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 10:52:07 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 10:52:07 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 10:52:07 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 10:52:07 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 10:52:38 Europe/Berlin] Vehicle API Request: GET /units/6
+[20-Nov-2025 10:52:38 Europe/Berlin] Vehicle API Request: GET /units/3
+[20-Nov-2025 10:52:38 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 10:52:38 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 10:52:38 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 10:52:38 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 10:52:38 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 10:52:38 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 10:52:38 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 10:52:38 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 10:52:39 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 10:52:39 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 10:52:39 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 10:52:39 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 10:52:39 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 10:52:56 Europe/Berlin] Vehicle API Request: GET /3
+[20-Nov-2025 10:52:56 Europe/Berlin] Vehicle API Request: PUT /units/3/status
+[20-Nov-2025 10:52:57 Europe/Berlin] Vehicle API Request: GET /units/6
+[20-Nov-2025 10:52:57 Europe/Berlin] Vehicle API Request: GET /units/3
+[20-Nov-2025 10:52:57 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 10:52:57 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 10:52:57 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 10:52:57 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 10:52:58 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 10:52:58 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 10:52:58 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 10:52:58 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 10:52:58 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 10:52:58 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 10:52:58 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 10:52:58 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 10:52:58 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 10:53:01 Europe/Berlin] Vehicle API Request: GET /6
+[20-Nov-2025 10:53:01 Europe/Berlin] Vehicle API Request: PUT /units/6/status
+[20-Nov-2025 10:53:02 Europe/Berlin] Vehicle API Request: GET /units/6
+[20-Nov-2025 10:53:02 Europe/Berlin] Vehicle API Request: GET /units/3
+[20-Nov-2025 10:53:03 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 10:53:03 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 10:53:03 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 10:53:03 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 10:53:03 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 10:53:03 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 10:53:03 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 10:53:03 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 10:53:03 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 10:53:03 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 10:53:03 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 10:53:03 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 10:53:04 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 10:53:05 Europe/Berlin] Vehicle API Request: GET /available
+[20-Nov-2025 10:53:05 Europe/Berlin] Getting available vehicles with filters: {"type":null,"brand":null,"search":null,"min_price":null,"max_price":null,"limit":"12","offset":"0"}
+[20-Nov-2025 10:53:05 Europe/Berlin] Vehicle API Request: GET /vehicles/all
+[20-Nov-2025 10:53:26 Europe/Berlin] Vehicle API Request: GET /catalogs/1
+[20-Nov-2025 10:53:28 Europe/Berlin] Vehicle API Request: GET /vehicles/all
+[20-Nov-2025 10:53:29 Europe/Berlin] Vehicle API Request: GET /units/6
+[20-Nov-2025 10:53:29 Europe/Berlin] Vehicle API Request: GET /units/3
+[20-Nov-2025 10:53:29 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 10:53:29 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 10:53:29 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 10:53:29 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 10:53:30 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 10:53:30 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 10:53:30 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 10:53:30 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 10:53:30 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 10:53:30 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 10:53:30 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 10:53:30 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 10:53:30 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 10:53:31 Europe/Berlin] Vehicle API Request: GET /units/6
+[20-Nov-2025 10:53:31 Europe/Berlin] Vehicle API Request: GET /units/3
+[20-Nov-2025 10:53:31 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 10:53:31 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 10:53:31 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 10:53:31 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 10:53:31 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 10:53:31 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 10:53:31 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 10:53:31 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 10:53:31 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 10:53:31 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 10:53:32 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 10:53:32 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 10:53:32 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 10:53:34 Europe/Berlin] Vehicle API Request: GET /units/6
+[20-Nov-2025 10:53:34 Europe/Berlin] Vehicle API Request: GET /units/3
+[20-Nov-2025 10:53:34 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 10:53:34 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 10:53:34 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 10:53:34 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 10:53:34 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 10:53:34 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 10:53:34 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 10:53:34 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 10:53:34 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 10:53:34 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 10:53:34 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 10:53:34 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 10:53:34 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 10:53:37 Europe/Berlin] Vehicle API Request: GET /10
+[20-Nov-2025 10:53:38 Europe/Berlin] Vehicle API Request: GET /units/6
+[20-Nov-2025 10:53:38 Europe/Berlin] Vehicle API Request: GET /units/3
+[20-Nov-2025 10:53:39 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 10:53:39 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 10:53:39 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 10:53:39 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 10:53:39 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 10:53:39 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 10:53:39 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 10:53:39 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 10:53:39 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 10:53:39 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 10:53:39 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 10:53:39 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 10:53:39 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 10:53:42 Europe/Berlin] Vehicle API Request: GET /10
+[20-Nov-2025 10:53:47 Europe/Berlin] Vehicle API Request: GET /units/6
+[20-Nov-2025 10:53:47 Europe/Berlin] Vehicle API Request: GET /units/3
+[20-Nov-2025 10:53:47 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 10:53:47 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 10:53:47 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 10:53:47 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 10:53:47 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 10:53:47 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 10:53:47 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 10:53:47 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 10:53:47 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 10:53:47 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 10:53:47 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 10:53:47 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 10:53:47 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 10:54:19 Europe/Berlin] Vehicle API Request: GET /units/6
+[20-Nov-2025 10:54:19 Europe/Berlin] Vehicle API Request: GET /units/3
+[20-Nov-2025 10:54:19 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 10:54:19 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 10:54:19 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 10:54:19 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 10:54:19 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 10:54:19 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 10:54:19 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 10:54:20 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 10:54:20 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 10:54:20 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 10:54:20 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 10:54:20 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 10:54:20 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 10:54:51 Europe/Berlin] Vehicle API Request: GET /units/6
+[20-Nov-2025 10:54:51 Europe/Berlin] Vehicle API Request: GET /units/3
+[20-Nov-2025 10:54:51 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 10:54:51 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 10:54:51 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 10:54:51 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 10:54:51 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 10:54:51 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 10:54:51 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 10:54:51 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 10:54:52 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 10:54:52 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 10:54:52 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 10:54:52 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 10:54:52 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 10:55:23 Europe/Berlin] Vehicle API Request: GET /units/6
+[20-Nov-2025 10:55:23 Europe/Berlin] Vehicle API Request: GET /units/3
+[20-Nov-2025 10:55:23 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 10:55:23 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 10:55:23 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 10:55:23 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 10:55:23 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 10:55:23 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 10:55:23 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 10:55:23 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 10:55:23 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 10:55:23 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 10:55:24 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 10:55:24 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 10:55:24 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 10:55:33 Europe/Berlin] Vehicle API Request: GET /units/6
+[20-Nov-2025 10:55:33 Europe/Berlin] Vehicle API Request: GET /units/3
+[20-Nov-2025 10:55:34 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 10:55:34 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 10:55:34 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 10:55:34 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 10:55:34 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 10:55:34 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 10:55:34 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 10:55:34 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 10:55:34 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 10:55:34 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 10:55:35 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 10:55:35 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 10:55:35 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 10:55:35 Europe/Berlin] Vehicle API Request: GET /vehicles/all
+[20-Nov-2025 11:36:40 Europe/Berlin] Vehicle API Request: GET /vehicles/all
+[20-Nov-2025 11:36:51 Europe/Berlin] Vehicle API Request: GET /vehicles/all
+[20-Nov-2025 11:36:53 Europe/Berlin] Vehicle API Request: GET /catalogs/10
+[20-Nov-2025 11:37:01 Europe/Berlin] Vehicle API Request: GET /units/available
+[20-Nov-2025 11:37:01 Europe/Berlin] === GET AVAILABLE UNITS ===
+[20-Nov-2025 11:37:01 Europe/Berlin] Catalog ID: 10
+[20-Nov-2025 11:37:01 Europe/Berlin] Location: Quận 1, TP.HCM
+[20-Nov-2025 11:37:01 Europe/Berlin] Start: 2025-11-20T17:36
+[20-Nov-2025 11:37:01 Europe/Berlin] End: 2025-11-20T05:36
+[20-Nov-2025 11:37:01 Europe/Berlin] Checking rental conflicts for time range: 2025-11-20T17:36 to 2025-11-20T05:36
+[20-Nov-2025 11:37:01 Europe/Berlin] SQL: 
+            SELECT 
+                u.unit_id,
+                u.catalog_id,
+                u.license_plate,
+                u.status,
+                u.condition_rating,
+                u.odo_km,
+                u.fuel_level,
+                u.current_location,
+                u.parking_spot,
+                c.brand,
+                c.model,
+                c.type,
+                c.year,
+                c.color,
+                c.daily_rate
+            FROM VehicleUnits u
+            JOIN VehicleCatalog c ON u.catalog_id = c.catalog_id
+            WHERE u.catalog_id = ?
+                AND u.current_location = ?
+                AND u.status = 'Available'
+                AND c.is_active = TRUE
+        
+                AND u.unit_id NOT IN (
+                    SELECT vehicle_id 
+                    FROM rental_service_db.Rentals
+                    WHERE status IN ('Pending', 'Ongoing')
+                    AND (
+                        -- New rental starts during existing rental
+                        (? >= start_time AND ? < end_time)
+                        OR
+                        -- New rental ends during existing rental
+                        (? > start_time AND ? <= end_time)
+                        OR
+                        -- New rental completely contains existing rental
+                        (? <= start_time AND ? >= end_time)
+                    )
+                )
+             ORDER BY u.condition_rating DESC, u.odo_km ASC
+[20-Nov-2025 11:37:01 Europe/Berlin] Params: ["10","Qu\u1eadn 1, TP.HCM","2025-11-20T17:36","2025-11-20T17:36","2025-11-20T05:36","2025-11-20T05:36","2025-11-20T17:36","2025-11-20T05:36"]
+[20-Nov-2025 11:37:01 Europe/Berlin] Final available units count: 0
+[20-Nov-2025 11:37:01 Europe/Berlin] Found 0 available units
+[20-Nov-2025 11:37:04 Europe/Berlin] Vehicle API Request: GET /units/available
+[20-Nov-2025 11:37:04 Europe/Berlin] === GET AVAILABLE UNITS ===
+[20-Nov-2025 11:37:04 Europe/Berlin] Catalog ID: 10
+[20-Nov-2025 11:37:04 Europe/Berlin] Location: Quận 3, TP.HCM
+[20-Nov-2025 11:37:04 Europe/Berlin] Start: 2025-11-20T17:36
+[20-Nov-2025 11:37:04 Europe/Berlin] End: 2025-11-20T05:36
+[20-Nov-2025 11:37:04 Europe/Berlin] Checking rental conflicts for time range: 2025-11-20T17:36 to 2025-11-20T05:36
+[20-Nov-2025 11:37:04 Europe/Berlin] SQL: 
+            SELECT 
+                u.unit_id,
+                u.catalog_id,
+                u.license_plate,
+                u.status,
+                u.condition_rating,
+                u.odo_km,
+                u.fuel_level,
+                u.current_location,
+                u.parking_spot,
+                c.brand,
+                c.model,
+                c.type,
+                c.year,
+                c.color,
+                c.daily_rate
+            FROM VehicleUnits u
+            JOIN VehicleCatalog c ON u.catalog_id = c.catalog_id
+            WHERE u.catalog_id = ?
+                AND u.current_location = ?
+                AND u.status = 'Available'
+                AND c.is_active = TRUE
+        
+                AND u.unit_id NOT IN (
+                    SELECT vehicle_id 
+                    FROM rental_service_db.Rentals
+                    WHERE status IN ('Pending', 'Ongoing')
+                    AND (
+                        -- New rental starts during existing rental
+                        (? >= start_time AND ? < end_time)
+                        OR
+                        -- New rental ends during existing rental
+                        (? > start_time AND ? <= end_time)
+                        OR
+                        -- New rental completely contains existing rental
+                        (? <= start_time AND ? >= end_time)
+                    )
+                )
+             ORDER BY u.condition_rating DESC, u.odo_km ASC
+[20-Nov-2025 11:37:04 Europe/Berlin] Params: ["10","Qu\u1eadn 3, TP.HCM","2025-11-20T17:36","2025-11-20T17:36","2025-11-20T05:36","2025-11-20T05:36","2025-11-20T17:36","2025-11-20T05:36"]
+[20-Nov-2025 11:37:04 Europe/Berlin] Final available units count: 0
+[20-Nov-2025 11:37:04 Europe/Berlin] Found 0 available units
+[20-Nov-2025 11:37:12 Europe/Berlin] Vehicle API Request: GET /units/available
+[20-Nov-2025 11:37:12 Europe/Berlin] === GET AVAILABLE UNITS ===
+[20-Nov-2025 11:37:12 Europe/Berlin] Catalog ID: 10
+[20-Nov-2025 11:37:12 Europe/Berlin] Location: Quận 3, TP.HCM
+[20-Nov-2025 11:37:12 Europe/Berlin] Start: 2025-11-25T17:36
+[20-Nov-2025 11:37:12 Europe/Berlin] End: 2025-11-29T05:36
+[20-Nov-2025 11:37:12 Europe/Berlin] Checking rental conflicts for time range: 2025-11-25T17:36 to 2025-11-29T05:36
+[20-Nov-2025 11:37:12 Europe/Berlin] SQL: 
+            SELECT 
+                u.unit_id,
+                u.catalog_id,
+                u.license_plate,
+                u.status,
+                u.condition_rating,
+                u.odo_km,
+                u.fuel_level,
+                u.current_location,
+                u.parking_spot,
+                c.brand,
+                c.model,
+                c.type,
+                c.year,
+                c.color,
+                c.daily_rate
+            FROM VehicleUnits u
+            JOIN VehicleCatalog c ON u.catalog_id = c.catalog_id
+            WHERE u.catalog_id = ?
+                AND u.current_location = ?
+                AND u.status = 'Available'
+                AND c.is_active = TRUE
+        
+                AND u.unit_id NOT IN (
+                    SELECT vehicle_id 
+                    FROM rental_service_db.Rentals
+                    WHERE status IN ('Pending', 'Ongoing')
+                    AND (
+                        -- New rental starts during existing rental
+                        (? >= start_time AND ? < end_time)
+                        OR
+                        -- New rental ends during existing rental
+                        (? > start_time AND ? <= end_time)
+                        OR
+                        -- New rental completely contains existing rental
+                        (? <= start_time AND ? >= end_time)
+                    )
+                )
+             ORDER BY u.condition_rating DESC, u.odo_km ASC
+[20-Nov-2025 11:37:12 Europe/Berlin] Params: ["10","Qu\u1eadn 3, TP.HCM","2025-11-25T17:36","2025-11-25T17:36","2025-11-29T05:36","2025-11-29T05:36","2025-11-25T17:36","2025-11-29T05:36"]
+[20-Nov-2025 11:37:12 Europe/Berlin] Final available units count: 0
+[20-Nov-2025 11:37:12 Europe/Berlin] Found 0 available units
+[20-Nov-2025 11:37:15 Europe/Berlin] Vehicle API Request: GET /units/available
+[20-Nov-2025 11:37:15 Europe/Berlin] === GET AVAILABLE UNITS ===
+[20-Nov-2025 11:37:15 Europe/Berlin] Catalog ID: 10
+[20-Nov-2025 11:37:15 Europe/Berlin] Location: Quận 1, TP.HCM
+[20-Nov-2025 11:37:15 Europe/Berlin] Start: 2025-11-25T17:36
+[20-Nov-2025 11:37:15 Europe/Berlin] End: 2025-11-29T05:36
+[20-Nov-2025 11:37:15 Europe/Berlin] Checking rental conflicts for time range: 2025-11-25T17:36 to 2025-11-29T05:36
+[20-Nov-2025 11:37:15 Europe/Berlin] SQL: 
+            SELECT 
+                u.unit_id,
+                u.catalog_id,
+                u.license_plate,
+                u.status,
+                u.condition_rating,
+                u.odo_km,
+                u.fuel_level,
+                u.current_location,
+                u.parking_spot,
+                c.brand,
+                c.model,
+                c.type,
+                c.year,
+                c.color,
+                c.daily_rate
+            FROM VehicleUnits u
+            JOIN VehicleCatalog c ON u.catalog_id = c.catalog_id
+            WHERE u.catalog_id = ?
+                AND u.current_location = ?
+                AND u.status = 'Available'
+                AND c.is_active = TRUE
+        
+                AND u.unit_id NOT IN (
+                    SELECT vehicle_id 
+                    FROM rental_service_db.Rentals
+                    WHERE status IN ('Pending', 'Ongoing')
+                    AND (
+                        -- New rental starts during existing rental
+                        (? >= start_time AND ? < end_time)
+                        OR
+                        -- New rental ends during existing rental
+                        (? > start_time AND ? <= end_time)
+                        OR
+                        -- New rental completely contains existing rental
+                        (? <= start_time AND ? >= end_time)
+                    )
+                )
+             ORDER BY u.condition_rating DESC, u.odo_km ASC
+[20-Nov-2025 11:37:15 Europe/Berlin] Params: ["10","Qu\u1eadn 1, TP.HCM","2025-11-25T17:36","2025-11-25T17:36","2025-11-29T05:36","2025-11-29T05:36","2025-11-25T17:36","2025-11-29T05:36"]
+[20-Nov-2025 11:37:15 Europe/Berlin] Final available units count: 1
+[20-Nov-2025 11:37:15 Europe/Berlin] Found 1 available units
+[20-Nov-2025 11:37:19 Europe/Berlin] Vehicle API Request: GET /vehicles/all
+[20-Nov-2025 11:37:21 Europe/Berlin] Vehicle API Request: GET /vehicles/all
+[20-Nov-2025 11:37:22 Europe/Berlin] Vehicle API Request: GET /vehicles/all
+[20-Nov-2025 11:37:22 Europe/Berlin] Vehicle API Request: GET /vehicles/all
+[20-Nov-2025 11:38:28 Europe/Berlin] Vehicle API Request: GET /units/6
+[20-Nov-2025 11:38:28 Europe/Berlin] Vehicle API Request: GET /units/3
+[20-Nov-2025 11:38:28 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 11:38:28 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 11:38:28 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 11:38:28 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 11:38:28 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 11:38:28 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 11:38:28 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 11:38:28 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 11:38:29 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 11:38:29 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 11:38:29 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 11:38:29 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 11:38:29 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 11:38:49 Europe/Berlin] Vehicle API Request: GET /vehicles/all
+[20-Nov-2025 11:38:55 Europe/Berlin] Vehicle API Request: GET /catalogs/5
+[20-Nov-2025 11:38:59 Europe/Berlin] Vehicle API Request: GET /units/6
+[20-Nov-2025 11:38:59 Europe/Berlin] Vehicle API Request: GET /units/3
+[20-Nov-2025 11:38:59 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 11:38:59 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 11:39:00 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 11:39:00 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 11:39:00 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 11:39:00 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 11:39:00 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 11:39:00 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 11:39:00 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 11:39:00 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 11:39:00 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 11:39:00 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 11:39:01 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 11:39:10 Europe/Berlin] Vehicle API Request: GET /units/available
+[20-Nov-2025 11:39:10 Europe/Berlin] === GET AVAILABLE UNITS ===
+[20-Nov-2025 11:39:10 Europe/Berlin] Catalog ID: 5
+[20-Nov-2025 11:39:10 Europe/Berlin] Location: Quận 1, TP.HCM
+[20-Nov-2025 11:39:10 Europe/Berlin] Start: 2025-11-20T17:39
+[20-Nov-2025 11:39:10 Europe/Berlin] End: 2025-11-21T17:39
+[20-Nov-2025 11:39:10 Europe/Berlin] Checking rental conflicts for time range: 2025-11-20T17:39 to 2025-11-21T17:39
+[20-Nov-2025 11:39:10 Europe/Berlin] SQL: 
+            SELECT 
+                u.unit_id,
+                u.catalog_id,
+                u.license_plate,
+                u.status,
+                u.condition_rating,
+                u.odo_km,
+                u.fuel_level,
+                u.current_location,
+                u.parking_spot,
+                c.brand,
+                c.model,
+                c.type,
+                c.year,
+                c.color,
+                c.daily_rate
+            FROM VehicleUnits u
+            JOIN VehicleCatalog c ON u.catalog_id = c.catalog_id
+            WHERE u.catalog_id = ?
+                AND u.current_location = ?
+                AND u.status = 'Available'
+                AND c.is_active = TRUE
+        
+                AND u.unit_id NOT IN (
+                    SELECT vehicle_id 
+                    FROM rental_service_db.Rentals
+                    WHERE status IN ('Pending', 'Ongoing')
+                    AND (
+                        -- New rental starts during existing rental
+                        (? >= start_time AND ? < end_time)
+                        OR
+                        -- New rental ends during existing rental
+                        (? > start_time AND ? <= end_time)
+                        OR
+                        -- New rental completely contains existing rental
+                        (? <= start_time AND ? >= end_time)
+                    )
+                )
+             ORDER BY u.condition_rating DESC, u.odo_km ASC
+[20-Nov-2025 11:39:10 Europe/Berlin] Params: ["5","Qu\u1eadn 1, TP.HCM","2025-11-20T17:39","2025-11-20T17:39","2025-11-21T17:39","2025-11-21T17:39","2025-11-20T17:39","2025-11-21T17:39"]
+[20-Nov-2025 11:39:10 Europe/Berlin] Final available units count: 0
+[20-Nov-2025 11:39:10 Europe/Berlin] Found 0 available units
+[20-Nov-2025 11:39:41 Europe/Berlin] Vehicle API Request: GET /units/available
+[20-Nov-2025 11:39:41 Europe/Berlin] === GET AVAILABLE UNITS ===
+[20-Nov-2025 11:39:41 Europe/Berlin] Catalog ID: 5
+[20-Nov-2025 11:39:41 Europe/Berlin] Location: Quận 1, TP.HCM
+[20-Nov-2025 11:39:41 Europe/Berlin] Start: 2025-11-20T17:39
+[20-Nov-2025 11:39:41 Europe/Berlin] End: 2025-11-21T17:39
+[20-Nov-2025 11:39:41 Europe/Berlin] Checking rental conflicts for time range: 2025-11-20T17:39 to 2025-11-21T17:39
+[20-Nov-2025 11:39:41 Europe/Berlin] SQL: 
+            SELECT 
+                u.unit_id,
+                u.catalog_id,
+                u.license_plate,
+                u.status,
+                u.condition_rating,
+                u.odo_km,
+                u.fuel_level,
+                u.current_location,
+                u.parking_spot,
+                c.brand,
+                c.model,
+                c.type,
+                c.year,
+                c.color,
+                c.daily_rate
+            FROM VehicleUnits u
+            JOIN VehicleCatalog c ON u.catalog_id = c.catalog_id
+            WHERE u.catalog_id = ?
+                AND u.current_location = ?
+                AND u.status = 'Available'
+                AND c.is_active = TRUE
+        
+                AND u.unit_id NOT IN (
+                    SELECT vehicle_id 
+                    FROM rental_service_db.Rentals
+                    WHERE status IN ('Pending', 'Ongoing')
+                    AND (
+                        -- New rental starts during existing rental
+                        (? >= start_time AND ? < end_time)
+                        OR
+                        -- New rental ends during existing rental
+                        (? > start_time AND ? <= end_time)
+                        OR
+                        -- New rental completely contains existing rental
+                        (? <= start_time AND ? >= end_time)
+                    )
+                )
+             ORDER BY u.condition_rating DESC, u.odo_km ASC
+[20-Nov-2025 11:39:41 Europe/Berlin] Params: ["5","Qu\u1eadn 1, TP.HCM","2025-11-20T17:39","2025-11-20T17:39","2025-11-21T17:39","2025-11-21T17:39","2025-11-20T17:39","2025-11-21T17:39"]
+[20-Nov-2025 11:39:41 Europe/Berlin] Final available units count: 0
+[20-Nov-2025 11:39:41 Europe/Berlin] Found 0 available units
+[20-Nov-2025 11:46:56 Europe/Berlin] Vehicle API Request: GET /catalogs/5
+[20-Nov-2025 11:47:03 Europe/Berlin] Vehicle API Request: GET /units/available
+[20-Nov-2025 11:47:03 Europe/Berlin] === GET AVAILABLE UNITS ===
+[20-Nov-2025 11:47:03 Europe/Berlin] Catalog ID: 5
+[20-Nov-2025 11:47:03 Europe/Berlin] Location: Quận 1, TP.HCM
+[20-Nov-2025 11:47:03 Europe/Berlin] Start: 2025-11-20T17:46
+[20-Nov-2025 11:47:03 Europe/Berlin] End: 2025-11-21T17:47
+[20-Nov-2025 11:47:03 Europe/Berlin] Checking rental conflicts for time range: 2025-11-20T17:46 to 2025-11-21T17:47
+[20-Nov-2025 11:47:03 Europe/Berlin] SQL: 
+                SELECT 
+                    u.unit_id,
+                    u.catalog_id,
+                    u.license_plate,
+                    u.status,
+                    u.condition_rating,
+                    u.odo_km,
+                    u.fuel_level,
+                    u.current_location,
+                    u.parking_spot,
+                    c.brand,
+                    c.model,
+                    c.type,
+                    c.year,
+                    c.color,
+                    c.daily_rate
+                FROM VehicleUnits u
+                JOIN VehicleCatalog c ON u.catalog_id = c.catalog_id
+                WHERE u.catalog_id = ?
+                    AND u.current_location = ?
+                    AND u.status = 'Available'
+                    AND c.is_active = TRUE
+            
+                    AND u.unit_id NOT IN (
+                        SELECT vehicle_id 
+                        FROM rental_service_db.Rentals
+                        WHERE status IN ('Pending', 'Ongoing')
+                        AND (
+                            -- New rental overlaps with existing rental
+                            (start_time < ? AND end_time > ?)
+                            OR (start_time >= ? AND start_time < ?)
+                            OR (end_time > ? AND end_time <= ?)
+                            OR (start_time >= ? AND end_time <= ?)
+                        )
+                    )
+                 ORDER BY u.condition_rating DESC, u.odo_km ASC
+[20-Nov-2025 11:47:03 Europe/Berlin] Params: ["5","Qu\u1eadn 1, TP.HCM","2025-11-21T17:47","2025-11-20T17:46","2025-11-20T17:46","2025-11-21T17:47","2025-11-20T17:46","2025-11-21T17:47","2025-11-20T17:46","2025-11-21T17:47"]
+[20-Nov-2025 11:47:03 Europe/Berlin] Final available units count: 0
+[20-Nov-2025 11:47:03 Europe/Berlin] Found 0 available units
+[20-Nov-2025 11:47:05 Europe/Berlin] Vehicle API Request: GET /units/available
+[20-Nov-2025 11:47:05 Europe/Berlin] === GET AVAILABLE UNITS ===
+[20-Nov-2025 11:47:05 Europe/Berlin] Catalog ID: 5
+[20-Nov-2025 11:47:05 Europe/Berlin] Location: Quận 1, TP.HCM
+[20-Nov-2025 11:47:05 Europe/Berlin] Start: 2025-11-20T17:46
+[20-Nov-2025 11:47:05 Europe/Berlin] End: 2025-11-21T17:47
+[20-Nov-2025 11:47:05 Europe/Berlin] Checking rental conflicts for time range: 2025-11-20T17:46 to 2025-11-21T17:47
+[20-Nov-2025 11:47:05 Europe/Berlin] SQL: 
+                SELECT 
+                    u.unit_id,
+                    u.catalog_id,
+                    u.license_plate,
+                    u.status,
+                    u.condition_rating,
+                    u.odo_km,
+                    u.fuel_level,
+                    u.current_location,
+                    u.parking_spot,
+                    c.brand,
+                    c.model,
+                    c.type,
+                    c.year,
+                    c.color,
+                    c.daily_rate
+                FROM VehicleUnits u
+                JOIN VehicleCatalog c ON u.catalog_id = c.catalog_id
+                WHERE u.catalog_id = ?
+                    AND u.current_location = ?
+                    AND u.status = 'Available'
+                    AND c.is_active = TRUE
+            
+                    AND u.unit_id NOT IN (
+                        SELECT vehicle_id 
+                        FROM rental_service_db.Rentals
+                        WHERE status IN ('Pending', 'Ongoing')
+                        AND (
+                            -- New rental overlaps with existing rental
+                            (start_time < ? AND end_time > ?)
+                            OR (start_time >= ? AND start_time < ?)
+                            OR (end_time > ? AND end_time <= ?)
+                            OR (start_time >= ? AND end_time <= ?)
+                        )
+                    )
+                 ORDER BY u.condition_rating DESC, u.odo_km ASC
+[20-Nov-2025 11:47:05 Europe/Berlin] Params: ["5","Qu\u1eadn 1, TP.HCM","2025-11-21T17:47","2025-11-20T17:46","2025-11-20T17:46","2025-11-21T17:47","2025-11-20T17:46","2025-11-21T17:47","2025-11-20T17:46","2025-11-21T17:47"]
+[20-Nov-2025 11:47:05 Europe/Berlin] Final available units count: 0
+[20-Nov-2025 11:47:05 Europe/Berlin] Found 0 available units
+[20-Nov-2025 11:47:05 Europe/Berlin] Vehicle API Request: GET /units/available
+[20-Nov-2025 11:47:05 Europe/Berlin] === GET AVAILABLE UNITS ===
+[20-Nov-2025 11:47:05 Europe/Berlin] Catalog ID: 5
+[20-Nov-2025 11:47:05 Europe/Berlin] Location: Quận 1, TP.HCM
+[20-Nov-2025 11:47:05 Europe/Berlin] Start: 2025-11-20T17:46
+[20-Nov-2025 11:47:05 Europe/Berlin] End: 2025-11-21T17:47
+[20-Nov-2025 11:47:05 Europe/Berlin] Checking rental conflicts for time range: 2025-11-20T17:46 to 2025-11-21T17:47
+[20-Nov-2025 11:47:05 Europe/Berlin] SQL: 
+                SELECT 
+                    u.unit_id,
+                    u.catalog_id,
+                    u.license_plate,
+                    u.status,
+                    u.condition_rating,
+                    u.odo_km,
+                    u.fuel_level,
+                    u.current_location,
+                    u.parking_spot,
+                    c.brand,
+                    c.model,
+                    c.type,
+                    c.year,
+                    c.color,
+                    c.daily_rate
+                FROM VehicleUnits u
+                JOIN VehicleCatalog c ON u.catalog_id = c.catalog_id
+                WHERE u.catalog_id = ?
+                    AND u.current_location = ?
+                    AND u.status = 'Available'
+                    AND c.is_active = TRUE
+            
+                    AND u.unit_id NOT IN (
+                        SELECT vehicle_id 
+                        FROM rental_service_db.Rentals
+                        WHERE status IN ('Pending', 'Ongoing')
+                        AND (
+                            -- New rental overlaps with existing rental
+                            (start_time < ? AND end_time > ?)
+                            OR (start_time >= ? AND start_time < ?)
+                            OR (end_time > ? AND end_time <= ?)
+                            OR (start_time >= ? AND end_time <= ?)
+                        )
+                    )
+                 ORDER BY u.condition_rating DESC, u.odo_km ASC
+[20-Nov-2025 11:47:05 Europe/Berlin] Params: ["5","Qu\u1eadn 1, TP.HCM","2025-11-21T17:47","2025-11-20T17:46","2025-11-20T17:46","2025-11-21T17:47","2025-11-20T17:46","2025-11-21T17:47","2025-11-20T17:46","2025-11-21T17:47"]
+[20-Nov-2025 11:47:05 Europe/Berlin] Final available units count: 0
+[20-Nov-2025 11:47:05 Europe/Berlin] Found 0 available units
+[20-Nov-2025 11:47:06 Europe/Berlin] Vehicle API Request: GET /units/available
+[20-Nov-2025 11:47:06 Europe/Berlin] === GET AVAILABLE UNITS ===
+[20-Nov-2025 11:47:06 Europe/Berlin] Catalog ID: 5
+[20-Nov-2025 11:47:06 Europe/Berlin] Location: Quận 1, TP.HCM
+[20-Nov-2025 11:47:06 Europe/Berlin] Start: 2025-11-20T17:46
+[20-Nov-2025 11:47:06 Europe/Berlin] End: 2025-11-21T17:47
+[20-Nov-2025 11:47:06 Europe/Berlin] Checking rental conflicts for time range: 2025-11-20T17:46 to 2025-11-21T17:47
+[20-Nov-2025 11:47:06 Europe/Berlin] SQL: 
+                SELECT 
+                    u.unit_id,
+                    u.catalog_id,
+                    u.license_plate,
+                    u.status,
+                    u.condition_rating,
+                    u.odo_km,
+                    u.fuel_level,
+                    u.current_location,
+                    u.parking_spot,
+                    c.brand,
+                    c.model,
+                    c.type,
+                    c.year,
+                    c.color,
+                    c.daily_rate
+                FROM VehicleUnits u
+                JOIN VehicleCatalog c ON u.catalog_id = c.catalog_id
+                WHERE u.catalog_id = ?
+                    AND u.current_location = ?
+                    AND u.status = 'Available'
+                    AND c.is_active = TRUE
+            
+                    AND u.unit_id NOT IN (
+                        SELECT vehicle_id 
+                        FROM rental_service_db.Rentals
+                        WHERE status IN ('Pending', 'Ongoing')
+                        AND (
+                            -- New rental overlaps with existing rental
+                            (start_time < ? AND end_time > ?)
+                            OR (start_time >= ? AND start_time < ?)
+                            OR (end_time > ? AND end_time <= ?)
+                            OR (start_time >= ? AND end_time <= ?)
+                        )
+                    )
+                 ORDER BY u.condition_rating DESC, u.odo_km ASC
+[20-Nov-2025 11:47:06 Europe/Berlin] Params: ["5","Qu\u1eadn 1, TP.HCM","2025-11-21T17:47","2025-11-20T17:46","2025-11-20T17:46","2025-11-21T17:47","2025-11-20T17:46","2025-11-21T17:47","2025-11-20T17:46","2025-11-21T17:47"]
+[20-Nov-2025 11:47:06 Europe/Berlin] Final available units count: 0
+[20-Nov-2025 11:47:06 Europe/Berlin] Found 0 available units
+[20-Nov-2025 11:47:06 Europe/Berlin] Vehicle API Request: GET /units/available
+[20-Nov-2025 11:47:06 Europe/Berlin] === GET AVAILABLE UNITS ===
+[20-Nov-2025 11:47:06 Europe/Berlin] Catalog ID: 5
+[20-Nov-2025 11:47:06 Europe/Berlin] Location: Quận 1, TP.HCM
+[20-Nov-2025 11:47:06 Europe/Berlin] Start: 2025-11-20T17:46
+[20-Nov-2025 11:47:06 Europe/Berlin] End: 2025-11-21T17:47
+[20-Nov-2025 11:47:06 Europe/Berlin] Checking rental conflicts for time range: 2025-11-20T17:46 to 2025-11-21T17:47
+[20-Nov-2025 11:47:06 Europe/Berlin] SQL: 
+                SELECT 
+                    u.unit_id,
+                    u.catalog_id,
+                    u.license_plate,
+                    u.status,
+                    u.condition_rating,
+                    u.odo_km,
+                    u.fuel_level,
+                    u.current_location,
+                    u.parking_spot,
+                    c.brand,
+                    c.model,
+                    c.type,
+                    c.year,
+                    c.color,
+                    c.daily_rate
+                FROM VehicleUnits u
+                JOIN VehicleCatalog c ON u.catalog_id = c.catalog_id
+                WHERE u.catalog_id = ?
+                    AND u.current_location = ?
+                    AND u.status = 'Available'
+                    AND c.is_active = TRUE
+            
+                    AND u.unit_id NOT IN (
+                        SELECT vehicle_id 
+                        FROM rental_service_db.Rentals
+                        WHERE status IN ('Pending', 'Ongoing')
+                        AND (
+                            -- New rental overlaps with existing rental
+                            (start_time < ? AND end_time > ?)
+                            OR (start_time >= ? AND start_time < ?)
+                            OR (end_time > ? AND end_time <= ?)
+                            OR (start_time >= ? AND end_time <= ?)
+                        )
+                    )
+                 ORDER BY u.condition_rating DESC, u.odo_km ASC
+[20-Nov-2025 11:47:06 Europe/Berlin] Params: ["5","Qu\u1eadn 1, TP.HCM","2025-11-21T17:47","2025-11-20T17:46","2025-11-20T17:46","2025-11-21T17:47","2025-11-20T17:46","2025-11-21T17:47","2025-11-20T17:46","2025-11-21T17:47"]
+[20-Nov-2025 11:47:06 Europe/Berlin] Final available units count: 0
+[20-Nov-2025 11:47:06 Europe/Berlin] Found 0 available units
+[20-Nov-2025 11:47:06 Europe/Berlin] Vehicle API Request: GET /units/available
+[20-Nov-2025 11:47:06 Europe/Berlin] === GET AVAILABLE UNITS ===
+[20-Nov-2025 11:47:06 Europe/Berlin] Catalog ID: 5
+[20-Nov-2025 11:47:06 Europe/Berlin] Location: Quận 1, TP.HCM
+[20-Nov-2025 11:47:06 Europe/Berlin] Start: 2025-11-20T17:46
+[20-Nov-2025 11:47:06 Europe/Berlin] End: 2025-11-21T17:47
+[20-Nov-2025 11:47:06 Europe/Berlin] Checking rental conflicts for time range: 2025-11-20T17:46 to 2025-11-21T17:47
+[20-Nov-2025 11:47:06 Europe/Berlin] SQL: 
+                SELECT 
+                    u.unit_id,
+                    u.catalog_id,
+                    u.license_plate,
+                    u.status,
+                    u.condition_rating,
+                    u.odo_km,
+                    u.fuel_level,
+                    u.current_location,
+                    u.parking_spot,
+                    c.brand,
+                    c.model,
+                    c.type,
+                    c.year,
+                    c.color,
+                    c.daily_rate
+                FROM VehicleUnits u
+                JOIN VehicleCatalog c ON u.catalog_id = c.catalog_id
+                WHERE u.catalog_id = ?
+                    AND u.current_location = ?
+                    AND u.status = 'Available'
+                    AND c.is_active = TRUE
+            
+                    AND u.unit_id NOT IN (
+                        SELECT vehicle_id 
+                        FROM rental_service_db.Rentals
+                        WHERE status IN ('Pending', 'Ongoing')
+                        AND (
+                            -- New rental overlaps with existing rental
+                            (start_time < ? AND end_time > ?)
+                            OR (start_time >= ? AND start_time < ?)
+                            OR (end_time > ? AND end_time <= ?)
+                            OR (start_time >= ? AND end_time <= ?)
+                        )
+                    )
+                 ORDER BY u.condition_rating DESC, u.odo_km ASC
+[20-Nov-2025 11:47:06 Europe/Berlin] Params: ["5","Qu\u1eadn 1, TP.HCM","2025-11-21T17:47","2025-11-20T17:46","2025-11-20T17:46","2025-11-21T17:47","2025-11-20T17:46","2025-11-21T17:47","2025-11-20T17:46","2025-11-21T17:47"]
+[20-Nov-2025 11:47:06 Europe/Berlin] Final available units count: 0
+[20-Nov-2025 11:47:06 Europe/Berlin] Found 0 available units
+[20-Nov-2025 11:47:06 Europe/Berlin] Vehicle API Request: GET /units/available
+[20-Nov-2025 11:47:06 Europe/Berlin] === GET AVAILABLE UNITS ===
+[20-Nov-2025 11:47:06 Europe/Berlin] Catalog ID: 5
+[20-Nov-2025 11:47:06 Europe/Berlin] Location: Quận 1, TP.HCM
+[20-Nov-2025 11:47:06 Europe/Berlin] Start: 2025-11-20T17:46
+[20-Nov-2025 11:47:06 Europe/Berlin] End: 2025-11-21T17:47
+[20-Nov-2025 11:47:06 Europe/Berlin] Checking rental conflicts for time range: 2025-11-20T17:46 to 2025-11-21T17:47
+[20-Nov-2025 11:47:06 Europe/Berlin] SQL: 
+                SELECT 
+                    u.unit_id,
+                    u.catalog_id,
+                    u.license_plate,
+                    u.status,
+                    u.condition_rating,
+                    u.odo_km,
+                    u.fuel_level,
+                    u.current_location,
+                    u.parking_spot,
+                    c.brand,
+                    c.model,
+                    c.type,
+                    c.year,
+                    c.color,
+                    c.daily_rate
+                FROM VehicleUnits u
+                JOIN VehicleCatalog c ON u.catalog_id = c.catalog_id
+                WHERE u.catalog_id = ?
+                    AND u.current_location = ?
+                    AND u.status = 'Available'
+                    AND c.is_active = TRUE
+            
+                    AND u.unit_id NOT IN (
+                        SELECT vehicle_id 
+                        FROM rental_service_db.Rentals
+                        WHERE status IN ('Pending', 'Ongoing')
+                        AND (
+                            -- New rental overlaps with existing rental
+                            (start_time < ? AND end_time > ?)
+                            OR (start_time >= ? AND start_time < ?)
+                            OR (end_time > ? AND end_time <= ?)
+                            OR (start_time >= ? AND end_time <= ?)
+                        )
+                    )
+                 ORDER BY u.condition_rating DESC, u.odo_km ASC
+[20-Nov-2025 11:47:06 Europe/Berlin] Params: ["5","Qu\u1eadn 1, TP.HCM","2025-11-21T17:47","2025-11-20T17:46","2025-11-20T17:46","2025-11-21T17:47","2025-11-20T17:46","2025-11-21T17:47","2025-11-20T17:46","2025-11-21T17:47"]
+[20-Nov-2025 11:47:06 Europe/Berlin] Final available units count: 0
+[20-Nov-2025 11:47:06 Europe/Berlin] Found 0 available units
+[20-Nov-2025 11:47:06 Europe/Berlin] Vehicle API Request: GET /units/available
+[20-Nov-2025 11:47:06 Europe/Berlin] === GET AVAILABLE UNITS ===
+[20-Nov-2025 11:47:06 Europe/Berlin] Catalog ID: 5
+[20-Nov-2025 11:47:06 Europe/Berlin] Location: Quận 1, TP.HCM
+[20-Nov-2025 11:47:06 Europe/Berlin] Start: 2025-11-20T17:46
+[20-Nov-2025 11:47:06 Europe/Berlin] End: 2025-11-21T17:47
+[20-Nov-2025 11:47:06 Europe/Berlin] Checking rental conflicts for time range: 2025-11-20T17:46 to 2025-11-21T17:47
+[20-Nov-2025 11:47:06 Europe/Berlin] SQL: 
+                SELECT 
+                    u.unit_id,
+                    u.catalog_id,
+                    u.license_plate,
+                    u.status,
+                    u.condition_rating,
+                    u.odo_km,
+                    u.fuel_level,
+                    u.current_location,
+                    u.parking_spot,
+                    c.brand,
+                    c.model,
+                    c.type,
+                    c.year,
+                    c.color,
+                    c.daily_rate
+                FROM VehicleUnits u
+                JOIN VehicleCatalog c ON u.catalog_id = c.catalog_id
+                WHERE u.catalog_id = ?
+                    AND u.current_location = ?
+                    AND u.status = 'Available'
+                    AND c.is_active = TRUE
+            
+                    AND u.unit_id NOT IN (
+                        SELECT vehicle_id 
+                        FROM rental_service_db.Rentals
+                        WHERE status IN ('Pending', 'Ongoing')
+                        AND (
+                            -- New rental overlaps with existing rental
+                            (start_time < ? AND end_time > ?)
+                            OR (start_time >= ? AND start_time < ?)
+                            OR (end_time > ? AND end_time <= ?)
+                            OR (start_time >= ? AND end_time <= ?)
+                        )
+                    )
+                 ORDER BY u.condition_rating DESC, u.odo_km ASC
+[20-Nov-2025 11:47:06 Europe/Berlin] Params: ["5","Qu\u1eadn 1, TP.HCM","2025-11-21T17:47","2025-11-20T17:46","2025-11-20T17:46","2025-11-21T17:47","2025-11-20T17:46","2025-11-21T17:47","2025-11-20T17:46","2025-11-21T17:47"]
+[20-Nov-2025 11:47:06 Europe/Berlin] Final available units count: 0
+[20-Nov-2025 11:47:06 Europe/Berlin] Found 0 available units
+[20-Nov-2025 11:48:06 Europe/Berlin] Vehicle API Request: GET /catalogs/5
+[20-Nov-2025 11:48:12 Europe/Berlin] Vehicle API Request: GET /units/available
+[20-Nov-2025 11:48:12 Europe/Berlin] === GET AVAILABLE UNITS ===
+[20-Nov-2025 11:48:12 Europe/Berlin] Catalog ID: 5
+[20-Nov-2025 11:48:12 Europe/Berlin] Location: Quận 1, TP.HCM
+[20-Nov-2025 11:48:12 Europe/Berlin] Start: 2025-11-20T17:48
+[20-Nov-2025 11:48:12 Europe/Berlin] End: 2025-11-21T17:48
+[20-Nov-2025 11:48:12 Europe/Berlin] Checking rental conflicts for time range: 2025-11-20T17:48 to 2025-11-21T17:48
+[20-Nov-2025 11:48:12 Europe/Berlin] SQL: 
+                SELECT 
+                    u.unit_id,
+                    u.catalog_id,
+                    u.license_plate,
+                    u.status,
+                    u.condition_rating,
+                    u.odo_km,
+                    u.fuel_level,
+                    u.current_location,
+                    u.parking_spot,
+                    c.brand,
+                    c.model,
+                    c.type,
+                    c.year,
+                    c.color,
+                    c.daily_rate
+                FROM VehicleUnits u
+                JOIN VehicleCatalog c ON u.catalog_id = c.catalog_id
+                WHERE u.catalog_id = ?
+                    AND u.current_location = ?
+                    AND u.status = 'Available'
+                    AND c.is_active = TRUE
+            
+                    AND u.unit_id NOT IN (
+                        SELECT vehicle_id 
+                        FROM rental_service_db.Rentals
+                        WHERE status IN ('Pending', 'Ongoing')
+                        AND (
+                            -- New rental overlaps with existing rental
+                            (start_time < ? AND end_time > ?)
+                            OR (start_time >= ? AND start_time < ?)
+                            OR (end_time > ? AND end_time <= ?)
+                            OR (start_time >= ? AND end_time <= ?)
+                        )
+                    )
+                 ORDER BY u.condition_rating DESC, u.odo_km ASC
+[20-Nov-2025 11:48:12 Europe/Berlin] Params: ["5","Qu\u1eadn 1, TP.HCM","2025-11-21T17:48","2025-11-20T17:48","2025-11-20T17:48","2025-11-21T17:48","2025-11-20T17:48","2025-11-21T17:48","2025-11-20T17:48","2025-11-21T17:48"]
+[20-Nov-2025 11:48:12 Europe/Berlin] Final available units count: 1
+[20-Nov-2025 11:48:12 Europe/Berlin] Found 1 available units
+[20-Nov-2025 11:48:15 Europe/Berlin] Vehicle API Request: GET /units/available
+[20-Nov-2025 11:48:15 Europe/Berlin] === GET AVAILABLE UNITS ===
+[20-Nov-2025 11:48:15 Europe/Berlin] Catalog ID: 5
+[20-Nov-2025 11:48:15 Europe/Berlin] Location: Quận 1, TP.HCM
+[20-Nov-2025 11:48:15 Europe/Berlin] Start: 2025-11-20T17:48
+[20-Nov-2025 11:48:15 Europe/Berlin] End: 2025-11-21T17:48
+[20-Nov-2025 11:48:15 Europe/Berlin] Checking rental conflicts for time range: 2025-11-20T17:48 to 2025-11-21T17:48
+[20-Nov-2025 11:48:15 Europe/Berlin] SQL: 
+                SELECT 
+                    u.unit_id,
+                    u.catalog_id,
+                    u.license_plate,
+                    u.status,
+                    u.condition_rating,
+                    u.odo_km,
+                    u.fuel_level,
+                    u.current_location,
+                    u.parking_spot,
+                    c.brand,
+                    c.model,
+                    c.type,
+                    c.year,
+                    c.color,
+                    c.daily_rate
+                FROM VehicleUnits u
+                JOIN VehicleCatalog c ON u.catalog_id = c.catalog_id
+                WHERE u.catalog_id = ?
+                    AND u.current_location = ?
+                    AND u.status = 'Available'
+                    AND c.is_active = TRUE
+            
+                    AND u.unit_id NOT IN (
+                        SELECT vehicle_id 
+                        FROM rental_service_db.Rentals
+                        WHERE status IN ('Pending', 'Ongoing')
+                        AND (
+                            -- New rental overlaps with existing rental
+                            (start_time < ? AND end_time > ?)
+                            OR (start_time >= ? AND start_time < ?)
+                            OR (end_time > ? AND end_time <= ?)
+                            OR (start_time >= ? AND end_time <= ?)
+                        )
+                    )
+                 ORDER BY u.condition_rating DESC, u.odo_km ASC
+[20-Nov-2025 11:48:15 Europe/Berlin] Params: ["5","Qu\u1eadn 1, TP.HCM","2025-11-21T17:48","2025-11-20T17:48","2025-11-20T17:48","2025-11-21T17:48","2025-11-20T17:48","2025-11-21T17:48","2025-11-20T17:48","2025-11-21T17:48"]
+[20-Nov-2025 11:48:15 Europe/Berlin] Final available units count: 1
+[20-Nov-2025 11:48:15 Europe/Berlin] Found 1 available units
+[20-Nov-2025 11:48:15 Europe/Berlin] Vehicle API Request: GET /catalogs/5
+[20-Nov-2025 11:48:16 Europe/Berlin] Vehicle API Request: GET /catalogs/5
+[20-Nov-2025 11:48:20 Europe/Berlin] Vehicle API Request: GET /catalogs/5
+[20-Nov-2025 11:48:20 Europe/Berlin] Vehicle API Request: GET /units/available
+[20-Nov-2025 11:48:20 Europe/Berlin] === GET AVAILABLE UNITS ===
+[20-Nov-2025 11:48:20 Europe/Berlin] Catalog ID: 5
+[20-Nov-2025 11:48:20 Europe/Berlin] Location: Quận 1, TP.HCM
+[20-Nov-2025 11:48:20 Europe/Berlin] Start: 2025-11-20T17:48
+[20-Nov-2025 11:48:20 Europe/Berlin] End: 2025-11-21T17:48
+[20-Nov-2025 11:48:20 Europe/Berlin] Checking rental conflicts for time range: 2025-11-20T17:48 to 2025-11-21T17:48
+[20-Nov-2025 11:48:20 Europe/Berlin] SQL: 
+                SELECT 
+                    u.unit_id,
+                    u.catalog_id,
+                    u.license_plate,
+                    u.status,
+                    u.condition_rating,
+                    u.odo_km,
+                    u.fuel_level,
+                    u.current_location,
+                    u.parking_spot,
+                    c.brand,
+                    c.model,
+                    c.type,
+                    c.year,
+                    c.color,
+                    c.daily_rate
+                FROM VehicleUnits u
+                JOIN VehicleCatalog c ON u.catalog_id = c.catalog_id
+                WHERE u.catalog_id = ?
+                    AND u.current_location = ?
+                    AND u.status = 'Available'
+                    AND c.is_active = TRUE
+            
+                    AND u.unit_id NOT IN (
+                        SELECT vehicle_id 
+                        FROM rental_service_db.Rentals
+                        WHERE status IN ('Pending', 'Ongoing')
+                        AND (
+                            -- New rental overlaps with existing rental
+                            (start_time < ? AND end_time > ?)
+                            OR (start_time >= ? AND start_time < ?)
+                            OR (end_time > ? AND end_time <= ?)
+                            OR (start_time >= ? AND end_time <= ?)
+                        )
+                    )
+                 ORDER BY u.condition_rating DESC, u.odo_km ASC
+[20-Nov-2025 11:48:20 Europe/Berlin] Params: ["5","Qu\u1eadn 1, TP.HCM","2025-11-21T17:48","2025-11-20T17:48","2025-11-20T17:48","2025-11-21T17:48","2025-11-20T17:48","2025-11-21T17:48","2025-11-20T17:48","2025-11-21T17:48"]
+[20-Nov-2025 11:48:20 Europe/Berlin] Final available units count: 1
+[20-Nov-2025 11:48:20 Europe/Berlin] Found 1 available units
+[20-Nov-2025 11:48:21 Europe/Berlin] Vehicle API Request: GET /units/6
+[20-Nov-2025 11:48:21 Europe/Berlin] Vehicle API Request: GET /units/6/available
+[20-Nov-2025 11:48:21 Europe/Berlin] Vehicle API Request: PUT /6/status
+[20-Nov-2025 11:48:21 Europe/Berlin] Vehicle API Request: GET /6
+[20-Nov-2025 11:48:23 Europe/Berlin] Vehicle API Request: GET /units/6
+[20-Nov-2025 11:48:24 Europe/Berlin] Vehicle API Request: GET /units/6
+[20-Nov-2025 11:48:24 Europe/Berlin] Vehicle API Request: GET /units/3
+[20-Nov-2025 11:48:24 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 11:48:24 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 11:48:24 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 11:48:24 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 11:48:24 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 11:48:24 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 11:48:24 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 11:48:25 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 11:48:25 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 11:48:25 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 11:48:25 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 11:48:25 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 11:48:25 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 11:48:28 Europe/Berlin] Vehicle API Request: GET /6
+[20-Nov-2025 11:48:28 Europe/Berlin] Vehicle API Request: PUT /units/6/status
+[20-Nov-2025 11:48:28 Europe/Berlin] Vehicle API Request: PUT /units/6/status
+[20-Nov-2025 11:48:29 Europe/Berlin] Vehicle API Request: GET /units/6
+[20-Nov-2025 11:48:29 Europe/Berlin] Vehicle API Request: GET /units/6
+[20-Nov-2025 11:48:30 Europe/Berlin] Vehicle API Request: GET /units/3
+[20-Nov-2025 11:48:30 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 11:48:30 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 11:48:30 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 11:48:30 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 11:48:30 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 11:48:30 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 11:48:30 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 11:48:30 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 11:48:30 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 11:48:31 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 11:48:31 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 11:48:31 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 11:48:31 Europe/Berlin] Vehicle API Request: GET /units/11
+[20-Nov-2025 11:49:02 Europe/Berlin] Vehicle API Request: GET /units/6
+[20-Nov-2025 11:49:02 Europe/Berlin] Vehicle API Request: GET /units/6
+[20-Nov-2025 11:49:02 Europe/Berlin] Vehicle API Request: GET /units/3
+[20-Nov-2025 11:49:02 Europe/Berlin] Vehicle API Request: GET /units/10
+[20-Nov-2025 11:49:02 Europe/Berlin] Vehicle API Request: GET /units/12
+[20-Nov-2025 11:49:02 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 11:49:02 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 11:49:02 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 11:49:02 Europe/Berlin] Vehicle API Request: GET /units/1
+[20-Nov-2025 11:49:03 Europe/Berlin] Vehicle API Request: GET /units/2
+[20-Nov-2025 11:49:03 Europe/Berlin] Vehicle API Request: GET /units/7
+[20-Nov-2025 11:49:03 Europe/Berlin] Vehicle API Request: GET /units/8
+[20-Nov-2025 11:49:03 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 11:49:03 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 11:49:03 Europe/Berlin] Vehicle API Request: GET /units/9
+[20-Nov-2025 11:49:03 Europe/Berlin] Vehicle API Request: GET /units/11
+[21-Nov-2025 03:34:13 Europe/Berlin] Vehicle API Request: GET /vehicles/all
+[21-Nov-2025 03:35:10 Europe/Berlin] Vehicle API Request: GET /units/6
+[21-Nov-2025 03:35:10 Europe/Berlin] Vehicle API Request: GET /units/6
+[21-Nov-2025 03:35:10 Europe/Berlin] Vehicle API Request: GET /units/3
+[21-Nov-2025 03:35:10 Europe/Berlin] Vehicle API Request: GET /units/10
+[21-Nov-2025 03:35:10 Europe/Berlin] Vehicle API Request: GET /units/12
+[21-Nov-2025 03:35:11 Europe/Berlin] Vehicle API Request: GET /units/7
+[21-Nov-2025 03:35:11 Europe/Berlin] Vehicle API Request: GET /units/1
+[21-Nov-2025 03:35:11 Europe/Berlin] Vehicle API Request: GET /units/2
+[21-Nov-2025 03:35:11 Europe/Berlin] Vehicle API Request: GET /units/1
+[21-Nov-2025 03:35:11 Europe/Berlin] Vehicle API Request: GET /units/2
+[21-Nov-2025 03:35:11 Europe/Berlin] Vehicle API Request: GET /units/7
+[21-Nov-2025 03:35:11 Europe/Berlin] Vehicle API Request: GET /units/8
+[21-Nov-2025 03:35:11 Europe/Berlin] Vehicle API Request: GET /units/9
+[21-Nov-2025 03:35:11 Europe/Berlin] Vehicle API Request: GET /units/9
+[21-Nov-2025 03:35:11 Europe/Berlin] Vehicle API Request: GET /units/9
+[21-Nov-2025 03:35:12 Europe/Berlin] Vehicle API Request: GET /units/11
+[21-Nov-2025 03:35:12 Europe/Berlin] Vehicle API Request: GET /units/6
+[21-Nov-2025 03:35:12 Europe/Berlin] Vehicle API Request: GET /units/6
+[21-Nov-2025 03:35:12 Europe/Berlin] Vehicle API Request: GET /units/3
+[21-Nov-2025 03:35:12 Europe/Berlin] Vehicle API Request: GET /units/10
+[21-Nov-2025 03:35:12 Europe/Berlin] Vehicle API Request: GET /units/12
+[21-Nov-2025 03:35:12 Europe/Berlin] Vehicle API Request: GET /units/7
+[21-Nov-2025 03:35:12 Europe/Berlin] Vehicle API Request: GET /units/1
+[21-Nov-2025 03:35:12 Europe/Berlin] Vehicle API Request: GET /units/2
+[21-Nov-2025 03:35:12 Europe/Berlin] Vehicle API Request: GET /units/1
+[21-Nov-2025 03:35:12 Europe/Berlin] Vehicle API Request: GET /units/2
+[21-Nov-2025 03:35:13 Europe/Berlin] Vehicle API Request: GET /units/7
+[21-Nov-2025 03:35:13 Europe/Berlin] Vehicle API Request: GET /units/8
+[21-Nov-2025 03:35:13 Europe/Berlin] Vehicle API Request: GET /units/9
+[21-Nov-2025 03:35:13 Europe/Berlin] Vehicle API Request: GET /units/9
+[21-Nov-2025 03:35:13 Europe/Berlin] Vehicle API Request: GET /units/9
+[21-Nov-2025 03:35:13 Europe/Berlin] Vehicle API Request: GET /units/11
+[21-Nov-2025 03:35:14 Europe/Berlin] Vehicle API Request: GET /vehicles/all
+[21-Nov-2025 03:35:15 Europe/Berlin] Vehicle API Request: GET /units/6
+[21-Nov-2025 03:35:15 Europe/Berlin] Vehicle API Request: GET /units/6
+[21-Nov-2025 03:35:16 Europe/Berlin] Vehicle API Request: GET /units/3
+[21-Nov-2025 03:35:16 Europe/Berlin] Vehicle API Request: GET /units/10
+[21-Nov-2025 03:35:16 Europe/Berlin] Vehicle API Request: GET /units/12
+[21-Nov-2025 03:35:16 Europe/Berlin] Vehicle API Request: GET /units/7
+[21-Nov-2025 03:35:16 Europe/Berlin] Vehicle API Request: GET /units/1
+[21-Nov-2025 03:35:16 Europe/Berlin] Vehicle API Request: GET /units/2
+[21-Nov-2025 03:35:16 Europe/Berlin] Vehicle API Request: GET /units/1
+[21-Nov-2025 03:35:16 Europe/Berlin] Vehicle API Request: GET /units/2
+[21-Nov-2025 03:35:16 Europe/Berlin] Vehicle API Request: GET /units/7
+[21-Nov-2025 03:35:16 Europe/Berlin] Vehicle API Request: GET /units/8
+[21-Nov-2025 03:35:16 Europe/Berlin] Vehicle API Request: GET /units/9
+[21-Nov-2025 03:35:17 Europe/Berlin] Vehicle API Request: GET /units/9
+[21-Nov-2025 03:35:17 Europe/Berlin] Vehicle API Request: GET /units/9
+[21-Nov-2025 03:35:17 Europe/Berlin] Vehicle API Request: GET /units/11
+[21-Nov-2025 03:35:17 Europe/Berlin] Vehicle API Request: GET /units/6
+[21-Nov-2025 03:35:17 Europe/Berlin] Vehicle API Request: GET /units/6
+[21-Nov-2025 03:35:17 Europe/Berlin] Vehicle API Request: GET /units/3
+[21-Nov-2025 03:35:17 Europe/Berlin] Vehicle API Request: GET /units/10
+[21-Nov-2025 03:35:17 Europe/Berlin] Vehicle API Request: GET /units/12
+[21-Nov-2025 03:35:17 Europe/Berlin] Vehicle API Request: GET /units/7
+[21-Nov-2025 03:35:18 Europe/Berlin] Vehicle API Request: GET /units/1
+[21-Nov-2025 03:35:18 Europe/Berlin] Vehicle API Request: GET /units/2
+[21-Nov-2025 03:35:18 Europe/Berlin] Vehicle API Request: GET /units/1
+[21-Nov-2025 03:35:18 Europe/Berlin] Vehicle API Request: GET /units/2
+[21-Nov-2025 03:35:18 Europe/Berlin] Vehicle API Request: GET /units/7
+[21-Nov-2025 03:35:18 Europe/Berlin] Vehicle API Request: GET /units/8
+[21-Nov-2025 03:35:18 Europe/Berlin] Vehicle API Request: GET /units/9
+[21-Nov-2025 03:35:18 Europe/Berlin] Vehicle API Request: GET /units/9
+[21-Nov-2025 03:35:18 Europe/Berlin] Vehicle API Request: GET /units/9
+[21-Nov-2025 03:35:18 Europe/Berlin] Vehicle API Request: GET /units/11
+[21-Nov-2025 03:35:30 Europe/Berlin] Vehicle API Request: GET /vehicles/all
+[21-Nov-2025 03:35:33 Europe/Berlin] Vehicle API Request: GET /catalogs/5
+[21-Nov-2025 03:35:42 Europe/Berlin] Vehicle API Request: GET /units/available
+[21-Nov-2025 03:35:42 Europe/Berlin] === GET AVAILABLE UNITS ===
+[21-Nov-2025 03:35:42 Europe/Berlin] Catalog ID: 5
+[21-Nov-2025 03:35:42 Europe/Berlin] Location: Quận 1, TP.HCM
+[21-Nov-2025 03:35:42 Europe/Berlin] Start: 2025-11-21T09:35
+[21-Nov-2025 03:35:42 Europe/Berlin] End: 2025-11-22T09:35
+[21-Nov-2025 03:35:42 Europe/Berlin] Checking rental conflicts for time range: 2025-11-21T09:35 to 2025-11-22T09:35
+[21-Nov-2025 03:35:42 Europe/Berlin] SQL: 
+                SELECT 
+                    u.unit_id,
+                    u.catalog_id,
+                    u.license_plate,
+                    u.status,
+                    u.condition_rating,
+                    u.odo_km,
+                    u.fuel_level,
+                    u.current_location,
+                    u.parking_spot,
+                    c.brand,
+                    c.model,
+                    c.type,
+                    c.year,
+                    c.color,
+                    c.daily_rate
+                FROM VehicleUnits u
+                JOIN VehicleCatalog c ON u.catalog_id = c.catalog_id
+                WHERE u.catalog_id = ?
+                    AND u.current_location = ?
+                    AND u.status = 'Available'
+                    AND c.is_active = TRUE
+            
+                    AND u.unit_id NOT IN (
+                        SELECT vehicle_id 
+                        FROM rental_service_db.Rentals
+                        WHERE status IN ('Pending', 'Ongoing')
+                        AND (
+                            -- New rental overlaps with existing rental
+                            (start_time < ? AND end_time > ?)
+                            OR (start_time >= ? AND start_time < ?)
+                            OR (end_time > ? AND end_time <= ?)
+                            OR (start_time >= ? AND end_time <= ?)
+                        )
+                    )
+                 ORDER BY u.condition_rating DESC, u.odo_km ASC
+[21-Nov-2025 03:35:42 Europe/Berlin] Params: ["5","Qu\u1eadn 1, TP.HCM","2025-11-22T09:35","2025-11-21T09:35","2025-11-21T09:35","2025-11-22T09:35","2025-11-21T09:35","2025-11-22T09:35","2025-11-21T09:35","2025-11-22T09:35"]
+[21-Nov-2025 03:35:42 Europe/Berlin] Final available units count: 2
+[21-Nov-2025 03:35:42 Europe/Berlin] Found 2 available units
+[21-Nov-2025 03:35:50 Europe/Berlin] Vehicle API Request: GET /units/available
+[21-Nov-2025 03:35:50 Europe/Berlin] === GET AVAILABLE UNITS ===
+[21-Nov-2025 03:35:50 Europe/Berlin] Catalog ID: 5
+[21-Nov-2025 03:35:50 Europe/Berlin] Location: Quận 1, TP.HCM
+[21-Nov-2025 03:35:50 Europe/Berlin] Start: 2025-11-21T09:35
+[21-Nov-2025 03:35:50 Europe/Berlin] End: 2025-11-22T09:35
+[21-Nov-2025 03:35:50 Europe/Berlin] Checking rental conflicts for time range: 2025-11-21T09:35 to 2025-11-22T09:35
+[21-Nov-2025 03:35:50 Europe/Berlin] SQL: 
+                SELECT 
+                    u.unit_id,
+                    u.catalog_id,
+                    u.license_plate,
+                    u.status,
+                    u.condition_rating,
+                    u.odo_km,
+                    u.fuel_level,
+                    u.current_location,
+                    u.parking_spot,
+                    c.brand,
+                    c.model,
+                    c.type,
+                    c.year,
+                    c.color,
+                    c.daily_rate
+                FROM VehicleUnits u
+                JOIN VehicleCatalog c ON u.catalog_id = c.catalog_id
+                WHERE u.catalog_id = ?
+                    AND u.current_location = ?
+                    AND u.status = 'Available'
+                    AND c.is_active = TRUE
+            
+                    AND u.unit_id NOT IN (
+                        SELECT vehicle_id 
+                        FROM rental_service_db.Rentals
+                        WHERE status IN ('Pending', 'Ongoing')
+                        AND (
+                            -- New rental overlaps with existing rental
+                            (start_time < ? AND end_time > ?)
+                            OR (start_time >= ? AND start_time < ?)
+                            OR (end_time > ? AND end_time <= ?)
+                            OR (start_time >= ? AND end_time <= ?)
+                        )
+                    )
+                 ORDER BY u.condition_rating DESC, u.odo_km ASC
+[21-Nov-2025 03:35:50 Europe/Berlin] Params: ["5","Qu\u1eadn 1, TP.HCM","2025-11-22T09:35","2025-11-21T09:35","2025-11-21T09:35","2025-11-22T09:35","2025-11-21T09:35","2025-11-22T09:35","2025-11-21T09:35","2025-11-22T09:35"]
+[21-Nov-2025 03:35:50 Europe/Berlin] Final available units count: 2
+[21-Nov-2025 03:35:50 Europe/Berlin] Found 2 available units
+[21-Nov-2025 03:35:50 Europe/Berlin] Vehicle API Request: GET /catalogs/5
+[21-Nov-2025 03:35:51 Europe/Berlin] Vehicle API Request: GET /catalogs/5
+[21-Nov-2025 03:39:05 Europe/Berlin] Vehicle API Request: GET /vehicles/all
+[21-Nov-2025 03:39:24 Europe/Berlin] Vehicle API Request: GET /units/5
+[21-Nov-2025 03:39:24 Europe/Berlin] Vehicle API Request: GET /units/22
+[21-Nov-2025 03:41:21 Europe/Berlin] Vehicle API Request: GET /catalogs/5
+[21-Nov-2025 03:41:23 Europe/Berlin] Vehicle API Request: GET /catalogs/5
+[21-Nov-2025 03:41:23 Europe/Berlin] Vehicle API Request: GET /catalogs/5
+[21-Nov-2025 03:41:23 Europe/Berlin] Vehicle API Request: GET /catalogs/5
+[21-Nov-2025 03:41:24 Europe/Berlin] Vehicle API Request: GET /catalogs/5
+[21-Nov-2025 03:41:24 Europe/Berlin] Vehicle API Request: GET /catalogs/5
+[21-Nov-2025 03:41:24 Europe/Berlin] Vehicle API Request: GET /catalogs/5
+[21-Nov-2025 03:41:24 Europe/Berlin] Vehicle API Request: GET /catalogs/5
+[21-Nov-2025 03:41:28 Europe/Berlin] Vehicle API Request: GET /catalogs/5
+[21-Nov-2025 03:41:28 Europe/Berlin] Vehicle API Request: GET /units/available
+[21-Nov-2025 03:41:28 Europe/Berlin] === GET AVAILABLE UNITS ===
+[21-Nov-2025 03:41:28 Europe/Berlin] Catalog ID: 5
+[21-Nov-2025 03:41:28 Europe/Berlin] Location: Quận 1, TP.HCM
+[21-Nov-2025 03:41:28 Europe/Berlin] Start: 2025-11-21T09:35
+[21-Nov-2025 03:41:28 Europe/Berlin] End: 2025-11-22T09:35
+[21-Nov-2025 03:41:28 Europe/Berlin] Checking rental conflicts for time range: 2025-11-21T09:35 to 2025-11-22T09:35
+[21-Nov-2025 03:41:28 Europe/Berlin] SQL: 
+                SELECT 
+                    u.unit_id,
+                    u.catalog_id,
+                    u.license_plate,
+                    u.status,
+                    u.condition_rating,
+                    u.odo_km,
+                    u.fuel_level,
+                    u.current_location,
+                    u.parking_spot,
+                    c.brand,
+                    c.model,
+                    c.type,
+                    c.year,
+                    c.color,
+                    c.daily_rate
+                FROM VehicleUnits u
+                JOIN VehicleCatalog c ON u.catalog_id = c.catalog_id
+                WHERE u.catalog_id = ?
+                    AND u.current_location = ?
+                    AND u.status = 'Available'
+                    AND c.is_active = TRUE
+            
+                    AND u.unit_id NOT IN (
+                        SELECT vehicle_id 
+                        FROM rental_service_db.Rentals
+                        WHERE status IN ('Pending', 'Ongoing')
+                        AND (
+                            -- New rental overlaps with existing rental
+                            (start_time < ? AND end_time > ?)
+                            OR (start_time >= ? AND start_time < ?)
+                            OR (end_time > ? AND end_time <= ?)
+                            OR (start_time >= ? AND end_time <= ?)
+                        )
+                    )
+                 ORDER BY u.condition_rating DESC, u.odo_km ASC
+[21-Nov-2025 03:41:28 Europe/Berlin] Params: ["5","Qu\u1eadn 1, TP.HCM","2025-11-22T09:35","2025-11-21T09:35","2025-11-21T09:35","2025-11-22T09:35","2025-11-21T09:35","2025-11-22T09:35","2025-11-21T09:35","2025-11-22T09:35"]
+[21-Nov-2025 03:41:28 Europe/Berlin] Final available units count: 2
+[21-Nov-2025 03:41:28 Europe/Berlin] Found 2 available units
+[21-Nov-2025 03:41:28 Europe/Berlin] Vehicle API Request: GET /units/7
+[21-Nov-2025 03:41:28 Europe/Berlin] Vehicle API Request: GET /units/7/available
+[21-Nov-2025 03:41:28 Europe/Berlin] Vehicle API Request: GET /units/7
+[21-Nov-2025 03:41:30 Europe/Berlin] Vehicle API Request: GET /units/7
+[21-Nov-2025 03:41:30 Europe/Berlin] Vehicle API Request: GET /units/6
+[21-Nov-2025 03:41:30 Europe/Berlin] Vehicle API Request: GET /units/6
+[21-Nov-2025 03:41:30 Europe/Berlin] Vehicle API Request: GET /units/3
+[21-Nov-2025 03:41:30 Europe/Berlin] Vehicle API Request: GET /units/10
+[21-Nov-2025 03:41:30 Europe/Berlin] Vehicle API Request: GET /units/12
+[21-Nov-2025 03:41:31 Europe/Berlin] Vehicle API Request: GET /units/7
+[21-Nov-2025 03:41:31 Europe/Berlin] Vehicle API Request: GET /units/1
+[21-Nov-2025 03:41:31 Europe/Berlin] Vehicle API Request: GET /units/2
+[21-Nov-2025 03:41:31 Europe/Berlin] Vehicle API Request: GET /units/1
+[21-Nov-2025 03:41:31 Europe/Berlin] Vehicle API Request: GET /units/2
+[21-Nov-2025 03:41:31 Europe/Berlin] Vehicle API Request: GET /units/7
+[21-Nov-2025 03:41:31 Europe/Berlin] Vehicle API Request: GET /units/8
+[21-Nov-2025 03:41:31 Europe/Berlin] Vehicle API Request: GET /units/9
+[21-Nov-2025 03:41:31 Europe/Berlin] Vehicle API Request: GET /units/9
+[21-Nov-2025 03:41:31 Europe/Berlin] Vehicle API Request: GET /units/9
+[21-Nov-2025 03:41:32 Europe/Berlin] Vehicle API Request: GET /units/11
+[21-Nov-2025 03:41:49 Europe/Berlin] Vehicle API Request: GET /units/7
+[21-Nov-2025 03:41:49 Europe/Berlin] Vehicle API Request: PUT /units/7/status
+[21-Nov-2025 03:41:49 Europe/Berlin] Vehicle API Request: GET /units/7
+[21-Nov-2025 03:41:50 Europe/Berlin] Vehicle API Request: GET /units/6
+[21-Nov-2025 03:41:50 Europe/Berlin] Vehicle API Request: GET /units/6
+[21-Nov-2025 03:41:50 Europe/Berlin] Vehicle API Request: GET /units/3
+[21-Nov-2025 03:41:50 Europe/Berlin] Vehicle API Request: GET /units/10
+[21-Nov-2025 03:41:50 Europe/Berlin] Vehicle API Request: GET /units/12
+[21-Nov-2025 03:41:50 Europe/Berlin] Vehicle API Request: GET /units/7
+[21-Nov-2025 03:41:50 Europe/Berlin] Vehicle API Request: GET /units/1
+[21-Nov-2025 03:41:50 Europe/Berlin] Vehicle API Request: GET /units/2
+[21-Nov-2025 03:41:50 Europe/Berlin] Vehicle API Request: GET /units/1
+[21-Nov-2025 03:41:50 Europe/Berlin] Vehicle API Request: GET /units/2
+[21-Nov-2025 03:41:50 Europe/Berlin] Vehicle API Request: GET /units/7
+[21-Nov-2025 03:41:51 Europe/Berlin] Vehicle API Request: GET /units/8
+[21-Nov-2025 03:41:51 Europe/Berlin] Vehicle API Request: GET /units/9
+[21-Nov-2025 03:41:51 Europe/Berlin] Vehicle API Request: GET /units/9
+[21-Nov-2025 03:41:51 Europe/Berlin] Vehicle API Request: GET /units/9
+[21-Nov-2025 03:41:51 Europe/Berlin] Vehicle API Request: GET /units/11
+[21-Nov-2025 03:41:54 Europe/Berlin] Vehicle API Request: GET /vehicles/all
+[21-Nov-2025 03:41:59 Europe/Berlin] Vehicle API Request: GET /catalogs/5
+[21-Nov-2025 03:42:05 Europe/Berlin] Vehicle API Request: GET /units/available
+[21-Nov-2025 03:42:05 Europe/Berlin] === GET AVAILABLE UNITS ===
+[21-Nov-2025 03:42:05 Europe/Berlin] Catalog ID: 5
+[21-Nov-2025 03:42:05 Europe/Berlin] Location: Quận 1, TP.HCM
+[21-Nov-2025 03:42:05 Europe/Berlin] Start: 2025-11-21T09:42
+[21-Nov-2025 03:42:05 Europe/Berlin] End: 2025-11-22T09:42
+[21-Nov-2025 03:42:05 Europe/Berlin] Checking rental conflicts for time range: 2025-11-21T09:42 to 2025-11-22T09:42
+[21-Nov-2025 03:42:05 Europe/Berlin] SQL: 
+                SELECT 
+                    u.unit_id,
+                    u.catalog_id,
+                    u.license_plate,
+                    u.status,
+                    u.condition_rating,
+                    u.odo_km,
+                    u.fuel_level,
+                    u.current_location,
+                    u.parking_spot,
+                    c.brand,
+                    c.model,
+                    c.type,
+                    c.year,
+                    c.color,
+                    c.daily_rate
+                FROM VehicleUnits u
+                JOIN VehicleCatalog c ON u.catalog_id = c.catalog_id
+                WHERE u.catalog_id = ?
+                    AND u.current_location = ?
+                    AND u.status = 'Available'
+                    AND c.is_active = TRUE
+            
+                    AND u.unit_id NOT IN (
+                        SELECT vehicle_id 
+                        FROM rental_service_db.Rentals
+                        WHERE status IN ('Pending', 'Ongoing')
+                        AND (
+                            -- New rental overlaps with existing rental
+                            (start_time < ? AND end_time > ?)
+                            OR (start_time >= ? AND start_time < ?)
+                            OR (end_time > ? AND end_time <= ?)
+                            OR (start_time >= ? AND end_time <= ?)
+                        )
+                    )
+                 ORDER BY u.condition_rating DESC, u.odo_km ASC
+[21-Nov-2025 03:42:05 Europe/Berlin] Params: ["5","Qu\u1eadn 1, TP.HCM","2025-11-22T09:42","2025-11-21T09:42","2025-11-21T09:42","2025-11-22T09:42","2025-11-21T09:42","2025-11-22T09:42","2025-11-21T09:42","2025-11-22T09:42"]
+[21-Nov-2025 03:42:05 Europe/Berlin] Final available units count: 2
+[21-Nov-2025 03:42:05 Europe/Berlin] Found 2 available units
+[21-Nov-2025 03:42:12 Europe/Berlin] Vehicle API Request: GET /units/available
+[21-Nov-2025 03:42:12 Europe/Berlin] === GET AVAILABLE UNITS ===
+[21-Nov-2025 03:42:12 Europe/Berlin] Catalog ID: 5
+[21-Nov-2025 03:42:12 Europe/Berlin] Location: Quận 1, TP.HCM
+[21-Nov-2025 03:42:12 Europe/Berlin] Start: 2025-11-21T09:42
+[21-Nov-2025 03:42:12 Europe/Berlin] End: 2025-11-22T09:42
+[21-Nov-2025 03:42:12 Europe/Berlin] Checking rental conflicts for time range: 2025-11-21T09:42 to 2025-11-22T09:42
+[21-Nov-2025 03:42:12 Europe/Berlin] SQL: 
+                SELECT 
+                    u.unit_id,
+                    u.catalog_id,
+                    u.license_plate,
+                    u.status,
+                    u.condition_rating,
+                    u.odo_km,
+                    u.fuel_level,
+                    u.current_location,
+                    u.parking_spot,
+                    c.brand,
+                    c.model,
+                    c.type,
+                    c.year,
+                    c.color,
+                    c.daily_rate
+                FROM VehicleUnits u
+                JOIN VehicleCatalog c ON u.catalog_id = c.catalog_id
+                WHERE u.catalog_id = ?
+                    AND u.current_location = ?
+                    AND u.status = 'Available'
+                    AND c.is_active = TRUE
+            
+                    AND u.unit_id NOT IN (
+                        SELECT vehicle_id 
+                        FROM rental_service_db.Rentals
+                        WHERE status IN ('Pending', 'Ongoing')
+                        AND (
+                            -- New rental overlaps with existing rental
+                            (start_time < ? AND end_time > ?)
+                            OR (start_time >= ? AND start_time < ?)
+                            OR (end_time > ? AND end_time <= ?)
+                            OR (start_time >= ? AND end_time <= ?)
+                        )
+                    )
+                 ORDER BY u.condition_rating DESC, u.odo_km ASC
+[21-Nov-2025 03:42:12 Europe/Berlin] Params: ["5","Qu\u1eadn 1, TP.HCM","2025-11-22T09:42","2025-11-21T09:42","2025-11-21T09:42","2025-11-22T09:42","2025-11-21T09:42","2025-11-22T09:42","2025-11-21T09:42","2025-11-22T09:42"]
+[21-Nov-2025 03:42:12 Europe/Berlin] Final available units count: 2
+[21-Nov-2025 03:42:12 Europe/Berlin] Found 2 available units
+[21-Nov-2025 03:42:12 Europe/Berlin] Vehicle API Request: GET /catalogs/5
+[21-Nov-2025 03:42:13 Europe/Berlin] Vehicle API Request: GET /catalogs/5
+[21-Nov-2025 03:42:15 Europe/Berlin] Vehicle API Request: GET /catalogs/5
+[21-Nov-2025 03:42:15 Europe/Berlin] Vehicle API Request: GET /units/available
+[21-Nov-2025 03:42:15 Europe/Berlin] === GET AVAILABLE UNITS ===
+[21-Nov-2025 03:42:15 Europe/Berlin] Catalog ID: 5
+[21-Nov-2025 03:42:15 Europe/Berlin] Location: Quận 1, TP.HCM
+[21-Nov-2025 03:42:15 Europe/Berlin] Start: 2025-11-21T09:42
+[21-Nov-2025 03:42:15 Europe/Berlin] End: 2025-11-22T09:42
+[21-Nov-2025 03:42:15 Europe/Berlin] Checking rental conflicts for time range: 2025-11-21T09:42 to 2025-11-22T09:42
+[21-Nov-2025 03:42:15 Europe/Berlin] SQL: 
+                SELECT 
+                    u.unit_id,
+                    u.catalog_id,
+                    u.license_plate,
+                    u.status,
+                    u.condition_rating,
+                    u.odo_km,
+                    u.fuel_level,
+                    u.current_location,
+                    u.parking_spot,
+                    c.brand,
+                    c.model,
+                    c.type,
+                    c.year,
+                    c.color,
+                    c.daily_rate
+                FROM VehicleUnits u
+                JOIN VehicleCatalog c ON u.catalog_id = c.catalog_id
+                WHERE u.catalog_id = ?
+                    AND u.current_location = ?
+                    AND u.status = 'Available'
+                    AND c.is_active = TRUE
+            
+                    AND u.unit_id NOT IN (
+                        SELECT vehicle_id 
+                        FROM rental_service_db.Rentals
+                        WHERE status IN ('Pending', 'Ongoing')
+                        AND (
+                            -- New rental overlaps with existing rental
+                            (start_time < ? AND end_time > ?)
+                            OR (start_time >= ? AND start_time < ?)
+                            OR (end_time > ? AND end_time <= ?)
+                            OR (start_time >= ? AND end_time <= ?)
+                        )
+                    )
+                 ORDER BY u.condition_rating DESC, u.odo_km ASC
+[21-Nov-2025 03:42:15 Europe/Berlin] Params: ["5","Qu\u1eadn 1, TP.HCM","2025-11-22T09:42","2025-11-21T09:42","2025-11-21T09:42","2025-11-22T09:42","2025-11-21T09:42","2025-11-22T09:42","2025-11-21T09:42","2025-11-22T09:42"]
+[21-Nov-2025 03:42:15 Europe/Berlin] Final available units count: 2
+[21-Nov-2025 03:42:15 Europe/Berlin] Found 2 available units
+[21-Nov-2025 03:42:15 Europe/Berlin] Vehicle API Request: GET /units/7
+[21-Nov-2025 03:42:15 Europe/Berlin] Vehicle API Request: GET /units/7/available
+[21-Nov-2025 03:42:15 Europe/Berlin] Vehicle API Request: GET /units/7
+[21-Nov-2025 03:42:16 Europe/Berlin] Vehicle API Request: GET /units/7
+[21-Nov-2025 03:42:16 Europe/Berlin] Vehicle API Request: GET /units/7
+[21-Nov-2025 03:42:16 Europe/Berlin] Vehicle API Request: GET /units/6
+[21-Nov-2025 03:42:16 Europe/Berlin] Vehicle API Request: GET /units/6
+[21-Nov-2025 03:42:16 Europe/Berlin] Vehicle API Request: GET /units/3
+[21-Nov-2025 03:42:16 Europe/Berlin] Vehicle API Request: GET /units/10
+[21-Nov-2025 03:42:16 Europe/Berlin] Vehicle API Request: GET /units/12
+[21-Nov-2025 03:42:16 Europe/Berlin] Vehicle API Request: GET /units/7
+[21-Nov-2025 03:42:17 Europe/Berlin] Vehicle API Request: GET /units/1
+[21-Nov-2025 03:42:17 Europe/Berlin] Vehicle API Request: GET /units/2
+[21-Nov-2025 03:42:17 Europe/Berlin] Vehicle API Request: GET /units/1
+[21-Nov-2025 03:42:17 Europe/Berlin] Vehicle API Request: GET /units/2
+[21-Nov-2025 03:42:17 Europe/Berlin] Vehicle API Request: GET /units/7
+[21-Nov-2025 03:42:17 Europe/Berlin] Vehicle API Request: GET /units/8
+[21-Nov-2025 03:42:17 Europe/Berlin] Vehicle API Request: GET /units/9
+[21-Nov-2025 03:42:17 Europe/Berlin] Vehicle API Request: GET /units/9
+[21-Nov-2025 03:42:17 Europe/Berlin] Vehicle API Request: GET /units/9
+[21-Nov-2025 03:42:17 Europe/Berlin] Vehicle API Request: GET /units/11
+[21-Nov-2025 03:42:18 Europe/Berlin] Vehicle API Request: GET /vehicles/all
+[21-Nov-2025 03:42:20 Europe/Berlin] Vehicle API Request: GET /catalogs/5
+[21-Nov-2025 03:42:29 Europe/Berlin] Vehicle API Request: GET /units/available
+[21-Nov-2025 03:42:29 Europe/Berlin] === GET AVAILABLE UNITS ===
+[21-Nov-2025 03:42:29 Europe/Berlin] Catalog ID: 5
+[21-Nov-2025 03:42:29 Europe/Berlin] Location: Quận 1, TP.HCM
+[21-Nov-2025 03:42:29 Europe/Berlin] Start: 2025-11-21T09:42
+[21-Nov-2025 03:42:29 Europe/Berlin] End: 2025-11-22T09:42
+[21-Nov-2025 03:42:29 Europe/Berlin] Checking rental conflicts for time range: 2025-11-21T09:42 to 2025-11-22T09:42
+[21-Nov-2025 03:42:29 Europe/Berlin] SQL: 
+                SELECT 
+                    u.unit_id,
+                    u.catalog_id,
+                    u.license_plate,
+                    u.status,
+                    u.condition_rating,
+                    u.odo_km,
+                    u.fuel_level,
+                    u.current_location,
+                    u.parking_spot,
+                    c.brand,
+                    c.model,
+                    c.type,
+                    c.year,
+                    c.color,
+                    c.daily_rate
+                FROM VehicleUnits u
+                JOIN VehicleCatalog c ON u.catalog_id = c.catalog_id
+                WHERE u.catalog_id = ?
+                    AND u.current_location = ?
+                    AND u.status = 'Available'
+                    AND c.is_active = TRUE
+            
+                    AND u.unit_id NOT IN (
+                        SELECT vehicle_id 
+                        FROM rental_service_db.Rentals
+                        WHERE status IN ('Pending', 'Ongoing')
+                        AND (
+                            -- New rental overlaps with existing rental
+                            (start_time < ? AND end_time > ?)
+                            OR (start_time >= ? AND start_time < ?)
+                            OR (end_time > ? AND end_time <= ?)
+                            OR (start_time >= ? AND end_time <= ?)
+                        )
+                    )
+                 ORDER BY u.condition_rating DESC, u.odo_km ASC
+[21-Nov-2025 03:42:29 Europe/Berlin] Params: ["5","Qu\u1eadn 1, TP.HCM","2025-11-22T09:42","2025-11-21T09:42","2025-11-21T09:42","2025-11-22T09:42","2025-11-21T09:42","2025-11-22T09:42","2025-11-21T09:42","2025-11-22T09:42"]
+[21-Nov-2025 03:42:29 Europe/Berlin] Final available units count: 1
+[21-Nov-2025 03:42:29 Europe/Berlin] Found 1 available units
+[21-Nov-2025 03:42:31 Europe/Berlin] Vehicle API Request: GET /vehicles/all

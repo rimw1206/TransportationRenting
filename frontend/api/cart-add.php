@@ -1,85 +1,147 @@
 <?php
-// ========================================
-// frontend/api/cart-add.php
-// Path: TransportationRenting/frontend/api/cart-add.php
-// URL: http://localhost/api/cart-add.php
-// ========================================
+/**
+ * ================================================
+ * public/api/cart-add.php
+ * FIXED: Properly store quantity and selected units
+ * ================================================
+ */
 session_start();
+
 header('Content-Type: application/json');
 
 if (!isset($_SESSION['user'])) {
-    http_response_code(401);
     echo json_encode(['success' => false, 'message' => 'Unauthorized']);
     exit;
 }
 
-$input = json_decode(file_get_contents('php://input'), true);
+require_once __DIR__ . '/../../shared/classes/ApiClient.php';
 
-// Validate required fields
-$required = ['catalog_id', 'start_time', 'end_time', 'pickup_location', 'quantity'];
-foreach ($required as $field) {
-    if (!isset($input[$field])) {
-        http_response_code(400);
-        echo json_encode(['success' => false, 'message' => "Missing field: $field"]);
-        exit;
+$apiClient = new ApiClient();
+$apiClient->setServiceUrl('vehicle', 'http://localhost:8002');
+
+try {
+    $input = json_decode(file_get_contents('php://input'), true);
+    
+    if (!$input) {
+        throw new Exception('Invalid request data');
     }
-}
-
-// Validate quantity
-if ($input['quantity'] < 1 || $input['quantity'] > 10) {
-    http_response_code(400);
-    echo json_encode(['success' => false, 'message' => 'Số lượng không hợp lệ (1-10)']);
-    exit;
-}
-
-// Validate dates
-if (strtotime($input['end_time']) <= strtotime($input['start_time'])) {
-    http_response_code(400);
-    echo json_encode(['success' => false, 'message' => 'Ngày kết thúc phải sau ngày bắt đầu']);
-    exit;
-}
-
-// Validate dates not in past
-if (strtotime($input['start_time']) < time()) {
-    http_response_code(400);
-    echo json_encode(['success' => false, 'message' => 'Ngày bắt đầu không được ở quá khứ']);
-    exit;
-}
-
-// Initialize cart
-if (!isset($_SESSION['cart'])) {
-    $_SESSION['cart'] = [];
-}
-
-// Check if item already exists in cart
-$exists = false;
-foreach ($_SESSION['cart'] as $index => &$item) {
-    if ($item['catalog_id'] == $input['catalog_id']) {
-        // Update existing item
-        $item['quantity'] = (int)$input['quantity'];
-        $item['start_time'] = $input['start_time'];
-        $item['end_time'] = $input['end_time'];
-        $item['pickup_location'] = $input['pickup_location'];
-        $item['updated_at'] = date('Y-m-d H:i:s');
-        $exists = true;
-        break;
+    
+    // Validate required fields
+    $required = ['catalog_id', 'start_time', 'end_time', 'pickup_location', 'quantity'];
+    foreach ($required as $field) {
+        if (!isset($input[$field]) || empty($input[$field])) {
+            throw new Exception("Field '{$field}' is required");
+        }
     }
-}
-
-// Add new item if not exists
-if (!$exists) {
-    $_SESSION['cart'][] = [
-        'catalog_id' => (int)$input['catalog_id'],
-        'start_time' => $input['start_time'],
-        'end_time' => $input['end_time'],
-        'pickup_location' => $input['pickup_location'],
-        'quantity' => (int)$input['quantity'],
+    
+    $catalogId = (int)$input['catalog_id'];
+    $startTime = $input['start_time'];
+    $endTime = $input['end_time'];
+    $location = $input['pickup_location'];
+    $quantity = (int)$input['quantity'];
+    
+    // Validate dates
+    $start = new DateTime($startTime);
+    $end = new DateTime($endTime);
+    $now = new DateTime();
+    
+    if ($start < $now) {
+        throw new Exception('Start time must be in the future');
+    }
+    
+    if ($end <= $start) {
+        throw new Exception('End time must be after start time');
+    }
+    
+    // ✅ CRITICAL: Check real-time availability via Vehicle API
+    $availabilityUrl = "/units/available?catalog_id={$catalogId}" .
+                       "&location=" . urlencode($location) .
+                       "&start=" . urlencode($startTime) .
+                       "&end=" . urlencode($endTime);
+    
+    error_log("Checking availability: " . $availabilityUrl);
+    
+    $response = $apiClient->get('vehicle', $availabilityUrl);
+    
+    if ($response['status_code'] !== 200) {
+        throw new Exception('Failed to check vehicle availability');
+    }
+    
+    $availData = json_decode($response['raw_response'], true);
+    
+    if (!$availData || !$availData['success']) {
+        throw new Exception('Invalid availability response');
+    }
+    
+    $availableUnits = $availData['data'];
+    $availableCount = count($availableUnits);
+    
+    error_log("Available units: {$availableCount}, Requested: {$quantity}");
+    
+    if ($availableCount < $quantity) {
+        throw new Exception("Only {$availableCount} vehicles available, you requested {$quantity}");
+    }
+    
+    // Get catalog details for pricing
+    $catalogResponse = $apiClient->get('vehicle', '/catalogs/' . $catalogId);
+    
+    if ($catalogResponse['status_code'] !== 200) {
+        throw new Exception('Vehicle not found');
+    }
+    
+    $catalogData = json_decode($catalogResponse['raw_response'], true);
+    
+    if (!$catalogData || !$catalogData['success']) {
+        throw new Exception('Failed to get vehicle details');
+    }
+    
+    $vehicle = $catalogData['data'];
+    
+    // Calculate cost
+    $days = max(1, $end->diff($start)->days);
+    $dailyRate = $vehicle['daily_rate'];
+    $itemTotalCost = $days * $dailyRate;
+    
+    // Initialize cart if needed
+    if (!isset($_SESSION['cart'])) {
+        $_SESSION['cart'] = [];
+    }
+    
+    // ✅ FIX: Add ONE cart item with quantity and list of unit_ids
+    $selectedUnitIds = array_column(array_slice($availableUnits, 0, $quantity), 'unit_id');
+    
+    $cartItem = [
+        'catalog_id' => $catalogId,
+        'vehicle_name' => $vehicle['brand'] . ' ' . $vehicle['model'],
+        'vehicle_type' => $vehicle['type'],
+        'start_time' => $startTime,
+        'end_time' => $endTime,
+        'pickup_location' => $location,
+        'dropoff_location' => $location,
+        'days' => $days,
+        'daily_rate' => $dailyRate,
+        'quantity' => $quantity, // ✅ CRITICAL: Store quantity
+        'unit_ids' => $selectedUnitIds, // ✅ Store selected unit IDs
+        'item_total' => $itemTotalCost * $quantity, // Total for this item
         'added_at' => date('Y-m-d H:i:s')
     ];
+    
+    $_SESSION['cart'][] = $cartItem;
+    
+    error_log("Added 1 cart item with quantity {$quantity}");
+    
+    echo json_encode([
+        'success' => true,
+        'message' => "Added {$quantity} vehicle(s) to cart",
+        'cart_count' => count($_SESSION['cart']),
+        'total_vehicles' => array_sum(array_column($_SESSION['cart'], 'quantity'))
+    ]);
+    
+} catch (Exception $e) {
+    error_log('Cart add error: ' . $e->getMessage());
+    
+    echo json_encode([
+        'success' => false,
+        'message' => $e->getMessage()
+    ]);
 }
-
-echo json_encode([
-    'success' => true,
-    'message' => $exists ? 'Đã cập nhật giỏ hàng' : 'Đã thêm vào giỏ hàng',
-    'cart_count' => count($_SESSION['cart'])
-]);

@@ -18,13 +18,14 @@ require_once __DIR__ . '/../shared/classes/ApiClient.php';
 
 $apiClient = new ApiClient();
 $apiClient->setServiceUrl('vehicle', 'http://localhost:8002');
+$apiClient->setServiceUrl('rental', 'http://localhost:8003');
 
 // Fetch catalog details
 $vehicle = null;
 $error = null;
 
 try {
-    $response = $apiClient->get('vehicle', '/' . $catalogId);
+    $response = $apiClient->get('vehicle', '/catalogs/' . $catalogId);
     
     if ($response['status_code'] === 200) {
         $data = json_decode($response['raw_response'], true);
@@ -63,7 +64,294 @@ function getVehicleImage($vehicle) {
     <title><?= $vehicle ? htmlspecialchars($vehicle['brand'] . ' ' . $vehicle['model']) : 'Chi tiết xe' ?> - Transportation Renting</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/dashboard_style.css">
-    <link rel="stylesheet" href="assets/vehicle-detail_style.css">
+    <style>
+        .vehicle-detail-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #4F46E5;
+            text-decoration: none;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .back-link:hover {
+            color: #4338CA;
+        }
+
+        .vehicle-detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .vehicle-hero-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .vehicle-header {
+            margin-bottom: 30px;
+        }
+
+        .vehicle-header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .vehicle-meta {
+            display: flex;
+            gap: 20px;
+            color: #666;
+        }
+
+        .vehicle-specs {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .spec-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .spec-icon {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 8px;
+            font-size: 20px;
+        }
+
+        .spec-info h4 {
+            margin: 0 0 5px 0;
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+        }
+
+        .spec-info p {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .booking-sidebar {
+            position: sticky;
+            top: 90px;
+            height: fit-content;
+        }
+
+        .booking-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .price-section {
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f0f0f0;
+            margin-bottom: 20px;
+        }
+
+        .price-label {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .price-amount {
+            font-size: 32px;
+            font-weight: 700;
+            color: #4F46E5;
+        }
+
+        .price-unit {
+            font-size: 16px;
+            color: #666;
+        }
+
+        .booking-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #4F46E5;
+        }
+
+        .availability-checker {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .availability-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            border-radius: 6px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .availability-status.available {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .availability-status.unavailable {
+            background: #fee;
+            color: #991b1b;
+        }
+
+        .availability-status.checking {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .cost-breakdown {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .cost-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+        }
+
+        .cost-row:last-child {
+            border-top: 2px solid #ddd;
+            margin-top: 8px;
+            padding-top: 12px;
+            font-weight: 700;
+            font-size: 18px;
+            color: #4F46E5;
+        }
+
+        .btn-book {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn-book:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-book:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .alert {
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .alert-error {
+            background: #fee;
+            color: #991b1b;
+            border: 1px solid #fca5a5;
+        }
+
+        .alert-success {
+            background: #dcfce7;
+            color: #166534;
+            border: 1px solid #86efac;
+        }
+
+        .alert-warning {
+            background: #fef3c7;
+            color: #92400e;
+            border: 1px solid #fcd34d;
+        }
+
+        .alert-info {
+            background: #dbeafe;
+            color: #1e40af;
+            border: 1px solid #93c5fd;
+        }
+
+        @media (max-width: 768px) {
+            .vehicle-detail-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .booking-sidebar {
+                position: static;
+            }
+
+            .vehicle-specs {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Navigation -->
@@ -84,13 +372,9 @@ function getVehicleImage($vehicle) {
                 <a href="my-rentals.php" class="nav-link">
                     <i class="fas fa-calendar-check"></i> Đơn của tôi
                 </a>
-                <a href="promotions.php" class="nav-link">
-                    <i class="fas fa-gift"></i> Khuyến mãi
-                </a>
             </div>
             
             <div class="nav-actions">
-                <!-- Cart Button -->
                 <a href="cart.php" class="nav-icon-btn" title="Giỏ hàng" style="position: relative; text-decoration: none; color: inherit;">
                     <i class="fas fa-shopping-cart"></i>
                     <?php if (isset($_SESSION['cart']) && count($_SESSION['cart']) > 0): ?>
@@ -98,13 +382,6 @@ function getVehicleImage($vehicle) {
                     <?php endif; ?>
                 </a>
                 
-                <!-- Notification Button -->
-                <button class="nav-icon-btn" title="Thông báo">
-                    <i class="fas fa-bell"></i>
-                    <span class="badge">3</span>
-                </button>
-                
-                <!-- User Menu -->
                 <div class="user-menu">
                     <button class="user-btn" id="userBtn">
                         <img src="https://ui-avatars.com/api/?name=<?= urlencode($user['name']) ?>&background=4F46E5&color=fff" alt="Avatar">
@@ -112,29 +389,16 @@ function getVehicleImage($vehicle) {
                         <i class="fas fa-chevron-down"></i>
                     </button>
                     <div class="user-dropdown" id="userDropdown">
-                        <a href="profile.php">
-                            <i class="fas fa-user"></i> Tài khoản
-                        </a>
-                        <a href="my-rentals.php">
-                            <i class="fas fa-history"></i> Lịch sử thuê
-                        </a>
-                        <?php if (($user['role'] ?? 'user') === 'admin'): ?>
+                        <a href="profile.php"><i class="fas fa-user"></i> Tài khoản</a>
+                        <a href="my-rentals.php"><i class="fas fa-history"></i> Lịch sử thuê</a>
                         <div class="dropdown-divider"></div>
-                        <a href="admin/dashboard.php">
-                            <i class="fas fa-cog"></i> Quản trị
-                        </a>
-                        <?php endif; ?>
-                        <div class="dropdown-divider"></div>
-                        <a href="logout.php">
-                            <i class="fas fa-sign-out-alt"></i> Đăng xuất
-                        </a>
+                        <a href="logout.php"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
                     </div>
                 </div>
             </div>
         </div>
     </nav>
 
-    <!-- Main Content -->
     <div class="vehicle-detail-container">
         <a href="vehicles.php" class="back-link">
             <i class="fas fa-arrow-left"></i> Quay lại danh sách
@@ -146,74 +410,61 @@ function getVehicleImage($vehicle) {
             </div>
         <?php elseif ($vehicle): ?>
             <div class="vehicle-detail-grid">
-                <!-- Main Content -->
                 <div class="vehicle-main-content">
                     <img src="<?= getVehicleImage($vehicle) ?>" alt="<?= htmlspecialchars($vehicle['brand'] . ' ' . $vehicle['model']) ?>" class="vehicle-hero-image">
                     
-                    <div class="vehicle-content">
-                        <div class="vehicle-header">
-                            <div class="vehicle-title">
-                                <h1><?= htmlspecialchars($vehicle['brand'] . ' ' . $vehicle['model']) ?></h1>
-                                <div class="vehicle-meta">
-                                    <span><i class="fas fa-tag"></i> <?= getVehicleTypeName($vehicle['type']) ?></span>
-                                    <span><i class="fas fa-car"></i> <?= $vehicle['available_count'] ?> xe có sẵn</span>
-                                </div>
+                    <div class="vehicle-header">
+                        <h1><?= htmlspecialchars($vehicle['brand'] . ' ' . $vehicle['model']) ?></h1>
+                        <div class="vehicle-meta">
+                            <span><i class="fas fa-tag"></i> <?= getVehicleTypeName($vehicle['type']) ?></span>
+                            <span>
+                                <i class="fas fa-warehouse"></i> 
+                                <?= $vehicle['total_units'] ?? 0 ?> xe trong kho
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="vehicle-specs">
+                        <div class="spec-item">
+                            <div class="spec-icon"><i class="fas fa-calendar"></i></div>
+                            <div class="spec-info">
+                                <h4>Năm sản xuất</h4>
+                                <p><?= $vehicle['year'] ?></p>
                             </div>
                         </div>
 
-                        <!-- Specs -->
-                        <div class="vehicle-specs">
-                            <div class="spec-item">
-                                <div class="spec-icon"><i class="fas fa-calendar"></i></div>
-                                <div class="spec-info">
-                                    <h4>Năm sản xuất</h4>
-                                    <p><?= $vehicle['year'] ?></p>
-                                </div>
+                        <?php if ($vehicle['seats']): ?>
+                        <div class="spec-item">
+                            <div class="spec-icon"><i class="fas fa-users"></i></div>
+                            <div class="spec-info">
+                                <h4>Số chỗ ngồi</h4>
+                                <p><?= $vehicle['seats'] ?> chỗ</p>
                             </div>
-
-                            <?php if ($vehicle['seats']): ?>
-                            <div class="spec-item">
-                                <div class="spec-icon"><i class="fas fa-users"></i></div>
-                                <div class="spec-info">
-                                    <h4>Số chỗ ngồi</h4>
-                                    <p><?= $vehicle['seats'] ?> chỗ</p>
-                                </div>
-                            </div>
-                            <?php endif; ?>
-
-                            <?php if ($vehicle['transmission']): ?>
-                            <div class="spec-item">
-                                <div class="spec-icon"><i class="fas fa-cog"></i></div>
-                                <div class="spec-info">
-                                    <h4>Hộp số</h4>
-                                    <p><?= $vehicle['transmission'] ?></p>
-                                </div>
-                            </div>
-                            <?php endif; ?>
-
-                            <?php if ($vehicle['fuel_type']): ?>
-                            <div class="spec-item">
-                                <div class="spec-icon"><i class="fas fa-gas-pump"></i></div>
-                                <div class="spec-info">
-                                    <h4>Nhiên liệu</h4>
-                                    <p><?= $vehicle['fuel_type'] ?></p>
-                                </div>
-                            </div>
-                            <?php endif; ?>
                         </div>
+                        <?php endif; ?>
 
-                        <!-- Description -->
-                        <div class="vehicle-description">
-                            <h3>Mô tả</h3>
-                            <p>
-                                <?= htmlspecialchars($vehicle['description'] ?? 
-                                    $vehicle['brand'] . ' ' . $vehicle['model'] . ' là lựa chọn tuyệt vời cho những chuyến đi của bạn.') ?>
-                            </p>
+                        <?php if ($vehicle['transmission']): ?>
+                        <div class="spec-item">
+                            <div class="spec-icon"><i class="fas fa-cog"></i></div>
+                            <div class="spec-info">
+                                <h4>Hộp số</h4>
+                                <p><?= $vehicle['transmission'] ?></p>
+                            </div>
                         </div>
+                        <?php endif; ?>
+
+                        <?php if ($vehicle['fuel_type']): ?>
+                        <div class="spec-item">
+                            <div class="spec-icon"><i class="fas fa-gas-pump"></i></div>
+                            <div class="spec-info">
+                                <h4>Nhiên liệu</h4>
+                                <p><?= $vehicle['fuel_type'] ?></p>
+                            </div>
+                        </div>
+                        <?php endif; ?>
                     </div>
                 </div>
 
-                <!-- Booking Sidebar -->
                 <div class="booking-sidebar">
                     <div class="booking-card">
                         <div class="price-section">
@@ -224,12 +475,12 @@ function getVehicleImage($vehicle) {
                             </div>
                         </div>
 
-                        <?php if ($vehicle['available_count'] > 0): ?>
+                        <?php if ($vehicle['total_units'] > 0): ?>
                             <form id="bookingForm" class="booking-form">
                                 <div class="form-group">
                                     <label>Số lượng xe</label>
                                     <select id="quantity" name="quantity" required>
-                                        <?php for ($i = 1; $i <= min(5, $vehicle['available_count']); $i++): ?>
+                                        <?php for ($i = 1; $i <= min(5, $vehicle['total_units']); $i++): ?>
                                             <option value="<?= $i ?>"><?= $i ?> xe</option>
                                         <?php endfor; ?>
                                     </select>
@@ -257,6 +508,14 @@ function getVehicleImage($vehicle) {
                                     </select>
                                 </div>
 
+                                <!-- Real-time Availability Checker -->
+                                <div class="availability-checker">
+                                    <button type="button" id="checkAvailabilityBtn" class="btn-book" style="background: #3b82f6;">
+                                        <i class="fas fa-search"></i> Kiểm tra xe khả dụng
+                                    </button>
+                                    <div id="availabilityResult"></div>
+                                </div>
+
                                 <div id="costBreakdown" class="cost-breakdown" style="display: none;">
                                     <div class="cost-row">
                                         <span>Số ngày thuê</span>
@@ -278,7 +537,7 @@ function getVehicleImage($vehicle) {
 
                                 <div id="alertBox"></div>
 
-                                <button type="submit" class="btn-book">
+                                <button type="submit" class="btn-book" id="addToCartBtn" disabled>
                                     <i class="fas fa-shopping-cart"></i> Thêm vào giỏ hàng
                                 </button>
                             </form>
@@ -297,8 +556,9 @@ function getVehicleImage($vehicle) {
     <script>
         const catalogId = <?= json_encode($catalogId) ?>;
         const dailyRate = <?= json_encode($vehicle['daily_rate'] ?? 0) ?>;
+        let availableUnits = [];
+        let isAvailabilityChecked = false;
 
-        // User dropdown
         document.getElementById('userBtn')?.addEventListener('click', (e) => {
             e.stopPropagation();
             document.getElementById('userDropdown').classList.toggle('show');
@@ -308,13 +568,11 @@ function getVehicleImage($vehicle) {
             document.getElementById('userDropdown')?.classList.remove('show');
         });
 
-        // Set minimum date
         const now = new Date();
         now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
         document.getElementById('startTime').min = now.toISOString().slice(0, 16);
         document.getElementById('endTime').min = now.toISOString().slice(0, 16);
 
-        // Calculate cost
         function calculateCost() {
             const startTime = document.getElementById('startTime').value;
             const endTime = document.getElementById('endTime').value;
@@ -337,23 +595,116 @@ function getVehicleImage($vehicle) {
             document.getElementById('costBreakdown').style.display = 'block';
         }
 
-        document.getElementById('startTime')?.addEventListener('change', calculateCost);
-        document.getElementById('endTime')?.addEventListener('change', calculateCost);
-        document.getElementById('quantity')?.addEventListener('change', calculateCost);
+        document.getElementById('startTime')?.addEventListener('change', () => {
+            calculateCost();
+            isAvailabilityChecked = false;
+            document.getElementById('addToCartBtn').disabled = true;
+        });
+        
+        document.getElementById('endTime')?.addEventListener('change', () => {
+            calculateCost();
+            isAvailabilityChecked = false;
+            document.getElementById('addToCartBtn').disabled = true;
+        });
+        
+        document.getElementById('quantity')?.addEventListener('change', () => {
+            calculateCost();
+            isAvailabilityChecked = false;
+            document.getElementById('addToCartBtn').disabled = true;
+        });
+        
+        document.getElementById('pickupLocation')?.addEventListener('change', () => {
+            isAvailabilityChecked = false;
+            document.getElementById('addToCartBtn').disabled = true;
+        });
 
-        // Add to cart
+        // ✅ CRITICAL: Check time-based availability
+        document.getElementById('checkAvailabilityBtn')?.addEventListener('click', async () => {
+            const startTime = document.getElementById('startTime').value;
+            const endTime = document.getElementById('endTime').value;
+            const location = document.getElementById('pickupLocation').value;
+            const quantity = parseInt(document.getElementById('quantity').value);
+
+            if (!startTime || !endTime || !location) {
+                showAvailabilityResult('warning', 'Vui lòng điền đầy đủ thông tin');
+                return;
+            }
+
+            const resultDiv = document.getElementById('availabilityResult');
+            resultDiv.innerHTML = `
+                <div class="availability-status checking">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    Đang kiểm tra...
+                </div>
+            `;
+
+            try {
+                // ✅ Check availability with time range
+                const response = await fetch(
+                    `http://localhost:8002/services/vehicle/units/available?` +
+                    `catalog_id=${catalogId}&location=${encodeURIComponent(location)}` +
+                    `&start=${encodeURIComponent(startTime)}&end=${encodeURIComponent(endTime)}`
+                );
+
+                const result = await response.json();
+
+                if (result.success) {
+                    availableUnits = result.data;
+                    const availableCount = availableUnits.length;
+
+                    if (availableCount >= quantity) {
+                        showAvailabilityResult('available', 
+                            `✓ Có ${availableCount} xe khả dụng tại ${location} cho khung giờ này`
+                        );
+                        isAvailabilityChecked = true;
+                        document.getElementById('addToCartBtn').disabled = false;
+                    } else {
+                        showAvailabilityResult('unavailable', 
+                            `✗ Chỉ còn ${availableCount} xe khả dụng cho khung giờ này, bạn cần ${quantity} xe`
+                        );
+                        isAvailabilityChecked = false;
+                        document.getElementById('addToCartBtn').disabled = true;
+                    }
+                } else {
+                    showAvailabilityResult('unavailable', 'Không thể kiểm tra, vui lòng thử lại');
+                }
+            } catch (error) {
+                console.error('Check availability error:', error);
+                showAvailabilityResult('unavailable', 'Lỗi kết nối');
+            }
+        });
+
+        function showAvailabilityResult(status, message) {
+            const resultDiv = document.getElementById('availabilityResult');
+            const iconClass = status === 'available' ? 'check-circle' : 
+                            status === 'unavailable' ? 'times-circle' : 'exclamation-circle';
+            
+            resultDiv.innerHTML = `
+                <div class="availability-status ${status}">
+                    <i class="fas fa-${iconClass}"></i>
+                    ${message}
+                </div>
+            `;
+        }
+
         document.getElementById('bookingForm')?.addEventListener('submit', async (e) => {
             e.preventDefault();
+
+            if (!isAvailabilityChecked) {
+                showAlert('error', 'Vui lòng kiểm tra xe khả dụng trước');
+                return;
+            }
 
             const formData = {
                 catalog_id: parseInt(catalogId),
                 start_time: document.getElementById('startTime').value,
                 end_time: document.getElementById('endTime').value,
                 pickup_location: document.getElementById('pickupLocation').value,
-                quantity: parseInt(document.getElementById('quantity').value)
+                quantity: parseInt(document.getElementById('quantity').value),
+                available_units: availableUnits.slice(0, parseInt(document.getElementById('quantity').value))
             };
 
-            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const submitBtn = document.getElementById('addToCartBtn');
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang thêm...';
 
@@ -394,20 +745,7 @@ function getVehicleImage($vehicle) {
                 </div>
             `;
         }
-        
-        // Load cart count
-        async function loadCartCount() {
-            try {
-                const response = await fetch('api/cart-count.php');
-                const result = await response.json();
-                if (result.success) {
-                    updateCartBadge(result.count);
-                }
-            } catch (error) {
-                console.error('Failed to load cart count:', error);
-            }
-        }
-        
+
         function updateCartBadge(count) {
             const cartLink = document.querySelector('a[href="cart.php"]');
             if (cartLink) {
@@ -427,8 +765,19 @@ function getVehicleImage($vehicle) {
                 }
             }
         }
-        
-        // Load on page ready
+
+        async function loadCartCount() {
+            try {
+                const response = await fetch('api/cart-count.php');
+                const result = await response.json();
+                if (result.success) {
+                    updateCartBadge(result.count);
+                }
+            } catch (error) {
+                console.error('Failed to load cart count:', error);
+            }
+        }
+
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', loadCartCount);
         } else {

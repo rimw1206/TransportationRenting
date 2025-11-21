@@ -1,8 +1,7 @@
 <?php
 /**
  * ================================================
- * public/my-rentals.php - FIXED PAYMENT METHOD DISPLAY
- * Hiển thị đúng payment method cho từng đơn
+ * public/my-rentals.php - WITH ORDER TRACKING LINK
  * ================================================
  */
 
@@ -21,6 +20,7 @@ $apiClient = new ApiClient();
 $apiClient->setServiceUrl('rental', 'http://localhost:8003');
 $apiClient->setServiceUrl('vehicle', 'http://localhost:8002');
 $apiClient->setServiceUrl('payment', 'http://localhost:8005');
+$apiClient->setServiceUrl('order', 'http://localhost:8004');
 
 // Get filter from query params
 $statusFilter = $_GET['status'] ?? 'all';
@@ -52,7 +52,7 @@ try {
         if ($data && $data['success']) {
             $rentalsData = $data['data'];
             
-            // Enrich rentals with vehicle info
+            // Enrich rentals with vehicle info, payment info, and order info
             foreach ($rentalsData as $rental) {
                 // Get vehicle unit details
                 $vehicleResponse = $apiClient->get('vehicle', '/units/' . $rental['vehicle_id']);
@@ -65,54 +65,49 @@ try {
                     }
                 }
                 
-// Get payment info if exists
-$paymentInfo = null;
-try {
-    $paymentResponse = $apiClient->get('payment', '/payments/transactions?rental_id=' . $rental['rental_id'], [
-        'Authorization: Bearer ' . $token
-    ]);
-    
-    // ✅ Log raw response
-    error_log("=== RENTAL #{$rental['rental_id']} ===");
-    error_log("Payment API Status: " . $paymentResponse['status_code']);
-    error_log("Payment API Raw Response: " . $paymentResponse['raw_response']);
-    
-    if ($paymentResponse['status_code'] === 200) {
-        $pData = json_decode($paymentResponse['raw_response'], true);
-        
-        // ✅ Log parsed data
-        error_log("Parsed Payment Data: " . json_encode($pData, JSON_PRETTY_PRINT));
-        
-        if ($pData && $pData['success'] && isset($pData['data']['items']) && !empty($pData['data']['items'])) {
-            $paymentInfo = $pData['data']['items'][0];
-            
-            // ✅ Log payment method specifically
-            error_log("Payment Method: " . ($paymentInfo['payment_method'] ?? 'MISSING'));
-            error_log("Payment Status: " . ($paymentInfo['status'] ?? 'MISSING'));
-            
-            // ✅ Validate payment method exists
-            if (!isset($paymentInfo['payment_method'])) {
-                error_log("⚠️ WARNING: payment_method missing for rental #{$rental['rental_id']}");
-                $paymentInfo['payment_method'] = 'Unknown';
-            }
-        } else {
-            error_log("⚠️ No payment items found or invalid response structure");
-        }
-    } else {
-        error_log("❌ Payment API returned non-200 status");
-    }
-} catch (Exception $e) {
-    error_log("❌ Payment fetch error for rental #{$rental['rental_id']}: " . $e->getMessage());
-}
-
-// ✅ Final payment info check
-error_log("Final Payment Info: " . json_encode($paymentInfo));
-error_log("===================\n");
+                // Get payment info if exists
+                $paymentInfo = null;
+                try {
+                    $paymentResponse = $apiClient->get('payment', '/payments/transactions?rental_id=' . $rental['rental_id'], [
+                        'Authorization: Bearer ' . $token
+                    ]);
+                    
+                    if ($paymentResponse['status_code'] === 200) {
+                        $pData = json_decode($paymentResponse['raw_response'], true);
+                        
+                        if ($pData && $pData['success'] && isset($pData['data']['items']) && !empty($pData['data']['items'])) {
+                            $paymentInfo = $pData['data']['items'][0];
+                            
+                            if (!isset($paymentInfo['payment_method'])) {
+                                $paymentInfo['payment_method'] = 'Unknown';
+                            }
+                        }
+                    }
+                } catch (Exception $e) {
+                    error_log("Payment fetch error for rental #{$rental['rental_id']}: " . $e->getMessage());
+                }
+                
+                // ✅ Get order info if exists
+                $orderInfo = null;
+                try {
+                    $orderResponse = $apiClient->get('order', '/orders/rental/' . $rental['rental_id']);
+                    
+                    if ($orderResponse['status_code'] === 200) {
+                        $oData = json_decode($orderResponse['raw_response'], true);
+                        
+                        if ($oData && $oData['success']) {
+                            $orderInfo = $oData['data'];
+                        }
+                    }
+                } catch (Exception $e) {
+                    error_log("Order fetch error for rental #{$rental['rental_id']}: " . $e->getMessage());
+                }
                 
                 $rentals[] = [
                     'rental' => $rental,
                     'vehicle' => $vehicleInfo,
-                    'payment' => $paymentInfo
+                    'payment' => $paymentInfo,
+                    'order' => $orderInfo // ✅ Add order info
                 ];
                 
                 // Update stats
@@ -120,8 +115,6 @@ error_log("===================\n");
                 $status = strtolower($rental['status']);
                 if (isset($stats[$status])) {
                     $stats[$status]++;
-                    // Sau line 105 trong my-rentals.php
-                    error_log("Rental #{$rental['rental_id']} - Payment info: " . json_encode($paymentInfo));
                 }
             }
         }
@@ -153,7 +146,6 @@ function getPaymentStatusBadge($status) {
 }
 
 function getPaymentMethodBadge($method) {
-    // ✅ Handle null/empty
     if (empty($method)) {
         return '<span class="badge" style="background: #f3f4f6; color: #6b7280;"><i class="fas fa-question"></i> Chưa rõ</span>';
     }
@@ -184,7 +176,6 @@ function calculateDays($startTime, $endTime) {
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/dashboard_style.css">
     <style>
-        /* Copy all existing styles from document 9 */
         .rentals-container {
             max-width: 1400px;
             margin: 40px auto;
@@ -440,6 +431,17 @@ function calculateDays($startTime, $endTime) {
         
         .btn-success:hover {
             background: #059669;
+        }
+        
+        /* ✅ NEW: Order tracking button styles */
+        .btn-tracking {
+            background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
+            color: white;
+        }
+        
+        .btn-tracking:hover {
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+            transform: translateY(-2px);
         }
         
         .badge {
@@ -706,6 +708,7 @@ function calculateDays($startTime, $endTime) {
                     $rental = $item['rental'];
                     $vehicle = $item['vehicle'];
                     $payment = $item['payment'];
+                    $order = $item['order']; // ✅ Get order info
                     $days = calculateDays($rental['start_time'], $rental['end_time']);
                 ?>
                 <div class="rental-card">
@@ -791,8 +794,19 @@ function calculateDays($startTime, $endTime) {
                                     <?= getPaymentStatusBadge($payment['status'] ?? 'Unknown') ?>
                                 </div>
                                 <?php endif; ?>
+                                
+                                <!-- ✅ Show order tracking status if exists -->
+                                <?php if ($order): ?>
+                                <div class="detail-row">
+                                    <i class="fas fa-truck"></i>
+                                    <strong>Giao xe:</strong> 
+                                    <span class="badge badge-info">
+                                        <?= htmlspecialchars($order['delivery_status']) ?>
+                                    </span>
+                                </div>
+                                <?php endif; ?>
                             </div>
-                                                        
+                            
                             <!-- Actions -->
                             <div class="rental-actions">
                                 <div class="price-box">
@@ -803,7 +817,7 @@ function calculateDays($startTime, $endTime) {
                                 </div>
                                 
                                 <?php 
-                                // ✅ Chỉ hiển thị nút hủy nếu status = Pending
+                                // Chỉ hiển thị nút hủy nếu status = Pending
                                 if ($rental['status'] === 'Pending'): 
                                 ?>
                                     <button class="btn btn-danger" onclick="cancelRental(<?= $rental['rental_id'] ?>)">
@@ -811,13 +825,8 @@ function calculateDays($startTime, $endTime) {
                                     </button>
                                 <?php endif; ?>
                                 
-                               <?php 
-                                // ✅ UPDATED: Chỉ hiển thị nút thanh toán khi:
-                                // - Có payment info
-                                // - Payment method là VNPayQR
-                                // - Payment status là Pending
-                                // - Rental status là Ongoing (đã được admin verify)
-                                // - Rental status KHÔNG phải Cancelled
+                                <?php 
+                                // Hiển thị nút thanh toán khi cần
                                 if ($payment 
                                     && $payment['payment_method'] === 'VNPayQR' 
                                     && $payment['status'] === 'Pending'
@@ -839,7 +848,16 @@ function calculateDays($startTime, $endTime) {
                                 <?php endif; ?>
                                 
                                 <?php 
-                                // ✅ Chỉ hiển thị nút xem hóa đơn nếu payment status = Success
+                                // ✅ NEW: Order tracking button - show if order exists
+                                if ($order): 
+                                ?>
+                                    <a href="order-tracking.php?rental_id=<?= $rental['rental_id'] ?>" class="btn btn-tracking">
+                                        <i class="fas fa-truck"></i> Theo dõi giao xe
+                                    </a>
+                                <?php endif; ?>
+                                
+                                <?php 
+                                // Hiển thị nút xem hóa đơn nếu payment status = Success
                                 if ($payment && $payment['status'] === 'Success'): 
                                 ?>
                                     <a href="invoice.php?rental_id=<?= $rental['rental_id'] ?>" class="btn btn-secondary">
@@ -968,4 +986,4 @@ function calculateDays($startTime, $endTime) {
         <?php endif; ?>
     </script>
 </body>
-</html>
+</html>                

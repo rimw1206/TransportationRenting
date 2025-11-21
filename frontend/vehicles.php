@@ -41,11 +41,11 @@ if ($priceFilter) {
 $queryParams['limit'] = $limit;
 $queryParams['offset'] = $offset;
 
-// Fetch vehicles
+// ✅ FIX: Fetch ALL vehicles (giống dashboard)
 $vehicles = [];
 $totalVehicles = 0;
 try {
-    $endpoint = '/available?' . http_build_query($queryParams);
+    $endpoint = '/vehicles/all?' . http_build_query($queryParams);
     $response = $apiClient->get('vehicle', $endpoint);
     
     if ($response['status_code'] === 200) {
@@ -125,7 +125,6 @@ function buildUrl($params) {
             </div>
             
             <div class="nav-actions">
-                <!-- Cart Button -->
                 <a href="cart.php" class="nav-icon-btn" title="Giỏ hàng" style="position: relative; text-decoration: none; color: inherit;">
                     <i class="fas fa-shopping-cart"></i>
                     <?php if (isset($_SESSION['cart']) && count($_SESSION['cart']) > 0): ?>
@@ -133,13 +132,11 @@ function buildUrl($params) {
                     <?php endif; ?>
                 </a>
                 
-                <!-- Notification Button -->
                 <button class="nav-icon-btn" title="Thông báo">
                     <i class="fas fa-bell"></i>
                     <span class="badge">3</span>
                 </button>
                 
-                <!-- User Menu -->
                 <div class="user-menu">
                     <button class="user-btn" id="userBtn">
                         <img src="https://ui-avatars.com/api/?name=<?= urlencode($user['name']) ?>&background=4F46E5&color=fff" alt="Avatar">
@@ -184,7 +181,7 @@ function buildUrl($params) {
             </h1>
             
             <div class="search-info">
-                <span><strong><?= number_format($totalVehicles) ?></strong> xe được tìm thấy</span>
+                <span><strong><?= number_format($totalVehicles) ?></strong> loại xe được tìm thấy</span>
             </div>
             
             <?php if ($searchQuery || $typeFilter || $priceFilter): ?>
@@ -285,7 +282,7 @@ function buildUrl($params) {
             <div class="results-main">
                 <div class="sort-bar">
                     <span style="color: #666; font-size: 14px;">
-                        Hiển thị <?= count($vehicles) ?> / <?= $totalVehicles ?> xe
+                        Hiển thị <?= count($vehicles) ?> / <?= $totalVehicles ?> loại xe
                     </span>
                     <select onchange="sortResults(this.value)">
                         <option value="default">Sắp xếp mặc định</option>
@@ -324,7 +321,7 @@ function buildUrl($params) {
                                 
                                 <div class="vehicle-features">
                                     <span><i class="fas fa-calendar"></i> <?= $vehicle['year'] ?></span>
-                                    <span><i class="fas fa-car"></i> <?= $vehicle['available_count'] ?> xe</span>
+                                    <span><i class="fas fa-warehouse"></i> <?= $vehicle['total_units'] ?? 0 ?> xe trong kho</span>
                                 </div>
                                 
                                 <div class="vehicle-footer">
@@ -333,7 +330,7 @@ function buildUrl($params) {
                                         <span class="price-amount"><?= number_format($vehicle['daily_rate']) ?>đ</span>
                                     </div>
                                     <button class="btn-rent" onclick="rentVehicle(<?= $vehicle['catalog_id'] ?>)">
-                                        <i class="fas fa-calendar-check"></i> Thuê ngay
+                                        <i class="fas fa-calendar-check"></i> Đặt xe
                                     </button>
                                 </div>
                             </div>
@@ -424,7 +421,6 @@ function buildUrl($params) {
             userDropdown?.classList.remove('show');
         });
         
-        // FIX: Use catalog_id instead of vehicle_id
         function rentVehicle(catalogId) {
             window.location.href = `vehicle-details.php?id=${catalogId}`;
         }

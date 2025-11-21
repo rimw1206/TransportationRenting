@@ -257,3 +257,74 @@
 [20-Nov-2025 01:51:12 Europe/Berlin] AuthService result success: true
 [20-Nov-2025 01:51:12 Europe/Berlin] Login successful for user: user1
 [20-Nov-2025 01:51:12 Europe/Berlin] Token length: 233
+[20-Nov-2025 02:09:02 Europe/Berlin] === LOGIN API REQUEST ===
+[20-Nov-2025 02:09:02 Europe/Berlin] Method: POST
+[20-Nov-2025 02:09:02 Europe/Berlin] Content-Type: application/json
+[20-Nov-2025 02:09:02 Europe/Berlin] Raw body length: 41
+[20-Nov-2025 02:09:02 Europe/Berlin] Parsed data: {"username":"user1","password":"user123"}
+[20-Nov-2025 02:09:02 Europe/Berlin] Login attempt - Username: user1
+[20-Nov-2025 02:09:02 Europe/Berlin] AuthService result success: true
+[20-Nov-2025 02:09:02 Europe/Berlin] Login successful for user: user1
+[20-Nov-2025 02:09:02 Europe/Berlin] Token length: 233
+[20-Nov-2025 02:24:52 Europe/Berlin] === LOGIN API REQUEST ===
+[20-Nov-2025 02:24:52 Europe/Berlin] Method: POST
+[20-Nov-2025 02:24:52 Europe/Berlin] Content-Type: application/json
+[20-Nov-2025 02:24:52 Europe/Berlin] Raw body length: 41
+[20-Nov-2025 02:24:52 Europe/Berlin] Parsed data: {"username":"user1","password":"user123"}
+[20-Nov-2025 02:24:52 Europe/Berlin] Login attempt - Username: user1
+[20-Nov-2025 02:24:53 Europe/Berlin] AuthService result success: true
+[20-Nov-2025 02:24:53 Europe/Berlin] Login successful for user: user1
+[20-Nov-2025 02:24:53 Europe/Berlin] Token length: 233
+[20-Nov-2025 04:37:42 Europe/Berlin] === LOGIN API REQUEST ===
+[20-Nov-2025 04:37:42 Europe/Berlin] Method: POST
+[20-Nov-2025 04:37:42 Europe/Berlin] Content-Type: application/json
+[20-Nov-2025 04:37:42 Europe/Berlin] Raw body length: 41
+[20-Nov-2025 04:37:42 Europe/Berlin] Parsed data: {"username":"user1","password":"user123"}
+[20-Nov-2025 04:37:42 Europe/Berlin] Login attempt - Username: user1
+[20-Nov-2025 04:37:42 Europe/Berlin] AuthService result success: true
+[20-Nov-2025 04:37:42 Europe/Berlin] Login successful for user: user1
+[20-Nov-2025 04:37:42 Europe/Berlin] Token length: 233
+[20-Nov-2025 05:11:05 Europe/Berlin] === LOGIN API REQUEST ===
+[20-Nov-2025 05:11:05 Europe/Berlin] Method: POST
+[20-Nov-2025 05:11:05 Europe/Berlin] Content-Type: application/json
+[20-Nov-2025 05:11:05 Europe/Berlin] Raw body length: 41
+[20-Nov-2025 05:11:05 Europe/Berlin] Parsed data: {"username":"user1","password":"user123"}
+[20-Nov-2025 05:11:05 Europe/Berlin] Login attempt - Username: user1
+[20-Nov-2025 05:11:05 Europe/Berlin] AuthService result success: true
+[20-Nov-2025 05:11:05 Europe/Berlin] Login successful for user: user1
+[20-Nov-2025 05:11:05 Europe/Berlin] Token length: 233
+[20-Nov-2025 10:27:21 Europe/Berlin] === LOGIN API REQUEST ===
+[20-Nov-2025 10:27:21 Europe/Berlin] Method: POST
+[20-Nov-2025 10:27:21 Europe/Berlin] Content-Type: application/json
+[20-Nov-2025 10:27:21 Europe/Berlin] Raw body length: 41
+[20-Nov-2025 10:27:21 Europe/Berlin] Parsed data: {"username":"user1","password":"user123"}
+[20-Nov-2025 10:27:21 Europe/Berlin] Login attempt - Username: user1
+[20-Nov-2025 10:27:22 Europe/Berlin] AuthService result success: true
+[20-Nov-2025 10:27:22 Europe/Berlin] Login successful for user: user1
+[20-Nov-2025 10:27:22 Europe/Berlin] Token length: 233
+[21-Nov-2025 03:34:12 Europe/Berlin] === LOGIN API REQUEST ===
+[21-Nov-2025 03:34:12 Europe/Berlin] Method: POST
+[21-Nov-2025 03:34:12 Europe/Berlin] Content-Type: application/json
+[21-Nov-2025 03:34:12 Europe/Berlin] Raw body length: 41
+[21-Nov-2025 03:34:12 Europe/Berlin] Parsed data: {"username":"user1","password":"user123"}
+[21-Nov-2025 03:34:12 Europe/Berlin] Login attempt - Username: user1
+[21-Nov-2025 03:34:13 Europe/Berlin] AuthService result success: true
+[21-Nov-2025 03:34:13 Europe/Berlin] Login successful for user: user1
+[21-Nov-2025 03:34:13 Europe/Berlin] Token length: 233
+[21-Nov-2025 03:39:02 Europe/Berlin] === LOGIN API REQUEST ===
+[21-Nov-2025 03:39:02 Europe/Berlin] Method: POST
+[21-Nov-2025 03:39:02 Europe/Berlin] Content-Type: application/json
+[21-Nov-2025 03:39:02 Europe/Berlin] Raw body length: 43
+[21-Nov-2025 03:39:02 Europe/Berlin] Parsed data: {"username":"admin","password":"admin1123"}
+[21-Nov-2025 03:39:02 Europe/Berlin] Login attempt - Username: admin
+[21-Nov-2025 03:39:02 Europe/Berlin] AuthService result success: false
+[21-Nov-2025 03:39:02 Europe/Berlin] Login failed: Tên đăng nhập hoặc mật khẩu không đúng
+[21-Nov-2025 03:39:05 Europe/Berlin] === LOGIN API REQUEST ===
+[21-Nov-2025 03:39:05 Europe/Berlin] Method: POST
+[21-Nov-2025 03:39:05 Europe/Berlin] Content-Type: application/json
+[21-Nov-2025 03:39:05 Europe/Berlin] Raw body length: 42
+[21-Nov-2025 03:39:05 Europe/Berlin] Parsed data: {"username":"admin","password":"admin123"}
+[21-Nov-2025 03:39:05 Europe/Berlin] Login attempt - Username: admin
+[21-Nov-2025 03:39:05 Europe/Berlin] AuthService result success: true
+[21-Nov-2025 03:39:05 Europe/Berlin] Login successful for user: admin
+[21-Nov-2025 03:39:05 Europe/Berlin] Token length: 236

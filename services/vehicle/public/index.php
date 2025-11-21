@@ -144,7 +144,29 @@ if (preg_match('#^/units/available$#', $uri) && $requestMethod === 'GET') {
 }
 // Initialize service
 $vehicleService = new VehicleService();
+// GET /vehicles/all - Get every vehicle catalog (no filter)
+if ($uri === '/vehicles/all' && $requestMethod === 'GET') {
+    try {
+        $result = $vehicleService->getAllVehicles([]);
 
+        if ($result['success']) {
+            ApiResponse::success(
+                $result['data'],
+                "All vehicles retrieved",
+                [
+                    "total" => $result['total'] ?? count($result['data'])
+                ]
+            );
+        } else {
+            ApiResponse::error($result['message'], 500);
+        }
+
+    } catch (Exception $e) {
+        error_log("Error getAllVehicles: " . $e->getMessage());
+        ApiResponse::error("Failed to retrieve vehicles", 500);
+    }
+    exit;
+}
 try {
     // Get query parameters
     $queryParams = $_GET;

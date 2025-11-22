@@ -14503,3 +14503,5 @@ Stack trace:
 [22-Nov-2025 02:58:00 Europe/Berlin] Vehicle API Request: GET /units/10
 [22-Nov-2025 02:58:01 Europe/Berlin] Vehicle API Request: GET /vehicles/all
 [22-Nov-2025 02:58:01 Europe/Berlin] GET /vehicles/all with filters: {"limit":50,"offset":0}
+[22-Nov-2025 03:02:06 Europe/Berlin] Vehicle API Request: GET /vehicles/all
+[22-Nov-2025 03:02:06 Europe/Berlin] GET /vehicles/all with filters: {"limit":50,"offset":0}

@@ -1,6 +1,12 @@
-<?php 
+<?php
+/**
+ * ============================================
+ * services/customer/api/kyc/get.php
+ * Get KYC status của user hiện tại
+ * ============================================
+ */
 
-require_once __DIR__ . '/../../../..//env-bootstrap.php';
+require_once __DIR__ . '/../../../../env-bootstrap.php';
 require_once __DIR__ . '/../../classes/KYC.php';
 require_once __DIR__ . '/../../../../shared/classes/JWTHandler.php';
 require_once __DIR__ . '/../../../../shared/classes/ApiResponse.php';
@@ -20,25 +26,29 @@ if (!$token) {
 try {
     // Verify token
     $jwtHandler = new JWTHandler();
-    $decoded = $jwtHandler->decode($token); // Changed from verify()
+    $decoded = $jwtHandler->decode($token);
     
-    if (!$decoded) {
+    if (!$decoded || !isset($decoded['user_id'])) {
         ApiResponse::unauthorized('Invalid token');
     }
     
-    $userId = $decoded['user_id']; // Changed from $decode->user_id
+    $userId = $decoded['user_id'];
     
     // Get KYC status
     $kycModel = new KYC();
     $kyc = $kycModel->getByUserId($userId);
     
+    // ✅ FIX: Return empty data thay vì null
     if (!$kyc) {
-        ApiResponse::success(null, 'No KYC found');
+        ApiResponse::success([
+            'kyc_status' => 'not_submitted',
+            'message' => 'User has not submitted KYC yet'
+        ], 'No KYC found');
     }
     
     ApiResponse::success($kyc, 'KYC retrieved successfully');
     
 } catch (Exception $e) {
     error_log('Get KYC error: ' . $e->getMessage());
-    ApiResponse::error('Failed to get KYC', 500);
+    ApiResponse::error('Failed to get KYC: ' . $e->getMessage(), 500);
 }

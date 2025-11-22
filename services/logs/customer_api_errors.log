@@ -832,3 +832,12 @@
 [22-Nov-2025 02:21:01 Europe/Berlin] AuthService result success: true
 [22-Nov-2025 02:21:01 Europe/Berlin] Login successful for user: user
 [22-Nov-2025 02:21:01 Europe/Berlin] Token length: 223
+[22-Nov-2025 03:02:06 Europe/Berlin] === LOGIN API REQUEST ===
+[22-Nov-2025 03:02:06 Europe/Berlin] Method: POST
+[22-Nov-2025 03:02:06 Europe/Berlin] Content-Type: application/json
+[22-Nov-2025 03:02:06 Europe/Berlin] Raw body length: 41
+[22-Nov-2025 03:02:06 Europe/Berlin] Parsed data: {"username":"user1","password":"user123"}
+[22-Nov-2025 03:02:06 Europe/Berlin] Login attempt - Username: user1
+[22-Nov-2025 03:02:06 Europe/Berlin] AuthService result success: true
+[22-Nov-2025 03:02:06 Europe/Berlin] Login successful for user: user1
+[22-Nov-2025 03:02:06 Europe/Berlin] Token length: 233

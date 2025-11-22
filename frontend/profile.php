@@ -812,18 +812,45 @@ if (!empty($paymentMethods)) {
 
                 <!-- Tab: KYC -->
                 <div class="tab-content" id="tab-kyc">
-                    <?php if ($kycStatus && $kycStatus['verification_status'] === 'Verified'): ?>
+                    <?php if ($kycStatus && isset($kycStatus['verification_status']) && $kycStatus['verification_status'] === 'Verified'): ?>
+                        <!-- ✅ KYC đã được xác thực -->
                         <div class="kyc-card">
                             <h3><i class="fas fa-check-circle"></i> Tài khoản đã được xác thực</h3>
-                            <p>Số CMND/CCCD: <?= htmlspecialchars($kycStatus['identity_number'] ?? '') ?></p>
+                            <p>Số CMND/CCCD: <?= htmlspecialchars($kycStatus['identity_number'] ?? 'N/A') ?></p>
                             <p>Xác thực lúc: <?= isset($kycStatus['verified_at']) ? date('d/m/Y H:i', strtotime($kycStatus['verified_at'])) : 'N/A' ?></p>
                         </div>
-                    <?php elseif ($kycStatus && $kycStatus['verification_status'] === 'Pending'): ?>
+                        
+                    <?php elseif ($kycStatus && isset($kycStatus['verification_status']) && $kycStatus['verification_status'] === 'Pending'): ?>
+                        <!-- ⏳ KYC đang chờ xét duyệt -->
                         <div class="alert alert-warning">
                             <i class="fas fa-clock"></i>
                             <span>KYC của bạn đang được xem xét. Vui lòng chờ xác nhận.</span>
                         </div>
+                        
+                        <div class="info-grid" style="margin-top: 20px;">
+                            <div class="info-item">
+                                <label>Số CMND/CCCD</label>
+                                <div class="value"><?= htmlspecialchars($kycStatus['identity_number'] ?? 'N/A') ?></div>
+                            </div>
+                            <div class="info-item">
+                                <label>Trạng thái</label>
+                                <div class="value"><?= getStatusBadge('Pending') ?></div>
+                            </div>
+                        </div>
+                        
+                    <?php elseif ($kycStatus && isset($kycStatus['verification_status']) && $kycStatus['verification_status'] === 'Rejected'): ?>
+                        <!-- ❌ KYC bị từ chối -->
+                        <div class="alert alert-error">
+                            <i class="fas fa-times-circle"></i>
+                            <span>KYC của bạn đã bị từ chối. Vui lòng gửi lại với thông tin chính xác.</span>
+                        </div>
+                        
+                        <button class="btn-primary" onclick="showKYCModal()" style="margin-top: 15px;">
+                            <i class="fas fa-redo"></i> Gửi lại KYC
+                        </button>
+                        
                     <?php else: ?>
+                        <!-- 🆕 Chưa có KYC hoặc API trả về null -->
                         <div class="kyc-card kyc-unverified">
                             <h3><i class="fas fa-exclamation-triangle"></i> Chưa xác thực tài khoản</h3>
                             <p>Vui lòng hoàn thành xác thực KYC để sử dụng đầy đủ tính năng</p>
@@ -944,20 +971,60 @@ if (!empty($paymentMethods)) {
                 <h2>Xác thực tài khoản (KYC)</h2>
                 <button class="btn-close" onclick="closeModal('kycModal')">&times;</button>
             </div>
+            
             <form id="kycForm" onsubmit="submitKYC(event)">
+                <!-- Số CMND/CCCD -->
                 <div class="form-group">
-                    <label>Số CMND/CCCD</label>
-                    <input type="text" name="identity_number" required>
+                    <label>Số CMND/CCCD <span style="color: red;">*</span></label>
+                    <input 
+                        type="text" 
+                        name="identity_number" 
+                        placeholder="Nhập 9 hoặc 12 số"
+                        pattern="\d{9}|\d{12}"
+                        required
+                        maxlength="12"
+                        oninput="this.value = this.value.replace(/\D/g, '')"
+                    >
+                    <p class="help-text">
+                        <i class="fas fa-info-circle"></i>
+                        Nhập đúng số CMND (9 số) hoặc CCCD (12 số)
+                    </p>
                 </div>
                 
+                <!-- Ảnh mặt trước -->
                 <div class="form-group">
-                    <label>Ảnh mặt trước CMND/CCCD</label>
-                    <input type="file" name="id_card_front" accept="image/*" required>
+                    <label>Ảnh mặt trước CMND/CCCD <span style="color: red;">*</span></label>
+                    <input 
+                        type="file" 
+                        name="id_card_front" 
+                        id="frontImage"
+                        accept="image/jpeg,image/jpg,image/png"
+                        required
+                        onchange="previewImage(this, 'frontPreview')"
+                    >
+                    <div id="frontPreview" style="margin-top: 10px;"></div>
+                    <p class="help-text">
+                        <i class="fas fa-image"></i>
+                        Chấp nhận JPG, PNG. Tối đa 5MB
+                    </p>
                 </div>
                 
+                <!-- Ảnh mặt sau -->
                 <div class="form-group">
-                    <label>Ảnh mặt sau CMND/CCCD</label>
-                    <input type="file" name="id_card_back" accept="image/*" required>
+                    <label>Ảnh mặt sau CMND/CCCD <span style="color: red;">*</span></label>
+                    <input 
+                        type="file" 
+                        name="id_card_back"
+                        id="backImage" 
+                        accept="image/jpeg,image/jpg,image/png"
+                        required
+                        onchange="previewImage(this, 'backPreview')"
+                    >
+                    <div id="backPreview" style="margin-top: 10px;"></div>
+                    <p class="help-text">
+                        <i class="fas fa-image"></i>
+                        Chấp nhận JPG, PNG. Tối đa 5MB
+                    </p>
                 </div>
                 
                 <button type="submit" class="btn-primary" style="width: 100%;">
@@ -1149,32 +1216,103 @@ if (!empty($paymentMethods)) {
         });
 
         // Submit KYC
+        // ❌ Code cũ (nếu đang dùng JSON)
+        // ✅ SUBMIT KYC - Gọi TRỰC TIẾP customer service (bypass gateway)
         async function submitKYC(event) {
             event.preventDefault();
             
             const formData = new FormData(event.target);
             
+            // ✅ Validate trước khi gửi
+            const identityNumber = formData.get('identity_number');
+            const frontImage = formData.get('id_card_front');
+            const backImage = formData.get('id_card_back');
+            
+            if (!identityNumber || identityNumber.trim() === '') {
+                alert('Vui lòng nhập số CMND/CCCD');
+                return;
+            }
+            
+            // Validate format (9 hoặc 12 số)
+            if (!/^\d{9}$|^\d{12}$/.test(identityNumber)) {
+                alert('Số CMND/CCCD phải là 9 hoặc 12 số');
+                return;
+            }
+            
+            if (!frontImage || frontImage.size === 0) {
+                alert('Vui lòng chọn ảnh mặt trước CMND/CCCD');
+                return;
+            }
+            
+            if (!backImage || backImage.size === 0) {
+                alert('Vui lòng chọn ảnh mặt sau CMND/CCCD');
+                return;
+            }
+            
+            // Validate file size (max 5MB)
+            if (frontImage.size > 5 * 1024 * 1024) {
+                alert('Ảnh mặt trước không được vượt quá 5MB');
+                return;
+            }
+            
+            if (backImage.size > 5 * 1024 * 1024) {
+                alert('Ảnh mặt sau không được vượt quá 5MB');
+                return;
+            }
+            
+            // Validate file type
+            const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+            if (!allowedTypes.includes(frontImage.type)) {
+                alert('Ảnh mặt trước phải là JPG hoặc PNG');
+                return;
+            }
+            
+            if (!allowedTypes.includes(backImage.type)) {
+                alert('Ảnh mặt sau phải là JPG hoặc PNG');
+                return;
+            }
+            
+            console.log('=== KYC Submit Debug ===');
+            console.log('Identity Number:', identityNumber);
+            console.log('Front Image:', frontImage.name, frontImage.size, 'bytes');
+            console.log('Back Image:', backImage.name, backImage.size, 'bytes');
+            
+            // Show loading
+            const submitBtn = event.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang gửi...';
+            
             try {
-                const response = await fetch(`${API_BASE}/kyc`, {
+                // ✅ GỌI TRỰC TIẾP customer service (port 8001) - BYPASS GATEWAY
+                const response = await fetch('http://localhost:8001/kyc', {
                     method: 'POST',
                     headers: {
                         'Authorization': `Bearer ${AUTH_TOKEN}`
+                        // ❌ KHÔNG thêm Content-Type khi dùng FormData
                     },
                     body: formData
                 });
                 
+                console.log('Response status:', response.status);
+                
                 const result = await response.json();
+                console.log('Response:', result);
                 
                 if (result.success) {
-                    alert('Gửi KYC thành công! Vui lòng chờ xác nhận.');
+                    alert('✅ Gửi KYC thành công!\n\nThông tin của bạn đang được xem xét. Vui lòng chờ xác nhận từ quản trị viên.');
                     closeModal('kycModal');
                     setTimeout(() => location.reload(), 1000);
                 } else {
-                    alert(result.message || 'Có lỗi xảy ra');
+                    alert('❌ ' + (result.message || 'Có lỗi xảy ra'));
                 }
             } catch (error) {
                 console.error('Error:', error);
-                alert('Không thể kết nối đến server');
+                alert('❌ Không thể kết nối đến server: ' + error.message);
+            } finally {
+                // Restore button
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
             }
         }
 
@@ -1394,6 +1532,54 @@ if (!empty($paymentMethods)) {
                 console.error('Error:', error);
                 alert('Không thể kết nối đến server');
             }
+        }
+        function previewImage(input, previewId) {
+            const preview = document.getElementById(previewId);
+            
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+                
+                // Validate file size (max 5MB)
+                if (file.size > 5 * 1024 * 1024) {
+                    alert('Kích thước file không được vượt quá 5MB');
+                    input.value = '';
+                    preview.innerHTML = '';
+                    return;
+                }
+                
+                // Validate file type
+                if (!file.type.match('image/(jpeg|jpg|png)')) {
+                    alert('Chỉ chấp nhận file JPG, PNG');
+                    input.value = '';
+                    preview.innerHTML = '';
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.innerHTML = `
+                        <div style="position: relative; display: inline-block;">
+                            <img src="${e.target.result}" 
+                                style="max-width: 100%; max-height: 200px; border-radius: 8px; border: 2px solid #4F46E5;">
+                            <button type="button" 
+                                    onclick="clearImage('${input.id}', '${previewId}')"
+                                    style="position: absolute; top: 5px; right: 5px; background: #DC2626; color: white; border: none; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; font-size: 14px;">
+                                ✕
+                            </button>
+                        </div>
+                        <p style="font-size: 12px; color: #666; margin-top: 5px;">
+                            ${file.name} (${(file.size / 1024).toFixed(2)} KB)
+                        </p>
+                    `;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // ✅ Clear image preview
+        function clearImage(inputId, previewId) {
+            document.getElementById(inputId).value = '';
+            document.getElementById(previewId).innerHTML = '';
         }
     </script>
 </body>

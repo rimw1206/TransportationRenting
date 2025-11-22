@@ -1,8 +1,8 @@
 <?php
 
 class RateLimitMiddleware {
-    private static $maxRequests = 100; // requests per window
-    private static $timeWindow = 60;   // seconds
+    private static $maxRequests = 1000; // requests per window
+    private static $timeWindow = 30;   // seconds
     
     public static function handle() {
         $clientIp = self::getClientIp();

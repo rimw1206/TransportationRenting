@@ -1,17 +1,17 @@
 <?php
-// ========================================
-// services/vehicle/public/index.php
-// Vehicle Service API - COMPLETE VERSION
-// Port: 8002
-// ========================================
+/**
+ * ========================================
+ * services/vehicle/public/index.php
+ * Vehicle Service API - CLEANED VERSION
+ * Port: 8002
+ * ========================================
+ */
 
-// Enable error reporting for debugging
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 ini_set('log_errors', 1);
 ini_set('error_log', __DIR__ . '/../../logs/vehicle_errors.log');
 
-// Create logs directory if not exists
 if (!is_dir(__DIR__ . '/../../logs')) {
     mkdir(__DIR__ . '/../../logs', 0777, true);
 }
@@ -26,7 +26,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit;
 }
 
-// Load required files
 require_once __DIR__ . '/../../../shared/classes/DatabaseManager.php';
 require_once __DIR__ . '/../../../shared/classes/ApiResponse.php';
 require_once __DIR__ . '/../classes/Vehicle.php';
@@ -45,13 +44,12 @@ if (strpos($uri, $prefix) === 0) {
     if ($uri === '') $uri = '/';
 }
 
-// Log request
 error_log("Vehicle API Request: $requestMethod $uri");
 
-// Parse path segments
 $segments = array_values(array_filter(explode('/', $uri)));
+$queryParams = $_GET;
 
-// Health check endpoint
+// ===== HEALTH CHECK =====
 if ($uri === '/health' || (isset($segments[0]) && $segments[0] === 'health')) {
     try {
         $db = DatabaseManager::getInstance('vehicle');
@@ -75,21 +73,20 @@ if ($uri === '/health' || (isset($segments[0]) && $segments[0] === 'health')) {
     }
     exit;
 }
+
 // ===== UNIT ENDPOINTS =====
 
-// Get unit by ID (GET /units/{id})
+// GET /units/{id}
 if (preg_match('#^/units/(\d+)$#', $uri, $matches) && $requestMethod === 'GET') {
-    $unitId = (int)$matches[1];
-    
     try {
         $vehicle = new Vehicle();
-        $unit = $vehicle->getUnitById($unitId);
+        $unit = $vehicle->getUnitById((int)$matches[1]);
         
         if (!$unit) {
             ApiResponse::notFound('Vehicle unit not found');
         }
         
-        ApiResponse::success($unit, 'Vehicle unit retrieved successfully');
+        ApiResponse::success($unit, 'Vehicle unit retrieved');
     } catch (Exception $e) {
         error_log("Get unit error: " . $e->getMessage());
         ApiResponse::error('Failed to get vehicle unit', 500);
@@ -97,9 +94,8 @@ if (preg_match('#^/units/(\d+)$#', $uri, $matches) && $requestMethod === 'GET') 
     exit;
 }
 
-// Check unit availability (GET /units/{id}/available?start=...&end=...)
+// GET /units/{id}/available?start=...&end=...
 if (preg_match('#^/units/(\d+)/available$#', $uri, $matches) && $requestMethod === 'GET') {
-    $unitId = (int)$matches[1];
     $startTime = $_GET['start'] ?? null;
     $endTime = $_GET['end'] ?? null;
     
@@ -109,69 +105,49 @@ if (preg_match('#^/units/(\d+)/available$#', $uri, $matches) && $requestMethod =
     
     try {
         $vehicle = new Vehicle();
-        $unit = $vehicle->getUnitById($unitId);
+        $unit = $vehicle->getUnitById((int)$matches[1]);
         
         if (!$unit) {
             ApiResponse::notFound('Vehicle unit not found');
         }
         
-        $isAvailable = $vehicle->isUnitAvailable($unitId, $startTime, $endTime);
+        $isAvailable = $vehicle->isUnitAvailable((int)$matches[1], $startTime, $endTime);
         
         ApiResponse::success([
-            'unit_id' => $unitId,
+            'unit_id' => (int)$matches[1],
             'available' => $isAvailable,
             'start_time' => $startTime,
             'end_time' => $endTime,
             'unit' => $unit
         ], 'Availability checked');
-        
     } catch (Exception $e) {
-        error_log("Check unit availability error: " . $e->getMessage());
+        error_log("Check availability error: " . $e->getMessage());
         ApiResponse::error('Failed to check availability', 500);
     }
     exit;
 }
+
+// GET /units/available (with filters)
+if (preg_match('#^/units/available$#', $uri) && $requestMethod === 'GET') {
+    require_once __DIR__ . '/get-available-units.php';
+    exit;
+}
+
+// ===== CATALOG ENDPOINTS =====
+
+// GET /catalogs/{id}
 if (preg_match('#^/catalogs/(\d+)$#', $uri, $matches) && $requestMethod === 'GET') {
     $_GET['catalog_id'] = $matches[1];
     require_once __DIR__ . '/get-catalog.php';
     exit;
 }
 
-// Get available units
-if (preg_match('#^/units/available$#', $uri) && $requestMethod === 'GET') {
-    require_once __DIR__ . '/get-available-units.php';
-    exit;
-}
-// Initialize service
+// ===== MAIN ROUTES =====
+
 $vehicleService = new VehicleService();
-// GET /vehicles/all - Get every vehicle catalog (no filter)
-if ($uri === '/vehicles/all' && $requestMethod === 'GET') {
-    try {
-        $result = $vehicleService->getAllVehicles([]);
 
-        if ($result['success']) {
-            ApiResponse::success(
-                $result['data'],
-                "All vehicles retrieved",
-                [
-                    "total" => $result['total'] ?? count($result['data'])
-                ]
-            );
-        } else {
-            ApiResponse::error($result['message'], 500);
-        }
-
-    } catch (Exception $e) {
-        error_log("Error getAllVehicles: " . $e->getMessage());
-        ApiResponse::error("Failed to retrieve vehicles", 500);
-    }
-    exit;
-}
 try {
-    // Get query parameters
-    $queryParams = $_GET;
-    
-    // Get request body for POST/PUT
+    // GET request body for POST/PUT
     $requestBody = null;
     if (in_array($requestMethod, ['POST', 'PUT', 'PATCH'])) {
         $body = file_get_contents('php://input');
@@ -182,161 +158,232 @@ try {
         }
     }
     
-    // Route handling
-    switch ($requestMethod) {
-        case 'GET':
-            if (empty($segments)) {
-                // GET / or /vehicles - Get all vehicles
-                $filters = [
-                    'type' => $queryParams['type'] ?? null,
-                    'brand' => $queryParams['brand'] ?? null,
-                    'search' => $queryParams['search'] ?? null,
-                    'min_price' => $queryParams['min_price'] ?? null,
-                    'max_price' => $queryParams['max_price'] ?? null,
-                    'limit' => $queryParams['limit'] ?? 50,
-                    'offset' => $queryParams['offset'] ?? 0
-                ];
-                
-                error_log("Getting all vehicles with filters: " . json_encode($filters));
-                $result = $vehicleService->getAllVehicles(array_filter($filters, function($v) { return $v !== null; }));
-                
-                if ($result['success']) {
-                    ApiResponse::success($result['data'], $result['message'] ?? 'Vehicles retrieved', ['total' => $result['total'] ?? count($result['data'])]);
-                } else {
-                    ApiResponse::error($result['message'], 500);
-                }
-                
-            } elseif ($segments[0] === 'available') {
-                // GET /available - Get available vehicles
-                $filters = [
-                    'type' => $queryParams['type'] ?? null,
-                    'brand' => $queryParams['brand'] ?? null,
-                    'search' => $queryParams['search'] ?? null,
-                    'min_price' => $queryParams['min_price'] ?? null,
-                    'max_price' => $queryParams['max_price'] ?? null,
-                    'limit' => $queryParams['limit'] ?? 50,
-                    'offset' => $queryParams['offset'] ?? 0
-                ];
-                
-                error_log("Getting available vehicles with filters: " . json_encode($filters));
-                $result = $vehicleService->getAvailableVehicles(array_filter($filters, function($v) { return $v !== null; }));
-                
-                if ($result['success']) {
-                    ApiResponse::success($result['data'], $result['message'] ?? 'Available vehicles retrieved', ['total' => $result['total'] ?? count($result['data'])]);
-                } else {
-                    ApiResponse::error($result['message'], 500);
-                }
-                
-            } elseif ($segments[0] === 'stats') {
-                // GET /stats - Get statistics
-                $result = $vehicleService->getStatistics();
-                
-                if ($result['success']) {
-                    ApiResponse::success($result['data'], 'Statistics retrieved');
-                } else {
-                    ApiResponse::error($result['message'], 500);
-                }
-                
-            } elseif ($segments[0] === 'search') {
-                // GET /search?q=query
-                $query = $queryParams['q'] ?? '';
-                
-                if (empty($query)) {
-                    ApiResponse::badRequest('Search query is required');
-                }
-                
-                $filters = [
-                    'type' => $queryParams['type'] ?? null,
-                    'limit' => $queryParams['limit'] ?? 50
-                ];
-                
-                $result = $vehicleService->searchVehicles($query, array_filter($filters, function($v) { return $v !== null; }));
-                
-                if ($result['success']) {
-                    ApiResponse::success($result['data'], 'Search results', ['total' => $result['total'] ?? count($result['data'])]);
-                } else {
-                    ApiResponse::error($result['message'], 500);
-                }
-                
-            } elseif (is_numeric($segments[0])) {
-                // GET /vehicles/{id} - Get catalog details
-                $catalogId = (int)$segments[0];
-                $result = $vehicleService->getVehicleDetails($catalogId);
-                
-                if ($result['success']) {
-                    ApiResponse::success($result['data'], 'Vehicle details retrieved');
-                } else {
-                    ApiResponse::notFound($result['message']);
-                }
-                
-            } else {
-                ApiResponse::notFound('Endpoint not found');
-            }
-            break;
+    // ===== GET ROUTES =====
+    if ($requestMethod === 'GET') {
+        
+        // GET /vehicles/all - Main endpoint with filters
+        if ($uri === '/vehicles/all') {
+            $filters = [
+                'type' => $queryParams['type'] ?? null,
+                'brand' => $queryParams['brand'] ?? null,
+                'search' => $queryParams['search'] ?? null,
+                'min_price' => $queryParams['min_price'] ?? null,
+                'max_price' => $queryParams['max_price'] ?? null,
+                'limit' => isset($queryParams['limit']) ? (int)$queryParams['limit'] : 50,
+                'offset' => isset($queryParams['offset']) ? (int)$queryParams['offset'] : 0
+            ];
             
-        case 'POST':
-            if (empty($segments)) {
-                // POST /vehicles - Create vehicle
-                if (!$requestBody) {
-                    ApiResponse::badRequest('Request body is required');
-                }
-                
-                $result = $vehicleService->createVehicle($requestBody);
-                
-                if ($result['success']) {
-                    ApiResponse::created($result['data'], $result['message']);
-                } else {
-                    ApiResponse::badRequest($result['message']);
-                }
-                
-            } elseif ($segments[0] === 'reserve') {
-                // POST /vehicles/reserve
-                if (!$requestBody || !isset($requestBody['catalog_id']) || !isset($requestBody['quantity'])) {
-                    ApiResponse::badRequest('catalog_id and quantity are required');
-                }
-                
-                $result = $vehicleService->reserveVehicleUnit(
-                    (int)$requestBody['catalog_id'],
-                    (int)$requestBody['quantity']
+            // Remove null/empty values
+            $filters = array_filter($filters, function($v) { 
+                return $v !== null && $v !== ''; 
+            });
+            
+            error_log("GET /vehicles/all with filters: " . json_encode($filters));
+            
+            $result = $vehicleService->getAllVehicles($filters);
+            
+            if ($result['success']) {
+                ApiResponse::success(
+                    $result['data'],
+                    "Vehicles retrieved successfully",
+                    [
+                        'total' => $result['total'],
+                        'pagination' => $result['pagination'] ?? null
+                    ]
                 );
-                
-                if ($result['success']) {
-                    ApiResponse::success($result['data'], $result['message']);
-                } else {
-                    ApiResponse::badRequest($result['message']);
-                }
-                
             } else {
-                ApiResponse::notFound('Endpoint not found');
+                ApiResponse::error($result['message'], 500);
             }
-            break;
+            exit;
+        }
+        
+        // GET /search?q=...
+        if ($uri === '/search') {
+            $searchQuery = $queryParams['q'] ?? '';
             
-        case 'PUT':
-        case 'PATCH':
-            if (is_numeric($segments[0]) && isset($segments[1]) && $segments[1] === 'status') {
-                // PUT /vehicles/{unit_id}/status
-                $unitId = (int)$segments[0];
-                
-                if (!$requestBody || !isset($requestBody['status'])) {
-                    ApiResponse::badRequest('Status is required');
-                }
-                
-                $result = $vehicleService->updateUnitStatus($unitId, $requestBody['status']);
-                
-                if ($result['success']) {
-                    ApiResponse::success($result['data'], $result['message']);
-                } else {
-                    ApiResponse::badRequest($result['message']);
-                }
-                
+            if (empty($searchQuery)) {
+                ApiResponse::badRequest('Search query (q) is required');
+            }
+            
+            $filters = [
+                'type' => $queryParams['type'] ?? null,
+                'min_price' => $queryParams['min_price'] ?? null,
+                'max_price' => $queryParams['max_price'] ?? null,
+                'limit' => isset($queryParams['limit']) ? (int)$queryParams['limit'] : 50,
+                'offset' => isset($queryParams['offset']) ? (int)$queryParams['offset'] : 0
+            ];
+            
+            $filters = array_filter($filters, function($v) { 
+                return $v !== null && $v !== ''; 
+            });
+            
+            error_log("GET /search with query: '$searchQuery'");
+            
+            $result = $vehicleService->searchVehicles($searchQuery, $filters);
+            
+            if ($result['success']) {
+                ApiResponse::success(
+                    $result['data'],
+                    "Search results for: '$searchQuery'",
+                    [
+                        'total' => $result['total'],
+                        'search_term' => $searchQuery
+                    ]
+                );
             } else {
-                ApiResponse::notFound('Endpoint not found');
+                ApiResponse::error($result['message'], 500);
             }
-            break;
+            exit;
+        }
+        
+        // GET / or /vehicles - Default to /vehicles/all
+        if (empty($segments) || $uri === '/vehicles') {
+            $filters = [
+                'type' => $queryParams['type'] ?? null,
+                'brand' => $queryParams['brand'] ?? null,
+                'search' => $queryParams['search'] ?? null,
+                'min_price' => $queryParams['min_price'] ?? null,
+                'max_price' => $queryParams['max_price'] ?? null,
+                'limit' => isset($queryParams['limit']) ? (int)$queryParams['limit'] : 50,
+                'offset' => isset($queryParams['offset']) ? (int)$queryParams['offset'] : 0
+            ];
             
-        default:
-            ApiResponse::methodNotAllowed('Method not allowed');
+            $filters = array_filter($filters, function($v) { 
+                return $v !== null && $v !== ''; 
+            });
+            
+            $result = $vehicleService->getAllVehicles($filters);
+            
+            if ($result['success']) {
+                ApiResponse::success($result['data'], 'Vehicles retrieved', [
+                    'total' => $result['total'],
+                    'pagination' => $result['pagination'] ?? null
+                ]);
+            } else {
+                ApiResponse::error($result['message'], 500);
+            }
+            exit;
+        }
+        
+        // GET /available
+        if ($segments[0] === 'available') {
+            $filters = [
+                'type' => $queryParams['type'] ?? null,
+                'brand' => $queryParams['brand'] ?? null,
+                'search' => $queryParams['search'] ?? null,
+                'min_price' => $queryParams['min_price'] ?? null,
+                'max_price' => $queryParams['max_price'] ?? null,
+                'limit' => isset($queryParams['limit']) ? (int)$queryParams['limit'] : 50,
+                'offset' => isset($queryParams['offset']) ? (int)$queryParams['offset'] : 0
+            ];
+            
+            $filters = array_filter($filters, function($v) { 
+                return $v !== null && $v !== ''; 
+            });
+            
+            $result = $vehicleService->getAvailableVehicles($filters);
+            
+            if ($result['success']) {
+                ApiResponse::success($result['data'], 'Available vehicles retrieved', [
+                    'total' => $result['total']
+                ]);
+            } else {
+                ApiResponse::error($result['message'], 500);
+            }
+            exit;
+        }
+        
+        // GET /stats
+        if ($segments[0] === 'stats') {
+            $result = $vehicleService->getStatistics();
+            
+            if ($result['success']) {
+                ApiResponse::success($result['data'], 'Statistics retrieved');
+            } else {
+                ApiResponse::error($result['message'], 500);
+            }
+            exit;
+        }
+        
+        // GET /{id} - Get catalog by ID
+        if (is_numeric($segments[0])) {
+            $result = $vehicleService->getVehicleDetails((int)$segments[0]);
+            
+            if ($result['success']) {
+                ApiResponse::success($result['data'], 'Vehicle details retrieved');
+            } else {
+                ApiResponse::notFound($result['message']);
+            }
+            exit;
+        }
+        
+        ApiResponse::notFound('Endpoint not found');
     }
+    
+    // ===== POST ROUTES =====
+    if ($requestMethod === 'POST') {
+        
+        // POST /vehicles - Create vehicle
+        if (empty($segments)) {
+            if (!$requestBody) {
+                ApiResponse::badRequest('Request body is required');
+            }
+            
+            $result = $vehicleService->createVehicle($requestBody);
+            
+            if ($result['success']) {
+                ApiResponse::created($result['data'], $result['message']);
+            } else {
+                ApiResponse::badRequest($result['message']);
+            }
+            exit;
+        }
+        
+        // POST /reserve
+        if ($segments[0] === 'reserve') {
+            if (!$requestBody || !isset($requestBody['catalog_id']) || !isset($requestBody['quantity'])) {
+                ApiResponse::badRequest('catalog_id and quantity are required');
+            }
+            
+            $result = $vehicleService->reserveVehicleUnit(
+                (int)$requestBody['catalog_id'],
+                (int)$requestBody['quantity']
+            );
+            
+            if ($result['success']) {
+                ApiResponse::success($result['data'], $result['message']);
+            } else {
+                ApiResponse::badRequest($result['message']);
+            }
+            exit;
+        }
+        
+        ApiResponse::notFound('Endpoint not found');
+    }
+    
+    // ===== PUT/PATCH ROUTES =====
+    if (in_array($requestMethod, ['PUT', 'PATCH'])) {
+        
+        // PUT /{unit_id}/status
+        if (is_numeric($segments[0]) && isset($segments[1]) && $segments[1] === 'status') {
+            if (!$requestBody || !isset($requestBody['status'])) {
+                ApiResponse::badRequest('Status is required');
+            }
+            
+            $result = $vehicleService->updateUnitStatus((int)$segments[0], $requestBody['status']);
+            
+            if ($result['success']) {
+                ApiResponse::success($result['data'], $result['message']);
+            } else {
+                ApiResponse::badRequest($result['message']);
+            }
+            exit;
+        }
+        
+        ApiResponse::notFound('Endpoint not found');
+    }
+    
+    ApiResponse::methodNotAllowed('Method not allowed');
     
 } catch (Exception $e) {
     error_log('Vehicle API Error: ' . $e->getMessage() . "\n" . $e->getTraceAsString());

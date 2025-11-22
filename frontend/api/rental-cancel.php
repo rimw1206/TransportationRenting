@@ -2,7 +2,8 @@
 /**
  * ================================================
  * frontend/api/rental-cancel.php
- * ✅ FIXED: Update vehicle status when cancelling
+ * ✅ FIXED: NO vehicle status update when cancelling
+ * Vehicle status is managed separately from rental status
  * ================================================
  */
 
@@ -31,18 +32,17 @@ require_once __DIR__ . '/../../shared/classes/ApiClient.php';
 
 $apiClient = new ApiClient();
 $apiClient->setServiceUrl('rental', 'http://localhost:8003');
-$apiClient->setServiceUrl('vehicle', 'http://localhost:8002');
 
 try {
     error_log("=== CANCELLING RENTAL #{$rentalId} ===");
     
-    // 1. Get rental details first
+    // 1. Get rental details first to verify ownership
     $rentalResponse = $apiClient->get('rental', "/rentals/{$rentalId}", [
         'Authorization: Bearer ' . $token
     ]);
     
     if ($rentalResponse['status_code'] !== 200) {
-        throw new Exception('Rental not found');
+        throw new Exception('Không tìm thấy đơn thuê');
     }
     
     $rentalData = json_decode($rentalResponse['raw_response'], true);
@@ -50,18 +50,23 @@ try {
     
     // Verify ownership
     if ($rental['user_id'] != $user['user_id']) {
-        throw new Exception('You can only cancel your own rentals');
+        throw new Exception('Bạn chỉ có thể hủy đơn thuê của mình');
     }
     
     // Check if can cancel
-    if (!in_array($rental['status'], ['Pending', 'Ongoing'])) {
-        throw new Exception('Cannot cancel rental with status: ' . $rental['status']);
+    if ($rental['status'] === 'Completed') {
+        throw new Exception('Không thể hủy đơn đã hoàn thành');
     }
     
-    $vehicleId = $rental['vehicle_id'];
-    error_log("Rental vehicle_id: {$vehicleId}");
+    if ($rental['status'] === 'Cancelled') {
+        throw new Exception('Đơn này đã bị hủy trước đó');
+    }
     
-    // 2. Cancel rental
+    error_log("Rental status: {$rental['status']}, vehicle_id: {$rental['vehicle_id']}");
+    
+    // 2. Cancel rental via Rental Service
+    // ✅ The rental service will ONLY update rental status
+    // ✅ NO vehicle status update is needed
     $cancelResponse = $apiClient->request(
         'rental',
         "/rentals/{$rentalId}/cancel",
@@ -74,37 +79,29 @@ try {
     );
     
     error_log("Cancel response: " . $cancelResponse['status_code']);
+    error_log("Cancel body: " . $cancelResponse['raw_response']);
     
     if ($cancelResponse['status_code'] !== 200) {
-        throw new Exception('Failed to cancel rental');
+        $errorData = json_decode($cancelResponse['raw_response'], true);
+        $errorMsg = $errorData['message'] ?? 'Không thể hủy đơn thuê';
+        throw new Exception($errorMsg);
     }
     
-    // 3. ✅ Update vehicle status back to Available
-    error_log("=== Updating vehicle #{$vehicleId} status to Available ===");
+    $cancelData = json_decode($cancelResponse['raw_response'], true);
     
-    $vehicleUpdateResponse = $apiClient->request(
-        'vehicle',
-        "/units/{$vehicleId}/status",
-        'PUT',
-        ['status' => 'Available'],
-        ['Content-Type: application/json']
-    );
+    // ✅ Success - NO vehicle status update needed
+    // Vehicle availability is determined by checking Rentals table
+    // not by Vehicle status field
     
-    error_log("Vehicle update response: " . $vehicleUpdateResponse['status_code']);
-    
-    if ($vehicleUpdateResponse['status_code'] === 200) {
-        error_log("✅ Vehicle status updated to Available");
-    } else {
-        error_log("⚠️ Failed to update vehicle status: " . $vehicleUpdateResponse['raw_response']);
-    }
+    error_log("✅ Rental #{$rentalId} cancelled successfully");
     
     echo json_encode([
         'success' => true,
-        'message' => 'Rental cancelled successfully',
+        'message' => 'Hủy đơn thuê thành công',
         'data' => [
             'rental_id' => $rentalId,
             'status' => 'Cancelled',
-            'vehicle_updated' => $vehicleUpdateResponse['status_code'] === 200
+            'note' => 'Vehicle availability is managed via rental bookings'
         ]
     ]);
     

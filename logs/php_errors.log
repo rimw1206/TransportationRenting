@@ -21,3 +21,14 @@ Stack trace:
 #0 C:\xampp\htdocs\TransportationRenting\index.php(197): require_once()
 #1 {main}
   thrown in C:\xampp\htdocs\TransportationRenting\run.php on line 405
+[21-Nov-2025 04:00:33 Europe/Berlin] ❌ Payment database setup error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '(CAST(metadata->>'$.cart_checkout' AS UNSIGNED)))
+            ) ENGINE=InnoD...' at line 17
+[21-Nov-2025 04:23:00 Europe/Berlin] ⚠️  Metadata index warning: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '(CAST(metadata->>'$.cart_checkout' AS UNSIGNED)))' at line 2
+[21-Nov-2025 04:23:00 Europe/Berlin] ❌ Payment database setup error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '>'$.rental_ids') as rental_count,
+                CAST(t.metadata->>'$.cart_...' at line 10
+[21-Nov-2025 04:30:05 Europe/Berlin] ⚠️  Metadata index warning: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '(CAST(metadata->>'$.cart_checkout' AS UNSIGNED)))' at line 2
+[21-Nov-2025 04:30:05 Europe/Berlin] ❌ Payment database setup error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '>'$.rental_ids') as rental_count,
+                CAST(t.metadata->>'$.cart_...' at line 10
+[22-Nov-2025 00:43:07 Europe/Berlin] ⚠️  Metadata index warning: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '(CAST(metadata->>'$.cart_checkout' AS UNSIGNED)))' at line 2
+[22-Nov-2025 00:43:07 Europe/Berlin] ❌ Payment database setup error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '>'$.rental_ids') as rental_count,
+                CAST(t.metadata->>'$.cart_...' at line 10

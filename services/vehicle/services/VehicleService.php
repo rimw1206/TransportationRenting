@@ -113,15 +113,21 @@ class VehicleService {
      */
     public function getAllVehicles($filters = []) {
         try {
-            $catalogs = $this->vehicle->getAllCatalogs($filters);
+            $result = $this->vehicle->getAllCatalogs($filters);
             
             return [
                 'success' => true,
-                'data' => $catalogs,
-                'total' => count($catalogs)
+                'data' => $result['items'],
+                'total' => $result['total'],
+                'pagination' => [
+                    'limit' => $result['limit'],
+                    'offset' => $result['offset'],
+                    'total_pages' => !empty($filters['limit']) ? ceil($result['total'] / $filters['limit']) : 1
+                ]
             ];
             
         } catch (Exception $e) {
+            error_log("getAllVehicles error: " . $e->getMessage());
             return [
                 'success' => false,
                 'message' => $e->getMessage()
@@ -229,15 +235,17 @@ class VehicleService {
      */
     public function searchVehicles($searchTerm, $filters = []) {
         try {
-            $results = $this->vehicle->searchVehicles($searchTerm, $filters);
+            $result = $this->vehicle->searchVehicles($searchTerm, $filters);
             
             return [
                 'success' => true,
-                'data' => $results,
-                'total' => count($results)
+                'data' => $result['items'],
+                'total' => $result['total'],
+                'search_term' => $searchTerm
             ];
             
         } catch (Exception $e) {
+            error_log("searchVehicles error: " . $e->getMessage());
             return [
                 'success' => false,
                 'message' => $e->getMessage()

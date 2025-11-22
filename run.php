@@ -727,7 +727,7 @@ function setupRentalDatabase($config) {
         $conn = new PDO($dsn, $config['username'], $config['password']);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        // Rentals Table
+        // Rentals Table - GIỮ NGUYÊN LOGIC CŨ (1 rental = 1 vehicle)
         $conn->exec("
             CREATE TABLE IF NOT EXISTS Rentals (
                 rental_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -779,21 +779,30 @@ function setupRentalDatabase($config) {
         // Seed Data
         $count = $conn->query("SELECT COUNT(*) FROM Rentals")->fetchColumn();
         if ($count == 0) {
-            echo "   📄 Adding demo rentals...\n";
+            echo "   📄 Adding demo rentals (1 rental = 1 vehicle)...\n";
 
             $conn->exec("
                 INSERT INTO Rentals (user_id, vehicle_id, start_time, end_time, pickup_location, dropoff_location, total_cost, status) VALUES
                 (2, 1, '2024-11-14 10:00:00', '2024-11-17 10:00:00', 'Quận 1, TP.HCM', 'Quận 1, TP.HCM', 1500000, 'Ongoing'),
-                (3, 15, '2024-11-15 14:00:00', '2024-11-18 14:00:00', 'Quận 3, TP.HCM', 'Quận 3, TP.HCM', 360000, 'Ongoing'),
-                (2, 5, '2024-11-20 09:00:00', '2024-11-25 09:00:00', 'Quận 1, TP.HCM', 'Quận 1, TP.HCM', 2025000, 'Pending'),
-                (4, 22, '2024-11-18 15:00:00', '2024-11-20 15:00:00', 'Quận 7, TP.HCM', 'Quận 7, TP.HCM', 180000, 'Pending'),
-                (2, 12, '2024-11-01 10:00:00', '2024-11-05 10:00:00', 'Quận 1, TP.HCM', 'Quận 1, TP.HCM', 400000, 'Completed')
+                (2, 5, '2024-11-15 14:00:00', '2024-11-18 14:00:00', 'Quận 3, TP.HCM', 'Quận 3, TP.HCM', 360000, 'Ongoing'),
+                (2, 10, '2024-11-20 09:00:00', '2024-11-25 09:00:00', 'Quận 1, TP.HCM', 'Quận 1, TP.HCM', 150000, 'Pending'),
+                (3, 6, '2024-11-18 15:00:00', '2024-11-20 15:00:00', 'Quận 7, TP.HCM', 'Quận 7, TP.HCM', 300000, 'Pending'),
+                (3, 8, '2024-11-01 10:00:00', '2024-11-05 10:00:00', 'Quận 1, TP.HCM', 'Quận 1, TP.HCM', 400000, 'Completed')
             ");
 
             echo "      ✅ Added " . $conn->query("SELECT COUNT(*) FROM Rentals")->fetchColumn() . " rentals\n";
-        }
-        seedPromotionData($config);
 
+            // Seed promotions
+            $conn->exec("
+                INSERT INTO Promotion (code, description, discount_percent, valid_from, valid_to, active) VALUES
+                ('FIRST20', 'Giảm 20% cho khách hàng mới', 20.00, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 3 MONTH), TRUE),
+                ('WEEK15', 'Giảm 15% cho đơn thuê từ 7 ngày', 15.00, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 1 MONTH), TRUE),
+                ('NEW10', 'Giảm 10% cho tất cả xe', 10.00, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 1 WEEK), TRUE)
+            ");
+            echo "      ✅ Added 3 promotions\n";
+        }
+
+        echo "   ✅ Rental database setup complete\n";
         return true;
     } catch (PDOException $e) {
         error_log("❌ Rental database setup error: " . $e->getMessage());
@@ -869,25 +878,53 @@ function setupPaymentDatabase($config) {
         $conn = new PDO($dsn, $config['username'], $config['password']);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        // Transactions Table - SIMPLIFIED
+        echo "   💳 Creating Payment tables (Multi-Rental Support)...\n";
+
+        // Transactions Table
         $conn->exec("
             CREATE TABLE IF NOT EXISTS Transactions (
                 transaction_id INT AUTO_INCREMENT PRIMARY KEY,
-                rental_id INT NOT NULL COMMENT 'Reference only - validated via Rental API',
-                user_id INT NOT NULL COMMENT 'Reference only - validated via Customer API',
-                amount DECIMAL(10,2) NOT NULL,
-                payment_method ENUM('COD', 'VNPayQR') NOT NULL COMMENT 'Phương thức thanh toán',
-                payment_gateway VARCHAR(50) DEFAULT 'VNPay' COMMENT 'VNPay cho QR, NULL cho COD',
-                transaction_code VARCHAR(100) UNIQUE COMMENT 'Mã giao dịch VNPay hoặc mã COD',
-                qr_code_url TEXT COMMENT 'URL QR code VNPay (nếu dùng VNPayQR)',
+                user_id INT NOT NULL COMMENT 'Reference to Customer',
+                amount DECIMAL(10,2) NOT NULL COMMENT 'Tổng tiền thanh toán',
+                payment_method ENUM('COD', 'VNPayQR') NOT NULL,
+                payment_gateway VARCHAR(50) DEFAULT 'VNPay',
+                transaction_code VARCHAR(100) UNIQUE COMMENT 'Mã giao dịch',
+                qr_code_url TEXT COMMENT 'URL QR code VNPay',
+                metadata JSON COMMENT 'Stores rental_ids array and info',
                 transaction_date DATETIME DEFAULT CURRENT_TIMESTAMP,
                 status ENUM('Pending', 'Success', 'Failed', 'Refunded') DEFAULT 'Pending',
-                INDEX idx_rental_id (rental_id),
                 INDEX idx_user_id (user_id),
                 INDEX idx_status (status),
                 INDEX idx_method (payment_method),
                 INDEX idx_date (transaction_date),
                 INDEX idx_transaction_code (transaction_code)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+        ");
+
+        // Add metadata index (with error handling for older MySQL versions)
+        try {
+            $conn->exec("
+                ALTER TABLE Transactions
+                ADD INDEX idx_cart_checkout ((CAST(metadata->>'$.cart_checkout' AS UNSIGNED)))
+            ");
+        } catch (PDOException $e) {
+            if (strpos($e->getMessage(), 'Duplicate') === false && strpos($e->getMessage(), 'functional index') === false) {
+                error_log("⚠️  Metadata index warning: " . $e->getMessage());
+            }
+        }
+
+        // RentalPayments Junction Table
+        $conn->exec("
+            CREATE TABLE IF NOT EXISTS RentalPayments (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                rental_id INT NOT NULL COMMENT 'Reference to Rental Service',
+                transaction_id INT NOT NULL,
+                amount DECIMAL(10,2) NOT NULL COMMENT 'Số tiền phân bổ cho rental này',
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (transaction_id) REFERENCES Transactions(transaction_id) ON DELETE CASCADE,
+                INDEX idx_rental (rental_id),
+                INDEX idx_transaction (transaction_id),
+                UNIQUE KEY unique_rental_transaction (rental_id, transaction_id)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
         ");
 
@@ -922,13 +959,240 @@ function setupPaymentDatabase($config) {
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
         ");
 
-        echo "   ✅ Payment tables created (Simplified: COD & VNPayQR)\n";
+        echo "   📊 Creating views...\n";
+
+        // Views
+        $conn->exec("DROP VIEW IF EXISTS v_payment_summary");
+        $conn->exec("
+            CREATE VIEW v_payment_summary AS
+            SELECT 
+                t.transaction_id,
+                t.transaction_code,
+                t.user_id,
+                t.amount,
+                t.payment_method,
+                t.status,
+                t.transaction_date,
+                JSON_LENGTH(t.metadata->'$.rental_ids') as rental_count,
+                CAST(t.metadata->>'$.cart_checkout' AS UNSIGNED) as is_cart_checkout,
+                t.metadata
+            FROM Transactions t
+        ");
+
+        $conn->exec("DROP VIEW IF EXISTS v_rental_payment_details");
+        $conn->exec("
+            CREATE VIEW v_rental_payment_details AS
+            SELECT 
+                rp.rental_id,
+                rp.transaction_id,
+                rp.amount as rental_payment_amount,
+                t.transaction_code,
+                t.payment_method,
+                t.status as payment_status,
+                t.transaction_date,
+                t.user_id
+            FROM RentalPayments rp
+            INNER JOIN Transactions t ON rp.transaction_id = t.transaction_id
+        ");
+
+        echo "   🔧 Creating stored procedures...\n";
+
+        // CRITICAL FIX: Escape $ characters properly
+        $conn->exec("DROP PROCEDURE IF EXISTS sp_create_multi_rental_payment");
+        
+        // Use single quotes to avoid PHP interpretation of $
+        $createMultiRentalPaymentSQL = <<<'SQL'
+CREATE PROCEDURE sp_create_multi_rental_payment(
+    IN p_user_id INT,
+    IN p_rental_data JSON,
+    IN p_payment_method ENUM('COD', 'VNPayQR'),
+    IN p_payment_gateway VARCHAR(50),
+    IN p_transaction_code VARCHAR(100),
+    OUT p_transaction_id INT,
+    OUT p_total_amount DECIMAL(10,2)
+)
+BEGIN
+    DECLARE v_rental_count INT;
+    DECLARE v_idx INT DEFAULT 0;
+    DECLARE v_rental_id INT;
+    DECLARE v_amount DECIMAL(10,2);
+    DECLARE v_rental_ids JSON;
+    
+    SET v_rental_count = JSON_LENGTH(p_rental_data);
+    SET p_total_amount = 0;
+    SET v_rental_ids = JSON_ARRAY();
+    
+    WHILE v_idx < v_rental_count DO
+        SET v_amount = CAST(JSON_EXTRACT(p_rental_data, CONCAT('$[', v_idx, '].amount')) AS DECIMAL(10,2));
+        SET p_total_amount = p_total_amount + v_amount;
+        
+        SET v_rental_id = CAST(JSON_EXTRACT(p_rental_data, CONCAT('$[', v_idx, '].rental_id')) AS UNSIGNED);
+        SET v_rental_ids = JSON_ARRAY_APPEND(v_rental_ids, '$', v_rental_id);
+        
+        SET v_idx = v_idx + 1;
+    END WHILE;
+    
+    INSERT INTO Transactions (
+        user_id, amount, payment_method, payment_gateway,
+        transaction_code, metadata, status
+    ) VALUES (
+        p_user_id, p_total_amount, p_payment_method, p_payment_gateway,
+        p_transaction_code,
+        JSON_OBJECT(
+            'rental_ids', v_rental_ids,
+            'rental_count', v_rental_count,
+            'cart_checkout', IF(v_rental_count > 1, TRUE, FALSE)
+        ),
+        'Pending'
+    );
+    
+    SET p_transaction_id = LAST_INSERT_ID();
+    
+    SET v_idx = 0;
+    WHILE v_idx < v_rental_count DO
+        SET v_rental_id = CAST(JSON_EXTRACT(p_rental_data, CONCAT('$[', v_idx, '].rental_id')) AS UNSIGNED);
+        SET v_amount = CAST(JSON_EXTRACT(p_rental_data, CONCAT('$[', v_idx, '].amount')) AS DECIMAL(10,2));
+        
+        INSERT INTO RentalPayments (rental_id, transaction_id, amount)
+        VALUES (v_rental_id, p_transaction_id, v_amount);
+        
+        SET v_idx = v_idx + 1;
+    END WHILE;
+END
+SQL;
+
+        try {
+            $conn->exec($createMultiRentalPaymentSQL);
+            echo "      ✅ sp_create_multi_rental_payment\n";
+        } catch (PDOException $e) {
+            echo "      ⚠️  Warning: " . $e->getMessage() . "\n";
+        }
+
+        $conn->exec("DROP PROCEDURE IF EXISTS sp_get_payment_rentals");
+        $conn->exec("
+            CREATE PROCEDURE sp_get_payment_rentals(
+                IN p_transaction_id INT
+            )
+            BEGIN
+                SELECT 
+                    rp.rental_id,
+                    rp.amount,
+                    t.transaction_code,
+                    t.payment_method,
+                    t.status,
+                    t.transaction_date
+                FROM RentalPayments rp
+                INNER JOIN Transactions t ON rp.transaction_id = t.transaction_id
+                WHERE t.transaction_id = p_transaction_id;
+            END
+        ");
+        echo "      ✅ sp_get_payment_rentals\n";
+
+        $conn->exec("DROP PROCEDURE IF EXISTS sp_get_rental_payment");
+        
+        // Use single quotes to preserve $ in SQL
+        $getRentalPaymentSQL = <<<'SQL'
+CREATE PROCEDURE sp_get_rental_payment(
+    IN p_rental_id INT
+)
+BEGIN
+    SELECT 
+        t.transaction_id,
+        t.transaction_code,
+        t.amount as total_payment,
+        rp.amount as rental_portion,
+        t.payment_method,
+        t.status,
+        t.transaction_date,
+        JSON_LENGTH(t.metadata->'$.rental_ids') as total_rentals_in_payment
+    FROM RentalPayments rp
+    INNER JOIN Transactions t ON rp.transaction_id = t.transaction_id
+    WHERE rp.rental_id = p_rental_id;
+END
+SQL;
+
+        try {
+            $conn->exec($getRentalPaymentSQL);
+            echo "      ✅ sp_get_rental_payment\n";
+        } catch (PDOException $e) {
+            echo "      ⚠️  Warning: " . $e->getMessage() . "\n";
+        }
+
+        // Seed Demo Data
+        $count = $conn->query("SELECT COUNT(*) FROM Transactions")->fetchColumn();
+        if ($count == 0) {
+            echo "   📝 Adding demo payment data...\n";
+
+            // Example 1: Single rental payment (match Rental #1: 1,500,000)
+            $conn->exec("
+                INSERT INTO Transactions (user_id, amount, payment_method, payment_gateway, transaction_code, metadata, status)
+                VALUES (
+                    2,
+                    1500000,
+                    'VNPayQR',
+                    'VNPay',
+                    'TXN001',
+                    JSON_OBJECT('rental_ids', JSON_ARRAY(1), 'rental_count', 1, 'cart_checkout', FALSE),
+                    'Success'
+                )
+            ");
+            $txn1 = $conn->lastInsertId();
+            $conn->exec("INSERT INTO RentalPayments (rental_id, transaction_id, amount) VALUES (1, {$txn1}, 1500000)");
+            echo "      ✅ TXN001: Rental #1 (1,500,000 VND) - Single Payment\n";
+
+            // Example 2: Cart checkout (Rentals #2 + #3: 360,000 + 150,000)
+            $conn->exec("
+                INSERT INTO Transactions (user_id, amount, payment_method, payment_gateway, transaction_code, metadata, status)
+                VALUES (
+                    2,
+                    510000,
+                    'VNPayQR',
+                    'VNPay',
+                    'TXN002',
+                    JSON_OBJECT('rental_ids', JSON_ARRAY(2, 3), 'rental_count', 2, 'cart_checkout', TRUE),
+                    'Success'
+                )
+            ");
+            $txn2 = $conn->lastInsertId();
+            $conn->exec("
+                INSERT INTO RentalPayments (rental_id, transaction_id, amount) VALUES
+                (2, {$txn2}, 360000),
+                (3, {$txn2}, 150000)
+            ");
+            echo "      ✅ TXN002: Rentals #2,#3 (510,000 VND) - Cart Checkout\n";
+
+            // Example 3: COD payment (Rentals #4 + #5: 300,000 + 400,000)
+            $conn->exec("
+                INSERT INTO Transactions (user_id, amount, payment_method, payment_gateway, transaction_code, metadata, status)
+                VALUES (
+                    3,
+                    700000,
+                    'COD',
+                    NULL,
+                    'TXN003',
+                    JSON_OBJECT('rental_ids', JSON_ARRAY(4, 5), 'rental_count', 2, 'cart_checkout', TRUE),
+                    'Pending'
+                )
+            ");
+            $txn3 = $conn->lastInsertId();
+            $conn->exec("
+                INSERT INTO RentalPayments (rental_id, transaction_id, amount) VALUES
+                (4, {$txn3}, 300000),
+                (5, {$txn3}, 400000)
+            ");
+            echo "      ✅ TXN003: Rentals #4,#5 (700,000 VND) - COD Pending\n";
+        }
+
+        echo "   ✅ Payment database setup complete (Multi-Rental Support)\n";
         return true;
+
     } catch (PDOException $e) {
         error_log("❌ Payment database setup error: " . $e->getMessage());
+        echo "   ❌ Error: " . $e->getMessage() . "\n";
         return false;
     }
 }
+
 
 /**
  * Setup Notification Database

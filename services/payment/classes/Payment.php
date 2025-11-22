@@ -2,7 +2,7 @@
 /**
  * ================================================
  * services/payment/classes/Payment.php
- * PAYMENT MODEL - Database Access Layer
+ * ✅ FIXED: Added method to get payments by rental_id
  * ================================================
  */
 
@@ -17,61 +17,113 @@ class Payment {
     }
     
     /**
-     * Create new transaction
+     * ✅ NEW: Get transaction(s) by rental_id
+     * Handles both single rental and multi-rental payments
+     */
+    public function getTransactionsByRentalId($rentalId, $userId = null) {
+        try {
+            // Check RentalPayments junction table first
+            $sql = "
+                SELECT 
+                    t.transaction_id,
+                    t.user_id,
+                    t.amount as total_amount,
+                    t.payment_method,
+                    t.payment_gateway,
+                    t.transaction_code,
+                    t.qr_code_url,
+                    t.transaction_date,
+                    t.status,
+                    t.metadata,
+                    rp.amount as rental_portion
+                FROM Transactions t
+                INNER JOIN RentalPayments rp ON t.transaction_id = rp.transaction_id
+                WHERE rp.rental_id = ?
+            ";
+            
+            $params = [$rentalId];
+            
+            if ($userId !== null) {
+                $sql .= " AND t.user_id = ?";
+                $params[] = $userId;
+            }
+            
+            $sql .= " ORDER BY t.transaction_date DESC";
+            
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute($params);
+            
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+        } catch (PDOException $e) {
+            error_log("getTransactionsByRentalId error: " . $e->getMessage());
+            throw new Exception("Failed to fetch transactions");
+        }
+    }
+    
+    /**
+     * Create new transaction with multi-rental support
      */
     public function createTransaction($data) {
         $stmt = $this->db->prepare("
             INSERT INTO Transactions (
-                rental_id, user_id, amount, 
+                user_id, amount, 
                 payment_method, payment_gateway, transaction_code,
-                qr_code_url, status, transaction_date
+                qr_code_url, metadata, status, transaction_date
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())
         ");
         
+        // Prepare metadata JSON
+        $metadata = isset($data['metadata']) ? json_encode($data['metadata']) : null;
+        
         $stmt->execute([
-            $data['rental_id'],
             $data['user_id'],
             $data['amount'],
             $data['payment_method'],
             $data['payment_gateway'] ?? null,
             $data['transaction_code'],
             $data['qr_code_url'] ?? null,
+            $metadata,
             $data['status'] ?? 'Pending'
         ]);
         
         return $this->db->lastInsertId();
     }
-    public function getTransactionsByRentalId($rentalId, $userId = null) {
-        $sql = "SELECT 
-                    transaction_id,
-                    rental_id,
-                    user_id,
-                    amount,
-                    payment_method,     -- ✅ Phải có
-                    payment_gateway,    -- ✅ Phải có
-                    transaction_code,
-                    qr_code_url,
-                    transaction_date,
-                    status
-                FROM Transactions 
-                WHERE rental_id = :rental_id";
-        
-        if ($userId) {
-            $sql .= " AND user_id = :user_id";
+    
+    /**
+     * ✅ NEW: Link rental(s) to transaction via junction table
+     */
+    public function linkRentalsToTransaction($transactionId, $rentalIds, $amounts = null) {
+        try {
+            $stmt = $this->db->prepare("
+                INSERT INTO RentalPayments (rental_id, transaction_id, amount)
+                VALUES (?, ?, ?)
+            ");
+            
+            // If amounts not provided, distribute evenly
+            if ($amounts === null) {
+                $transaction = $this->getTransactionById($transactionId);
+                $totalAmount = $transaction['amount'];
+                $perRental = $totalAmount / count($rentalIds);
+                $amounts = array_fill(0, count($rentalIds), $perRental);
+            }
+            
+            foreach ($rentalIds as $index => $rentalId) {
+                $stmt->execute([
+                    $rentalId,
+                    $transactionId,
+                    $amounts[$index]
+                ]);
+            }
+            
+            return true;
+            
+        } catch (PDOException $e) {
+            error_log("linkRentalsToTransaction error: " . $e->getMessage());
+            throw new Exception("Failed to link rentals to transaction");
         }
-        
-        $sql .= " ORDER BY transaction_date DESC";
-        
-        $stmt = $this->db->prepare($sql);
-        $stmt->bindValue(':rental_id', $rentalId, PDO::PARAM_INT);
-        
-        if ($userId) {
-            $stmt->bindValue(':user_id', $userId, PDO::PARAM_INT);
-        }
-        
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    
     /**
      * Get transaction by ID
      */
@@ -101,6 +153,27 @@ class Payment {
     }
     
     /**
+     * ✅ NEW: Get all rentals linked to a transaction
+     */
+    public function getRentalsByTransactionId($transactionId) {
+        try {
+            $stmt = $this->db->prepare("
+                SELECT rental_id, amount
+                FROM RentalPayments
+                WHERE transaction_id = ?
+            ");
+            
+            $stmt->execute([$transactionId]);
+            
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+        } catch (PDOException $e) {
+            error_log("getRentalsByTransactionId error: " . $e->getMessage());
+            return [];
+        }
+    }
+    
+    /**
      * Get transaction by code
      */
     public function getTransactionByCode($transactionCode) {
@@ -119,7 +192,6 @@ class Payment {
     public function getUserTransactions($userId, $filters = [], $page = 1, $perPage = 20) {
         $offset = ($page - 1) * $perPage;
         
-        // Build WHERE clause
         $whereConditions = ['user_id = ?'];
         $params = [$userId];
         
@@ -209,7 +281,6 @@ class Payment {
             SELECT 
                 i.*,
                 t.user_id,
-                t.rental_id,
                 t.amount,
                 t.payment_method,
                 t.transaction_code,
@@ -261,7 +332,6 @@ class Payment {
             SELECT 
                 r.*,
                 t.user_id,
-                t.rental_id,
                 t.transaction_code,
                 t.payment_method
             FROM Refunds r
@@ -318,3 +388,4 @@ class Payment {
         return $this->db->rollback();
     }
 }
+?>

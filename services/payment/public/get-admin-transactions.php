@@ -1,14 +1,13 @@
 <?php
 /**
  * ================================================
- * services/payment/public/get-transactions.php
- * ✅ FIXED: Support getting transactions by rental_id
+ * services/payment/public/get-admin-transactions.php
+ * ✅ Get ALL transactions for admin (without user filter)
  * ================================================
  */
 
 require_once __DIR__ . '/../../../shared/classes/DatabaseManager.php';
 require_once __DIR__ . '/../../../shared/classes/JWTHandler.php';
-require_once __DIR__ . '/../classes/Payment.php';
 
 header('Content-Type: application/json');
 
@@ -43,57 +42,30 @@ try {
     
     // Handle both array and object
     if (is_array($decoded)) {
-        $userId = $decoded['user_id'] ?? null;
+        $role = $decoded['role'] ?? null;
     } else {
-        $userId = $decoded->user_id ?? null;
+        $role = $decoded->role ?? null;
     }
     
-    if (!$userId) {
-        http_response_code(401);
+    // ✅ Check admin role                                                      
+    if ($role !== 'admin') {
+        http_response_code(403);
         echo json_encode([
             'success' => false,
-            'message' => 'User ID not found in token'
+            'message' => 'Admin access required'
         ]);
         exit;
     }
     
     // Get filters from query params
-    $rentalId = $_GET['rental_id'] ?? null;
     $status = $_GET['status'] ?? null;
     $method = $_GET['method'] ?? null;
+    $page = max(1, (int)($_GET['page'] ?? 1));
+    $perPage = max(1, min(100, (int)($_GET['per_page'] ?? 50)));
     
-    $paymentModel = new Payment();
-    
-    // ✅ If rental_id is provided, use the new method
-    if ($rentalId) {
-        error_log("Getting transactions for rental_id: $rentalId");
-        
-        $transactions = $paymentModel->getTransactionsByRentalId($rentalId, $userId);
-        
-        // Enrich each transaction with rental count info
-        foreach ($transactions as &$txn) {
-            if (!empty($txn['metadata'])) {
-                $metadata = json_decode($txn['metadata'], true);
-                $txn['rental_count'] = $metadata['rental_count'] ?? 1;
-                $txn['is_cart_checkout'] = $metadata['cart_checkout'] ?? false;
-                $txn['promo_code'] = $metadata['promo_code'] ?? null;
-            }
-        }
-        
-        http_response_code(200);
-        echo json_encode([
-            'success' => true,
-            'data' => [
-                'items' => $transactions,
-                'total' => count($transactions)
-            ]
-        ]);
-        exit;
-    }
-    
-    // Otherwise, get all user transactions with filters
     $conn = DatabaseManager::getInstance('payment');
     
+    // Base query
     $sql = "SELECT 
                 transaction_id,
                 user_id,
@@ -106,10 +78,11 @@ try {
                 status,
                 metadata
             FROM Transactions
-            WHERE user_id = :user_id";
+            WHERE 1=1";
     
-    $params = ['user_id' => $userId];
+    $params = [];
     
+    // Add filters
     if ($status) {
         $sql .= " AND status = :status";
         $params['status'] = $status;
@@ -120,11 +93,35 @@ try {
         $params['method'] = $method;
     }
     
-    $sql .= " ORDER BY transaction_date DESC";
+    // Count total
+    $countSql = "SELECT COUNT(*) as total FROM Transactions WHERE 1=1";
+    if ($status) $countSql .= " AND status = :status";
+    if ($method) $countSql .= " AND payment_method = :method";
+    
+    $countStmt = $conn->prepare($countSql);
+    $countStmt->execute($params);
+    $total = $countStmt->fetch(PDO::FETCH_ASSOC)['total'];
+    
+    // Add pagination
+    $offset = ($page - 1) * $perPage;
+    $sql .= " ORDER BY transaction_date DESC LIMIT :limit OFFSET :offset";
+    
+    $params['limit'] = $perPage;
+    $params['offset'] = $offset;
     
     // Execute query
     $stmt = $conn->prepare($sql);
-    $stmt->execute($params);
+    
+    // Bind params properly for LIMIT/OFFSET
+    foreach ($params as $key => $value) {
+        if ($key === 'limit' || $key === 'offset') {
+            $stmt->bindValue(":$key", $value, PDO::PARAM_INT);
+        } else {
+            $stmt->bindValue(":$key", $value);
+        }
+    }
+    
+    $stmt->execute();
     $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
     // Parse metadata for each transaction
@@ -134,6 +131,9 @@ try {
             $txn['rental_count'] = $metadata['rental_count'] ?? 1;
             $txn['rental_ids'] = $metadata['rental_ids'] ?? [];
             $txn['is_cart_checkout'] = $metadata['cart_checkout'] ?? false;
+            $txn['promo_code'] = $metadata['promo_code'] ?? null;
+            $txn['original_amount'] = $metadata['original_amount'] ?? $txn['amount'];
+            $txn['discount_amount'] = $metadata['discount_amount'] ?? 0;
         }
     }
     
@@ -143,12 +143,15 @@ try {
         'success' => true,
         'data' => [
             'items' => $transactions,
-            'total' => count($transactions)
+            'total' => $total,
+            'page' => $page,
+            'per_page' => $perPage,
+            'total_pages' => ceil($total / $perPage)
         ]
     ]);
     
 } catch (Exception $e) {
-    error_log("Payment transactions error: " . $e->getMessage());
+    error_log("Admin transactions error: " . $e->getMessage());
     
     http_response_code(500);
     echo json_encode([
@@ -157,4 +160,3 @@ try {
         'error' => $e->getMessage()
     ]);
 }
-?>

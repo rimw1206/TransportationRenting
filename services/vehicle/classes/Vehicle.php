@@ -62,7 +62,7 @@ class Vehicle {
     /**
      * Get all catalogs with available count
      */
-    public function getAllCatalogs($filters = []) {
+   public function getAllCatalogs($filters = []) {
         $query = "
             SELECT 
                 vc.*,
@@ -77,16 +77,19 @@ class Vehicle {
         
         $params = [];
         
+        // ✅ FIX: Type filter
         if (!empty($filters['type'])) {
             $query .= " AND vc.type = ?";
             $params[] = $filters['type'];
         }
         
+        // ✅ FIX: Brand filter
         if (!empty($filters['brand'])) {
             $query .= " AND vc.brand = ?";
             $params[] = $filters['brand'];
         }
         
+        // ✅ FIX: Search filter - search in brand, model, AND description
         if (!empty($filters['search'])) {
             $query .= " AND (vc.brand LIKE ? OR vc.model LIKE ? OR vc.description LIKE ?)";
             $searchTerm = '%' . $filters['search'] . '%';
@@ -95,19 +98,29 @@ class Vehicle {
             $params[] = $searchTerm;
         }
         
+        // ✅ FIX: Price filters
         if (!empty($filters['min_price'])) {
             $query .= " AND vc.daily_rate >= ?";
-            $params[] = $filters['min_price'];
+            $params[] = (float)$filters['min_price'];
         }
         
         if (!empty($filters['max_price'])) {
             $query .= " AND vc.daily_rate <= ?";
-            $params[] = $filters['max_price'];
+            $params[] = (float)$filters['max_price'];
         }
         
         $query .= " GROUP BY vc.catalog_id";
+        
+        // ✅ FIX: Ordering
         $query .= " ORDER BY " . ($filters['order_by'] ?? 'vc.catalog_id') . " " . ($filters['order_dir'] ?? 'DESC');
         
+        // ✅ FIX: Count total BEFORE limit
+        $countQuery = "SELECT COUNT(*) FROM ($query) as total_count";
+        $countStmt = $this->db->prepare($countQuery);
+        $countStmt->execute($params);
+        $totalCount = $countStmt->fetchColumn();
+        
+        // ✅ FIX: Pagination
         if (!empty($filters['limit'])) {
             $query .= " LIMIT " . (int)$filters['limit'];
             if (!empty($filters['offset'])) {
@@ -118,7 +131,14 @@ class Vehicle {
         $stmt = $this->db->prepare($query);
         $stmt->execute($params);
         
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        return [
+            'items' => $results,
+            'total' => $totalCount,
+            'limit' => $filters['limit'] ?? count($results),
+            'offset' => $filters['offset'] ?? 0
+        ];
     }
 
     /**
@@ -382,43 +402,9 @@ class Vehicle {
      * Search vehicles
      */
     public function searchVehicles($searchTerm, $filters = []) {
-        $query = "
-            SELECT 
-                vc.*,
-                COUNT(vu.unit_id) as total_units,
-                SUM(CASE WHEN vu.status = 'Available' THEN 1 ELSE 0 END) as available_count
-            FROM VehicleCatalog vc
-            LEFT JOIN VehicleUnits vu ON vc.catalog_id = vu.catalog_id
-            WHERE vc.is_active = TRUE
-            AND (vc.brand LIKE ? OR vc.model LIKE ? OR vc.description LIKE ?)
-        ";
-        
-        $params = [
-            '%' . $searchTerm . '%',
-            '%' . $searchTerm . '%',
-            '%' . $searchTerm . '%'
-        ];
-        
-        if (!empty($filters['type'])) {
-            $query .= " AND vc.type = ?";
-            $params[] = $filters['type'];
-        }
-        
-        if (!empty($filters['status'])) {
-            $query .= " AND vu.status = ?";
-            $params[] = $filters['status'];
-        }
-        
-        $query .= " GROUP BY vc.catalog_id";
-        
-        if (!empty($filters['limit'])) {
-            $query .= " LIMIT " . (int)$filters['limit'];
-        }
-        
-        $stmt = $this->db->prepare($query);
-        $stmt->execute($params);
-        
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        // Use getAllCatalogs with search filter
+        $filters['search'] = $searchTerm;
+        return $this->getAllCatalogs($filters);
     }
 
     /**

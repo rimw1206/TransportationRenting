@@ -680,11 +680,11 @@ if (!empty($paymentMethods)) {
                         <span class="badge"><?= count($_SESSION['cart']) ?></span>
                     <?php endif; ?>
                 </a>
-                
-                <button class="nav-icon-btn" title="Thông báo">
+                <!-- Notification Button -->
+                <a href="notifications.php" class="nav-icon-btn" title="Thông báo" style="position: relative; text-decoration: none; color: inherit;">
                     <i class="fas fa-bell"></i>
-                    <span class="badge">3</span>
-                </button>
+                    <span class="badge" id="notificationBadge" style="display: none;">0</span>
+                </a>
                 
                 <div class="user-menu">
                     <button class="user-btn" id="userBtn">
